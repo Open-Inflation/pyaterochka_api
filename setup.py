@@ -7,7 +7,6 @@ setup(
     install_requires=[
         'aiohttp',
         'fake-useragent',
-        'enum',
         'tqdm'
     ],
     author='Miskler',
