@@ -17,13 +17,22 @@ async def main():
     # RUS: Выводит список всех товаров выбранной категории (ограничение 100 элементов, если превышает - запрашивайте через дополнительные страницы)
     # ENG: Outputs a list of all items in the selected category (limiting to 100 elements, if exceeds - request through additional pages)
     # Страниц не сущетвует, использовать желаемый лимит (до 499) / Pages do not exist, use the desired limit (up to 499)
-    print(f"Items list output: {await pyaterochka_api.products_list(catalog[0]['id'], limit=5)!s:.100s}...\n")
+    items = await pyaterochka_api.products_list(catalog[0]['id'], limit=5)
+    print(f"Items list output: {items!s:.100s}...\n")
 
     # RUS: Выводит основной конфиг сайта (очень долгая функция, рекомендую сохранять в файл и переиспользовать)
     # ENG: Outputs the main config of the site (large function, recommend to save in a file and re-use it)
+    print(f"Main config: {await pyaterochka_api.get_config()!s:.100s}...\n")
+
     # RUS: Если требуется, можно настроить вывод логов в консоль
     # ENG: If required, you can configure the output of logs in the console
-    print(f"Main config: {await pyaterochka_api.get_config(debug=True)!s:.100s}...\n")
+    pyaterochka_api.set_debug(True)
+
+    # RUS: Скачивает картинку товара (возвращает BytesIO или None)
+    # ENG: Downloads the product image (returns BytesIO or None)
+    image = await pyaterochka_api.download_image(url=items['products'][0]['image_links']['normal'][0])
+    with open(image.name, 'wb') as f:
+        f.write(image.getbuffer())
 
 
 if __name__ == '__main__':

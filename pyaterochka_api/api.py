@@ -5,112 +5,142 @@ import re
 from tqdm.asyncio import tqdm
 
 
-class Patterns(Enum):
-    JS = r'\s*let\s+n\s*=\s*({.*});\s*'
-    STR = r'(\w+)\s*:\s*"([^"\\]*(?:\\.[^"\\]*)*)"'
-    DICT = r'(\w+)\s*:\s*{(.*?)}'
-    LIST = r'(\w+)\s*:\s*\[([^\[\]]*(?:\[.*?\])*)\]'
-    FIND = r'\{.*?\}|\[.*?\]'
+class PyaterochkaAPI:
+    """
+    Класс для загрузки JSON/image и парсинга JavaScript-конфигураций из удаленного источника.
+    """
 
+    class Patterns(Enum):
+        JS = r'\s*let\s+n\s*=\s*({.*});\s*'              # let n = {...};
+        STR = r'(\w+)\s*:\s*"([^"\\]*(?:\\.[^"\\]*)*)"'  # key: "value"
+        DICT = r'(\w+)\s*:\s*{(.*?)}'                    # key: {...}
+        LIST = r'(\w+)\s*:\s*\[([^\[\]]*(?:\[.*?\])*)\]' # key: [value]
+        FIND = r'\{.*?\}|\[.*?\]'                        # {} or []
 
+    def __init__(self, debug: bool = False):
+        self._debug = False
 
-async def main_fetch(url: str, debug: bool = False, is_json: bool = True) -> tuple[bool, dict | None]:
-    async with aiohttp.ClientSession() as session:
-        if debug:
-            print(f"Requesting \"{url}\"...", flush=True)
+    def set_debug(self, debug: bool):
+        """Устанавливает режим дебага для экземпляра класса."""
+        self._debug = debug
 
-        async with session.get(
+    async def fetch(self, url: str) -> tuple[bool, dict | None | str, str]:
+        """
+        Выполняет HTTP-запрос к указанному URL и возвращает результат.
+
+        :param url: URL для запроса.
+        :param is_json: Ожидать ли JSON в ответе.
+        :return: Кортеж (успех, данные или None).
+        """
+        async with aiohttp.ClientSession() as session:
+
+            if self._debug:
+                print(f"Requesting \"{url}\"...", flush=True)
+
+            async with session.get(
                 url=url,
                 headers={"User-Agent": UserAgent().random},
-        ) as response:
-            if debug:
-                print(f"Response status: {response.status}", flush=True)
+            ) as response:
+                if self._debug:
+                    print(f"Response status: {response.status}", flush=True)
 
-            if response.status == 200: # 200 OK
-                if debug:
-                    print("Correct response", flush=True)
-                return True, await response.json() if is_json else await response.text()
-            elif response.status == 403: # 403 Forbidden (сервер воспринял как бота)
-                if debug:
-                    print("Anti-bot protection. Use Russia IP address and try again.", flush=True)
-                return False, None
-            else:
-                if debug:
-                    print(f"Please, create issue on GitHub", flush=True)
-                raise Exception(f"Response status: {response.status} (unknown error/status code)")
+                if response.status == 200:
+                    if response.headers['content-type'] == 'application/json':
+                        output_response = response.json()
+                    elif response.headers['content-type'] == 'image/jpeg':
+                        output_response = response.read()
+                    else:
+                        output_response = response.text()
 
-async def download_hardcode_config(config_url: str, debug: bool = False) -> dict | None:
-    is_success, js_code = await main_fetch(url=config_url, debug=debug, is_json=False)
+                    return True, await output_response, response.headers['content-type']
+                elif response.status == 403:
+                    if self._debug:
+                        print("Anti-bot protection. Use Russia IP address and try again.", flush=True)
+                    return False, None, ''
+                else:
+                    if self._debug:
+                        print(f"Unexpected error: {response.status}", flush=True)
+                    raise Exception(f"Response status: {response.status} (unknown error/status code)")
 
-    if not is_success:
-        if debug:
-            print("Failed to fetch JS code")
-        return None
-    elif debug:
-        print("JS code fetched successfully")
+    async def _parse_js(self, js_code: str) -> dict | None:
+        """
+        Парсит JavaScript-код и извлекает данные из переменной "n".
 
-    # Регулярное выражение для извлечения определения переменной n
-    matches = re.finditer(Patterns.JS.value, js_code)
+        :param js_code: JS-код в виде строки.
+        :return: Распарсенные данные в виде словаря или None.
+        """
+        matches = re.finditer(self.Patterns.JS.value, js_code)
+        match_list = list(matches)
 
-    match_list = list(matches)
-    if debug:
-        print(f"Found matches {len(match_list)}")
+        if self._debug:
+            print(f"Found matches {len(match_list)}")
+            progress_bar = tqdm(total=33, desc="Parsing JS", position=0)
 
-    if debug:
-        progress_bar = tqdm(total=33, desc="Parsing JS", position=0) # примерно 33 операции
+        async def parse_match(match: str) -> dict:
+            result = {}
 
-    async def parse_match(match: str) -> dict:
-        result = {}
+            if self._debug:
+                progress_bar.set_description("Parsing strings")
 
-        if debug:
-            # Обновление описания прогресса
-            progress_bar.set_description("Parsing strings")
+            # Парсинг строк
+            string_matches = re.finditer(self.Patterns.STR.value, match)
+            for m in string_matches:
+                key, value = m.group(1), m.group(2)
+                result[key] = value.replace('\"', '"').replace('\\', '\\')
 
-        # Парсинг строк
-        string_matches = re.finditer(Patterns.STR.value, match)
-        for m in string_matches:
-            key, value = m.group(1), m.group(2)
-            result[key] = value.replace('\"', '"').replace('\\\\', '\\')
+            if self._debug:
+                progress_bar.update(1)
+                progress_bar.set_description("Parsing dictionaries")
 
-        if debug:
-            progress_bar.update(1)
-            # Обновление описания прогресса
-            progress_bar.set_description("Parsing dictionaries")
+            # Парсинг словарей
+            dict_matches = re.finditer(self.Patterns.DICT.value, match)
+            for m in dict_matches:
+                key, value = m.group(1), m.group(2)
+                if not re.search(self.Patterns.STR.value, value):
+                    result[key] = await parse_match(value)
 
-        # Парсинг словарей
-        dict_matches = re.finditer(Patterns.DICT.value, match)
-        for m in dict_matches:
-            key, value = m.group(1), m.group(2)
-            if not re.search(Patterns.STR.value, value):
-                result[key] = await parse_match(value)
+            if self._debug:
+                progress_bar.update(1)
+                progress_bar.set_description("Parsing lists")
 
-        if debug:
-            progress_bar.update(1)
-            # Обновление описания прогресса
-            progress_bar.set_description("Parsing lists")
+            # Парсинг списков
+            list_matches = re.finditer(self.Patterns.LIST.value, match)
+            for m in list_matches:
+                key, value = m.group(1), m.group(2)
+                if not re.search(self.Patterns.STR.value, value):
+                    result[key] = [await parse_match(item.group(0)) for item in re.finditer(self.Patterns.FIND.value, value)]
 
-        # Парсинг списков
-        list_matches = re.finditer(Patterns.LIST.value, match)
-        for m in list_matches:
-            key, value = m.group(1), m.group(2)
-            if not re.search(Patterns.STR.value, value):
-                result[key] = [await parse_match(item.group(0)) for item in re.finditer(Patterns.FIND.value, value)]
+            if self._debug:
+                progress_bar.update(1)
 
-        if debug:
-            # Обновление прогресса
-            progress_bar.update(1)
+            return result
 
-        return result
+        if match_list and len(match_list) >= 1:
+            if self._debug:
+                print("Starting to parse match")
+            result = await parse_match(match_list[1].group(0))
+            if self._debug:
+                progress_bar.close()
+            return result
+        else:
+            if self._debug:
+                progress_bar.close()
+            raise Exception("N variable in JS code not found")
 
-    if match_list and len(match_list) >= 1:  # нужная переменная идет второй из трех
-        if debug:
-            print("Starting to parse match")
-        result = await parse_match(match_list[1].group(0))
-        if debug:
-            progress_bar.close()
-        return result
-    else:
-        if debug:
-            progress_bar.close()
-        raise Exception("N variable in JS code not found")
+    async def download_config(self, config_url: str) -> dict | None:
+        """
+        Загружает и парсит JavaScript-конфигурацию с указанного URL.
 
+        :param config_url: URL для загрузки конфигурации.
+        :return: Распарсенные данные в виде словаря или None.
+        """
+        is_success, js_code, _response_type = await self.fetch(url=config_url)
+
+        if not is_success:
+            if self._debug:
+                print("Failed to fetch JS code")
+            return None
+        elif self._debug:
+            print("JS code fetched successfully")
+
+        return await self._parse_js(js_code=js_code)

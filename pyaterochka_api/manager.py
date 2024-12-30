@@ -1,5 +1,7 @@
-from .api import main_fetch, download_hardcode_config
+from .api import PyaterochkaAPI as ClassPyaterochkaAPI
 from enum import Enum
+from io import BytesIO
+
 
 CATALOG_URL = "https://5d.5ka.ru/api/catalog/v2/stores"
 HARDCODE_JS_CONFIG = "https://prod-cdn.5ka.ru/scripts/main.a0c039ea81eb8cf69492.js" # TODO сделать не хардкодным имя файла
@@ -9,11 +11,13 @@ class PurchaseMode(Enum):
     DELIVERY = "delivery"
 
 
+PyaterochkaAPI = ClassPyaterochkaAPI(debug=False)
+
+
 async def categories_list(
         subcategories: bool = False,
         mode: PurchaseMode = PurchaseMode.STORE,
-        sap_code_store_id: str = "Y232",
-        debug: bool = False
+        sap_code_store_id: str = "Y232"
 ) -> dict | None:
     """
     Asynchronously retrieves a list of categories from the Pyaterochka API.
@@ -32,16 +36,14 @@ async def categories_list(
     """
 
     request_url = f"{CATALOG_URL}/{sap_code_store_id}/categories?mode={mode.value}&include_subcategories={1 if subcategories else 0}"
-    is_success, response = await main_fetch(url=request_url, debug=debug)
+    _is_success, response, _response_type = await PyaterochkaAPI.fetch(url=request_url)
     return response
-
 
 async def products_list(
         category_id: int,
         mode: PurchaseMode = PurchaseMode.STORE,
         sap_code_store_id: str = "Y232",
-        limit: int = 30,
-        debug: bool = False
+        limit: int = 30
 ) -> dict | None:
     """
     Asynchronously retrieves a list of products from the Pyaterochka API for a given category.
@@ -64,11 +66,25 @@ async def products_list(
         raise ValueError("Limit must be between 1 and 499")
 
     request_url = f"{CATALOG_URL}/{sap_code_store_id}/categories/{category_id}/products?mode={mode.value}&limit={limit}"
-    is_success, response = await main_fetch(url=request_url, debug=debug)
+    _is_success, response, _response_type = await PyaterochkaAPI.fetch(url=request_url)
     return response
 
+async def download_image(url: str) -> BytesIO | None:
+    is_success, image_data, response_type = await PyaterochkaAPI.fetch(url=url)
 
-async def get_config(debug: bool = False) -> list | None:
+    if not is_success:
+        if PyaterochkaAPI._debug:
+            print("Failed to fetch image")
+        return None
+    elif PyaterochkaAPI._debug:
+        print("Image fetched successfully")
+
+    image = BytesIO(image_data)
+    image.name = f'{url.split("/")[-1]}.{response_type.split("/")[-1]}'
+
+    return image
+
+async def get_config() -> list | None:
     """
     Asynchronously retrieves the configuration from the hardcoded JavaScript file.
 
@@ -79,4 +95,9 @@ async def get_config(debug: bool = False) -> list | None:
         list | None: A list representing the configuration if the request is successful, None otherwise.
     """
 
-    return await download_hardcode_config(config_url=HARDCODE_JS_CONFIG, debug=debug)
+    return await PyaterochkaAPI.download_config(config_url=HARDCODE_JS_CONFIG)
+
+
+def set_debug(debug: bool) -> None:
+    PyaterochkaAPI.set_debug(debug=debug)
+
