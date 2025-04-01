@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pyaterochka_api',
-    version='0.1.3',
+    version='0.1.4',
     packages=find_packages(),
     install_requires=[
         'aiohttp',
@@ -11,7 +11,7 @@ setup(
     ],
     author='Miskler',
     description='A Python API client for Pyaterochka store catalog',
-    long_description=open('README.md').read(),
+    long_description=open('README.md', encoding="utf-8").read(),
     long_description_content_type='text/markdown',
     url='https://github.com/Open-Inflation/pyaterochka_api',
     classifiers=[
