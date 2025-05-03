@@ -20,6 +20,7 @@ class PyaterochkaAPI:
     def __init__(self, debug: bool = False, proxy: str = None):
         self._debug = debug
         self._proxy = proxy
+        self._session = None
 
     @property
     def proxy(self) -> str | None:
@@ -145,6 +146,8 @@ class PyaterochkaAPI:
 
 
     async def _new_session(self) -> None:
+        await self.close()
+
         args = {"headers": {"User-Agent": UserAgent().random}}
         if self._proxy: args["proxy"] = self._proxy
         self._session = aiohttp.ClientSession(**args)

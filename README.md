@@ -11,7 +11,7 @@ Pyaterochka (Пятёрочка) - https://5ka.ru/
 
 
 ## Installation / Установка:
-1. Install package / Установка пакета:
+Install package / Установка пакета:
 ```bash
 pip install pyaterochka_api
 ```
@@ -24,6 +24,11 @@ import asyncio
 
 async def main():
     async with Pyaterochka(proxy="user:password@host:port", debug=False) as API:
+        # RUS: Вводим геоточку (самого магазина или рядом с ним) и получаем инфу о магазине
+        # ENG: Enter a geolocation (of the store or near it) and get info about the store
+        find_store = await API.find_store(longitude=37.63156, latitude=55.73768)
+        print(f"Store info output: {find_store!s:.100s}...\n")
+
         # RUS: Выводит список всех категорий на сайте
         # ENG: Outputs a list of all categories on the site
         catalog = await API.categories_list(subcategories=True, mode=API.PurchaseMode.DELIVERY)
