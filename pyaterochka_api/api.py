@@ -17,50 +17,48 @@ class PyaterochkaAPI:
         LIST = r'(\w+)\s*:\s*\[([^\[\]]*(?:\[.*?\])*)\]' # key: [value]
         FIND = r'\{.*?\}|\[.*?\]'                        # {} or []
 
-    def __init__(self, debug: bool = False):
-        self._debug = False
-
-    def set_debug(self, debug: bool):
-        """Устанавливает режим дебага для экземпляра класса."""
+    def __init__(self, debug: bool = False, proxy: str = None):
         self._debug = debug
+        self._proxy = proxy
 
+    @property
+    def proxy(self) -> str | None:
+        return self._proxy if hasattr(self, '_proxy') else None
+
+    @proxy.setter
+    def proxy(self, value: str | None) -> None:
+        self._proxy = value
+    
     async def fetch(self, url: str) -> tuple[bool, dict | None | str, str]:
         """
         Выполняет HTTP-запрос к указанному URL и возвращает результат.
 
-        :param url: URL для запроса.
-        :param is_json: Ожидать ли JSON в ответе.
         :return: Кортеж (успех, данные или None).
         """
-        async with aiohttp.ClientSession() as session:
+        if self._debug:
+            print(f"Requesting \"{url}\"...", flush=True)
 
+        async with self._session.get(url=url) as response:
             if self._debug:
-                print(f"Requesting \"{url}\"...", flush=True)
+                print(f"Response status: {response.status}", flush=True)
 
-            async with session.get(
-                url=url,
-                headers={"User-Agent": UserAgent().random},
-            ) as response:
-                if self._debug:
-                    print(f"Response status: {response.status}", flush=True)
-
-                if response.status == 200:
-                    if response.headers['content-type'] == 'application/json':
-                        output_response = response.json()
-                    elif response.headers['content-type'] == 'image/jpeg':
-                        output_response = response.read()
-                    else:
-                        output_response = response.text()
-
-                    return True, await output_response, response.headers['content-type']
-                elif response.status == 403:
-                    if self._debug:
-                        print("Anti-bot protection. Use Russia IP address and try again.", flush=True)
-                    return False, None, ''
+            if response.status == 200:
+                if response.headers['content-type'] == 'application/json':
+                    output_response = response.json()
+                elif response.headers['content-type'] == 'image/jpeg':
+                    output_response = response.read()
                 else:
-                    if self._debug:
-                        print(f"Unexpected error: {response.status}", flush=True)
-                    raise Exception(f"Response status: {response.status} (unknown error/status code)")
+                    output_response = response.text()
+
+                return True, await output_response, response.headers['content-type']
+            elif response.status == 403:
+                if self._debug:
+                    print("Anti-bot protection. Use Russia IP address and try again.", flush=True)
+                return False, None, ''
+            else:
+                if self._debug:
+                    print(f"Unexpected error: {response.status}", flush=True)
+                raise Exception(f"Response status: {response.status} (unknown error/status code)")
 
     async def _parse_js(self, js_code: str) -> dict | None:
         """
@@ -144,3 +142,16 @@ class PyaterochkaAPI:
             print("JS code fetched successfully")
 
         return await self._parse_js(js_code=js_code)
+
+
+    async def _new_session(self) -> None:
+        args = {"headers": {"User-Agent": UserAgent().random}}
+        if self._proxy: args["proxy"] = self._proxy
+        self._session = aiohttp.ClientSession(**args)
+
+    async def close(self) -> None:
+        """Close the aiohttp session if open."""
+        if self._session and not self._session.closed:
+            await self._session.close()
+            self._session = None
+
