@@ -4,10 +4,9 @@ from io import BytesIO
 
 
 class Pyaterochka:
-    CATALOG_URL = "https://5d.5ka.ru/api/catalog/v2/stores"
+    CATALOG_URL = "https://5d.5ka.ru/api"
     HARDCODE_JS_CONFIG = "https://prod-cdn.5ka.ru/scripts/main.a0c039ea81eb8cf69492.js" # TODO сделать не хардкодным имя файла
     DEFAULT_STORE_ID = "Y232"
-
 
     class PurchaseMode(Enum):
         STORE = "store"
@@ -79,7 +78,7 @@ class Pyaterochka:
             Exception: If the response status is not 200 (OK) or 403 (Forbidden / Anti-bot).
         """
 
-        request_url = f"{self.CATALOG_URL}/{sap_code_store_id}/categories?mode={mode.value}&include_subcategories={1 if subcategories else 0}"
+        request_url = f"{self.CATALOG_URL}/catalog/v2/stores/{sap_code_store_id}/categories?mode={mode.value}&include_subcategories={1 if subcategories else 0}"
         _is_success, response, _response_type = await self.api.fetch(url=request_url)
         return response
 
@@ -110,7 +109,17 @@ class Pyaterochka:
         if limit < 1 or limit >= 500:
             raise ValueError("Limit must be between 1 and 499")
 
-        request_url = f"{self.CATALOG_URL}/{sap_code_store_id}/categories/{category_id}/products?mode={mode.value}&limit={limit}"
+        request_url = f"{self.CATALOG_URL}/catalog/v2/stores/{sap_code_store_id}/categories/{category_id}/products?mode={mode.value}&limit={limit}"
+        _is_success, response, _response_type = await self.api.fetch(url=request_url)
+        return response
+
+    async def find_store(self, longitude: float, latitude: float) -> dict | None:
+        """
+        Находит магазин закрепленный за этими координами (в понимании сервера это точка доставки заказа)
+        Finds the store associated with these coordinates (in the server's understanding, this is the order delivery point).
+        """
+
+        request_url = f"{self.CATALOG_URL}/orders/v1/orders/stores/?lon={longitude}&lat={latitude}"
         _is_success, response, _response_type = await self.api.fetch(url=request_url)
         return response
 
@@ -141,5 +150,3 @@ class Pyaterochka:
         """
 
         return await self.api.download_config(config_url=self.HARDCODE_JS_CONFIG)
-
-    #TODO: добавить поиск магазинов

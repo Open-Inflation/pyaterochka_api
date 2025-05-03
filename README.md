@@ -3,6 +3,7 @@
 Pyaterochka (Пятёрочка) - https://5ka.ru/
 
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyaterochka_api)
+![PyPI - Package Version](https://img.shields.io/pypi/v/pyaterochka_api?color=blue)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/pyaterochka_api?label=PyPi%20downloads)](https://pypi.org/project/pyaterochka-api/)
 [![Discord](https://img.shields.io/discord/792572437292253224?label=Discord&labelColor=%232c2f33&color=%237289da)](https://discord.gg/UnJnGHNbBp)
 [![Telegram](https://img.shields.io/badge/Telegram-24A1DE)](https://t.me/miskler_dev)
