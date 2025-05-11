@@ -14,7 +14,7 @@ def gen_schema(data):
 
 @pytest.mark.asyncio
 async def test_list(snapshot: SnapshotTest):
-    async with Pyaterochka() as API:
+    async with Pyaterochka(debug=True) as API:
         categories = await API.categories_list(subcategories=True)
         snapshot.assert_match(gen_schema(categories), "categories_list")
         
@@ -23,25 +23,25 @@ async def test_list(snapshot: SnapshotTest):
 
 @pytest.mark.asyncio
 async def test_product_info(snapshot: SnapshotTest):
-    async with Pyaterochka() as API:
+    async with Pyaterochka(debug=True) as API:
         result = await API.product_info(43347)
         snapshot.assert_match(gen_schema(result), "product_info")
 
 @pytest.mark.asyncio
 async def test_get_news(snapshot: SnapshotTest):
-    async with Pyaterochka() as API:
+    async with Pyaterochka(debug=True) as API:
         result = await API.get_news(limit=5)
         snapshot.assert_match(gen_schema(result), "get_news")
 
 @pytest.mark.asyncio
 async def test_find_store(snapshot: SnapshotTest):
-    async with Pyaterochka() as API:
+    async with Pyaterochka(debug=True) as API:
         categories = await API.find_store(longitude=37.63156, latitude=55.73768)
         snapshot.assert_match(gen_schema(categories), "store_info")
 
 @pytest.mark.asyncio
 async def test_download_image(snapshot: SnapshotTest):
-    async with Pyaterochka() as API:
+    async with Pyaterochka(debug=True) as API:
         result = await API.download_image("https://photos.okolo.app/product/1392827-main/800x800.jpeg")
         assert isinstance(result, BytesIO)
         assert result.getvalue()
@@ -55,12 +55,12 @@ async def test_set_debug(snapshot: SnapshotTest):
 
 @pytest.mark.asyncio
 async def test_rebuild_connection(snapshot: SnapshotTest):
-    async with Pyaterochka() as API:
+    async with Pyaterochka(debug=True) as API:
         await API.rebuild_connection()
         snapshot.assert_match("connection has been rebuilt", "rebuild_connection")
 
 @pytest.mark.asyncio
 async def test_get_config(snapshot: SnapshotTest):
-    async with Pyaterochka() as API:
+    async with Pyaterochka(debug=True) as API:
         result = await API.get_config()
         snapshot.assert_match(gen_schema(result), "get_config")
