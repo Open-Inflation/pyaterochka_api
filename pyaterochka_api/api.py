@@ -4,6 +4,7 @@ from enum import Enum
 import re
 from tqdm.asyncio import tqdm
 from camoufox import AsyncCamoufox
+import os
 
 
 class PyaterochkaAPI:
@@ -18,13 +19,15 @@ class PyaterochkaAPI:
         LIST = r'(\w+)\s*:\s*\[([^\[\]]*(?:\[.*?\])*)\]' # key: [value]
         FIND = r'\{.*?\}|\[.*?\]'                        # {} or []
 
-    def __init__(self, debug: bool = False, proxy: str = None, autoclose_browser: bool = False):
+    def __init__(self, debug: bool = False, proxy: str = None, autoclose_browser: bool = False, trust_env: bool = False, timeout: int = 10):
         self._debug = debug
         self._proxy = proxy
         self._session = None
         self._autoclose_browser = autoclose_browser
         self._browser = None
         self._bcontext = None
+        self._trust_env = trust_env
+        self._timeout = timeout
 
     @property
     def proxy(self) -> str | None:
@@ -38,12 +41,15 @@ class PyaterochkaAPI:
         """
         Выполняет HTTP-запрос к указанному URL и возвращает результат.
 
-        :return: Кортеж (успех, данные или None).
+        :return: Кортеж (успех, данные или None, тип данных или пустота).
         """
-        if self._debug:
-            print(f"Requesting \"{url}\"...", flush=True)
+        args = {'url': url, 'timeout': aiohttp.ClientTimeout(total=self._timeout)}
+        if self._proxy: args["proxy"] = self._proxy
 
-        async with self._session.get(url=url) as response:
+        if self._debug:
+            print(f"Requesting \"{url}\" with proxy \"{args.get('proxy')}\", timeout {self._timeout}...", flush=True)
+        
+        async with self._session.get(**args) as response:
             if self._debug:
                 print(f"Response status: {response.status}", flush=True)
 
@@ -154,9 +160,9 @@ class PyaterochkaAPI:
             await self._new_session(include_aiohttp=False, include_browser=True)
 
         page = await self._bcontext.new_page()
-        await page.goto(url, wait_until='commit')
+        await page.goto(url, wait_until='commit', timeout=self._timeout * 1000)
         # Wait until the selector script tag appears
-        await page.wait_for_selector(selector=selector, state=state)
+        await page.wait_for_selector(selector=selector, state=state, timeout=self._timeout * 1000)
         content = await page.content()
         await page.close()
 
@@ -166,7 +172,11 @@ class PyaterochkaAPI:
 
     def _parse_proxy(self, proxy_str: str | None) -> dict | None:
         if not proxy_str:
-            return None
+            if self._trust_env:
+                proxy_str = os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy")
+            
+            if not proxy_str:
+                return None
 
         # Example: user:pass@host:port or just host:port
         match = re.match(
@@ -196,17 +206,35 @@ class PyaterochkaAPI:
         await self.close(include_aiohttp=include_aiohttp, include_browser=include_browser)
 
         if include_aiohttp:
-            args = {"headers": {"User-Agent": UserAgent().random}}
-            if self._proxy: args["proxy"] = self._proxy
+            args = {
+                "headers": {
+                    "User-Agent": UserAgent().random,
+                    "Accept": "application/json, text/plain, */*",
+                    "Accept-Language": "en-GB,en;q=0.5",
+                    "Accept-Encoding": "gzip, deflate, br, zstd",
+                    "X-PLATFORM": "webapp",
+                    "Origin": "https://5ka.ru",
+                    "Connection": "keep-alive",
+                    "Sec-Fetch-Dest": "empty",
+                    "Sec-Fetch-Mode": "cors",
+                    "Sec-Fetch-Site": "same-site",
+                    "Pragma": "no-cache",
+                    "Cache-Control": "no-cache",
+                    "TE": "trailers",
+                },
+                "trust_env": self._trust_env,
+            }
             self._session = aiohttp.ClientSession(**args)
         
-            if self._debug: print(f"A new connection aiohttp has been opened. Proxy used: {args.get('proxy')}")
+            if self._debug: print(f"A new connection aiohttp has been opened. trust_env: {args.get('trust_env')}")
 
         if include_browser:
-            self._browser = await AsyncCamoufox(headless=not self._debug, proxy=self._parse_proxy(self.proxy), geoip=True).__aenter__()
+            prox = self._parse_proxy(self.proxy)
+            self._browser = await AsyncCamoufox(headless=not self._debug, proxy=prox, geoip=True).__aenter__()
             self._bcontext = await self._browser.new_context()
             
-            if self._debug: print(f"A new connection browser has been opened. Proxy used: {self.proxy}")
+            toprint = "SYSTEM_PROXY" if prox and not self.proxy else prox
+            if self._debug: print(f"A new connection browser has been opened. Proxy used: {toprint}")
 
     async def close(
         self,

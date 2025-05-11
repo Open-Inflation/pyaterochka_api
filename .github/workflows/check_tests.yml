@@ -23,5 +23,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Install Firefox Dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y libgtk-3-0 libx11-xcb1
+
+      - name: Fetch browsers via Camoufox
+        run: camoufox fetch
+
       - name: Run Tests
-        run: pytest --maxfail=3 # --disable-warnings  # Без --snapshot-update
+        env:
+          HTTP_PROXY:  "http://${{ secrets.RUSSIAN_PROXY }}"
+          HTTPS_PROXY: "http://${{ secrets.RUSSIAN_PROXY }}"
+        run: pytest # --disable-warnings  # Без --snapshot-update

@@ -2,6 +2,7 @@
 
 Pyaterochka (Пятёрочка) - https://5ka.ru/
 
+[![GitHub Actions](https://github.com/Open-Inflation/pyaterochka_api/workflows/API%20Tests%20Daily/badge.svg)](https://github.com/Open-Inflation/pyaterochka_api/actions?query=workflow%3A"API+Tests+Daily?query=branch%3Amain")
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyaterochka_api)
 ![PyPI - Package Version](https://img.shields.io/pypi/v/pyaterochka_api?color=blue)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/pyaterochka_api?label=PyPi%20downloads)](https://pypi.org/project/pyaterochka-api/)
@@ -31,7 +32,7 @@ import asyncio
 
 
 async def main():
-    async with Pyaterochka(proxy="user:password@host:port", debug=False, autoclose_browser=False) as API:
+    async with Pyaterochka(proxy="user:password@host:port", debug=False, autoclose_browser=False, trust_env=False) as API:
         # RUS: Вводим геоточку (самого магазина или рядом с ним) и получаем инфу о магазине
         # ENG: Enter a geolocation (of the store or near it) and get info about the store
         find_store = await API.find_store(longitude=37.63156, latitude=55.73768)
@@ -61,6 +62,12 @@ async def main():
         # I do not recommend enabling it, if you still need to free up memory, it is better to use API.close(session=False, browser=True)
         API.autoclose_browser = True
 
+        # RUS: Напрямую передается в aiohttp, так же учитывается в браузере. В первую очередь нужен для использования системного `HTTPS_PROXY`.
+        # Но системный прокси применяется, только если не указали иное напрямую в `API.proxy`.
+        # ENG: Directly passed to aiohttp, also taken into account in the browser. Primarily needed for using the system `HTTPS_PROXY`.
+        # But the system proxy is applied only if you did not specify otherwise directly in `API.proxy`.
+        API.trust_env = True
+
         # RUS: Выводит список последних промо-акций/новостей (можно поставить ограничитель по количеству, опционально)
         # ENG: Outputs a list of the latest promotions/news (you can set a limit on the number, optionally)
         news = await API.get_news(limit=5)
@@ -80,13 +87,17 @@ async def main():
         with open(image.name, 'wb') as f:
             f.write(image.getbuffer())
 
+        # RUS: Можно указать свой таймаут (браузер может его интерпретировать как x2 т.к. там 2 итерации скачивания)
+        # ENG: You can specify your own timeout (the browser may interpret it as x2 since there are 2 iterations of downloading)
+        API.timeout = 7
+
         # RUS: Так же как и debug, в рантайме можно переназначить прокси
         # ENG: As with debug, you can reassign the proxy in runtime
         API.proxy = "user:password@host:port"
-        # RUS: Чтобы применить изменения, нужно пересоздать подключение (session - aiohttp отвечающее за все, кроме product_info, за него browser)
-        # ENG: To apply changes, you need rebuild connection (session - aiohttp responsible for everything except product_info, for it browser)
-        await API.rebuild_connection()
-        await API.categories_list()
+        # RUS: Изменения происходят сразу же, кроме product_info, т.к. за него отвечает браузер
+        # ENG: Changes take effect immediately, except for product_info, as it is handled by the browser
+        await API.rebuild_connection(session=False, browser=True)
+        await API.product_info(43347)
 
 
 if __name__ == '__main__':

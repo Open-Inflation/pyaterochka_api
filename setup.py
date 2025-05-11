@@ -2,11 +2,12 @@ from setuptools import setup, find_packages
 
 setup(
     name='pyaterochka_api',
-    version='0.1.6',
+    version='0.1.7',
     packages=find_packages(),
     install_requires=[
         'aiohttp',
         'camoufox[geoip]',
+        'beartype',
         'fake-useragent',
         'tqdm'
     ],
