@@ -7,6 +7,7 @@ setup(
     install_requires=[
         'aiohttp',
         'camoufox[geoip]',
+        'beartype',
         'fake-useragent',
         'tqdm'
     ],

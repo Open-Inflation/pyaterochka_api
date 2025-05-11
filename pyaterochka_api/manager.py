@@ -3,6 +3,7 @@ from enum import Enum
 import re
 import json
 from io import BytesIO
+from beartype import beartype
 
 
 class Pyaterochka:
@@ -15,24 +16,30 @@ class Pyaterochka:
         STORE = "store"
         DELIVERY = "delivery"
 
+    @beartype
     def __init__(self, debug: bool = False, proxy: str = None, autoclose_browser: bool = False):
         self._debug = debug
         self._proxy = proxy
         self.api = PyaterochkaAPI(debug=self._debug, proxy=self._proxy, autoclose_browser=autoclose_browser)
 
+    @beartype
     def __enter__(self):
         raise NotImplementedError("Use `async with Pyaterochka() as ...:`")
 
+    @beartype
     def __exit__(self, exc_type, exc_val, exc_tb):
         pass
 
+    @beartype
     async def __aenter__(self):
         await self.rebuild_connection(session=True)
         return self
 
+    @beartype
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         await self.close()
 
+    @beartype
     async def rebuild_connection(self, session: bool = True, browser: bool = False) -> None:
         """
         Rebuilds the connection to the Pyaterochka API.
@@ -42,6 +49,7 @@ class Pyaterochka:
         """
         await self.api._new_session(session, browser)
 
+    @beartype
     async def close(self, session: bool = True, browser: bool = True) -> None:
         """
         Closes the connection to the Pyaterochka API.
@@ -52,43 +60,49 @@ class Pyaterochka:
         await self.api.close(include_aiohttp=session, include_browser=browser)
 
     @property
+    @beartype
     def debug(self) -> bool:
         """If True, it will print debug messages and disable headless in browser."""
         return self._debug
 
     @debug.setter
+    @beartype
     def debug(self, value: bool):
         self._debug = value
         self.api.debug = value
 
     @property
+    @beartype
     def proxy(self) -> str:
         """Proxy for requests. If None, it will be used without proxy."""
         return self._proxy
 
     @proxy.setter
+    @beartype
     def proxy(self, value: str):
         self._proxy = value
         self.api.proxy = value
     
     @property
+    @beartype
     def autoclose_browser(self) -> bool:
         """If True, the browser closes after each request, clearing all cookies and caches.
         If you have more than one request and this function is enabled, the processing speed will be greatly affected! (all caches are recreated every time)"""
         return self.api._autoclose_browser
 
-    @proxy.setter
+    @autoclose_browser.setter
+    @beartype
     def autoclose_browser(self, value: bool):
         self.api._autoclose_browser = value
 
-
+    @beartype
     async def categories_list(
             self,
             subcategories: bool = False,
             include_restrict: bool = True,
             mode: PurchaseMode = PurchaseMode.STORE,
             sap_code_store_id: str = DEFAULT_STORE_ID
-    ) -> dict | None:
+    ) -> list[dict] | None:
         f"""
         Asynchronously retrieves a list of categories from the Pyaterochka API.
 
@@ -109,9 +123,10 @@ class Pyaterochka:
         _is_success, response, _response_type = await self.api.fetch(url=request_url)
         return response
 
+    @beartype
     async def products_list(
             self,
-            category_id: int,
+            category_id: str,
             mode: PurchaseMode = PurchaseMode.STORE,
             sap_code_store_id: str = DEFAULT_STORE_ID,
             limit: int = 30
@@ -120,7 +135,7 @@ class Pyaterochka:
         Asynchronously retrieves a list of products from the Pyaterochka API for a given category.
 
         Args:
-            category_id (int): The ID of the category.
+            category_id (str): The ID of the (sub)category.
             mode (PurchaseMode, optional): The purchase mode to use. Defaults to PurchaseMode.STORE.
             sap_code_store_id (str, optional): The store ID (official name in API is "sap_code") to use. Defaults to "{self.DEFAULT_STORE_ID}". This lib not support search ID stores.
             limit (int, optional): The maximum number of products to retrieve. Defaults to 30. Must be between 1 and 499.
@@ -140,6 +155,7 @@ class Pyaterochka:
         _is_success, response, _response_type = await self.api.fetch(url=request_url)
         return response
 
+    @beartype
     async def product_info(self, plu_id: int) -> dict:
         """
         Asynchronously retrieves product information from the Pyaterochka API for a given PLU ID. Average time processing 2 seconds (first start 6 seconds).
@@ -169,6 +185,7 @@ class Pyaterochka:
 
         return data
     
+    @beartype
     async def get_news(self, limit: int = None) -> dict | None:
         """
         Asynchronously retrieves news from the Pyaterochka API.
@@ -187,6 +204,7 @@ class Pyaterochka:
         
         return response
 
+    @beartype
     async def find_store(self, longitude: float, latitude: float) -> dict | None:
         """
         Asynchronously finds the store associated with the given coordinates.
@@ -203,6 +221,7 @@ class Pyaterochka:
         _is_success, response, _response_type = await self.api.fetch(url=request_url)
         return response
 
+    @beartype
     async def download_image(self, url: str) -> BytesIO | None:
         is_success, image_data, response_type = await self.api.fetch(url=url)
 
@@ -218,7 +237,8 @@ class Pyaterochka:
 
         return image
 
-    async def get_config(self) -> list | None:
+    @beartype
+    async def get_config(self) -> dict | None:
         """
         Asynchronously retrieves the configuration from the hardcoded JavaScript file.
 
@@ -226,7 +246,7 @@ class Pyaterochka:
             debug (bool, optional): Whether to print debug information. Defaults to False.
 
         Returns:
-            list | None: A list representing the configuration if the request is successful, None otherwise.
+            dict | None: A dictionary representing the configuration if the request is successful, None otherwise.
         """
 
         return await self.api.download_config(config_url=self.HARDCODE_JS_CONFIG)
