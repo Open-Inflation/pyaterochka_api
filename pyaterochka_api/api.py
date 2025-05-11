@@ -43,12 +43,12 @@ class PyaterochkaAPI:
 
         :return: Кортеж (успех, данные или None, тип данных или пустота).
         """
-        if self._debug:
-            print(f"Requesting \"{url}\"...", flush=True)
-
         args = {'url': url, 'timeout': aiohttp.ClientTimeout(total=self._timeout)}
         if self._proxy: args["proxy"] = self._proxy
 
+        if self._debug:
+            print(f"Requesting \"{url}\" with proxy \"{args.get('proxy')}\", timeout {self._timeout}...", flush=True)
+        
         async with self._session.get(**args) as response:
             if self._debug:
                 print(f"Response status: {response.status}", flush=True)
