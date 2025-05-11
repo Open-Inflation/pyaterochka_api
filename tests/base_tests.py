@@ -23,7 +23,7 @@ async def test_list(snapshot: SnapshotTest):
 
 @pytest.mark.asyncio
 async def test_product_info(snapshot: SnapshotTest):
-    async with Pyaterochka(debug=True) as API:
+    async with Pyaterochka() as API:
         result = await API.product_info(43347)
         snapshot.assert_match(gen_schema(result), "product_info")
 
