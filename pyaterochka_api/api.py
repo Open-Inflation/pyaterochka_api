@@ -228,10 +228,12 @@ class PyaterochkaAPI:
             if self._debug: print(f"A new connection aiohttp has been opened. Proxy used: {args.get('proxy')}")
 
         if include_browser:
-            self._browser = await AsyncCamoufox(headless=not self._debug, proxy=self._parse_proxy(self.proxy), geoip=True).__aenter__()
+            prox = self._parse_proxy(self.proxy)
+            self._browser = await AsyncCamoufox(headless=not self._debug, proxy=prox, geoip=True).__aenter__()
             self._bcontext = await self._browser.new_context()
             
-            if self._debug: print(f"A new connection browser has been opened. Proxy used: {self.proxy}")
+            toprint = "SYSTEM_PROXY" if prox and not self.proxy else prox
+            if self._debug: print(f"A new connection browser has been opened. Proxy used: {toprint}")
 
     async def close(
         self,
