@@ -196,7 +196,23 @@ class PyaterochkaAPI:
         await self.close(include_aiohttp=include_aiohttp, include_browser=include_browser)
 
         if include_aiohttp:
-            args = {"headers": {"User-Agent": UserAgent().random}}
+            args = {
+                "headers": {
+                    "User-Agent": UserAgent().random,
+                    "Accept": "application/json, text/plain, */*",
+                    "Accept-Language": "en-GB,en;q=0.5",
+                    "Accept-Encoding": "gzip, deflate, br, zstd",
+                    "X-PLATFORM": "webapp",
+                    "Origin": "https://5ka.ru",
+                    "Connection": "keep-alive",
+                    "Sec-Fetch-Dest": "empty",
+                    "Sec-Fetch-Mode": "cors",
+                    "Sec-Fetch-Site": "same-site",
+                    "Pragma": "no-cache",
+                    "Cache-Control": "no-cache",
+                    "TE": "trailers",
+                }
+            }
             if self._proxy: args["proxy"] = self._proxy
             self._session = aiohttp.ClientSession(**args)
         
