@@ -2,13 +2,21 @@ from setuptools import setup, find_packages
 
 setup(
     name='pyaterochka_api',
-    version='0.1.5',
+    version='0.1.6',
     packages=find_packages(),
     install_requires=[
         'aiohttp',
+        'camoufox[geoip]',
         'fake-useragent',
         'tqdm'
     ],
+    extras_require={
+        'tests': [
+            'pytest',
+            'pytest-asyncio',
+            'snapshottest~=1.0.0a1',
+        ]
+    },
     author='Miskler',
     description='A Python API client for Pyaterochka store catalog',
     long_description=open('README.md', encoding="utf-8").read(),

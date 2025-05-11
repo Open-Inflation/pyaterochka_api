@@ -3,6 +3,7 @@ from fake_useragent import UserAgent
 from enum import Enum
 import re
 from tqdm.asyncio import tqdm
+from camoufox import AsyncCamoufox
 
 
 class PyaterochkaAPI:
@@ -17,9 +18,13 @@ class PyaterochkaAPI:
         LIST = r'(\w+)\s*:\s*\[([^\[\]]*(?:\[.*?\])*)\]' # key: [value]
         FIND = r'\{.*?\}|\[.*?\]'                        # {} or []
 
-    def __init__(self, debug: bool = False, proxy: str = None):
+    def __init__(self, debug: bool = False, proxy: str = None, autoclose_browser: bool = False):
         self._debug = debug
         self._proxy = proxy
+        self._session = None
+        self._autoclose_browser = autoclose_browser
+        self._browser = None
+        self._bcontext = None
 
     @property
     def proxy(self) -> str | None:
@@ -144,14 +149,103 @@ class PyaterochkaAPI:
         return await self._parse_js(js_code=js_code)
 
 
-    async def _new_session(self) -> None:
-        args = {"headers": {"User-Agent": UserAgent().random}}
-        if self._proxy: args["proxy"] = self._proxy
-        self._session = aiohttp.ClientSession(**args)
+    async def _browser_fetch(self, url: str, selector: str, state: str = 'attached') -> dict:
+        if self._browser is None or self._bcontext is None:
+            await self._new_session(include_aiohttp=False, include_browser=True)
 
-    async def close(self) -> None:
-        """Close the aiohttp session if open."""
-        if self._session and not self._session.closed:
-            await self._session.close()
-            self._session = None
+        page = await self._bcontext.new_page()
+        await page.goto(url, wait_until='commit')
+        # Wait until the selector script tag appears
+        await page.wait_for_selector(selector=selector, state=state)
+        content = await page.content()
+        await page.close()
+
+        if self._autoclose_browser:
+            await self.close(include_aiohttp=False, include_browser=True)
+        return content
+
+    def _parse_proxy(self, proxy_str: str | None) -> dict | None:
+        if not proxy_str:
+            return None
+
+        # Example: user:pass@host:port or just host:port
+        match = re.match(
+            r'^(?:(?P<scheme>https?:\/\/))?(?:(?P<username>[^:@]+):(?P<password>[^@]+)@)?(?P<host>[^:]+):(?P<port>\d+)$',
+            proxy_str,
+        )
+
+        proxy_dict = {}
+        if not match:
+            proxy_dict['server'] = proxy_str
+            
+            if not proxy_str.startswith('http://') and not proxy_str.startswith('https://'):
+                proxy_dict['server'] = f"http://{proxy_str}"
+            
+            return proxy_dict
+        else:
+            match_dict = match.groupdict()
+            proxy_dict['server'] = f"{match_dict['scheme'] or 'http://'}{match_dict['host']}:{match_dict['port']}"
+            
+            for key in ['username', 'password']:
+                if match_dict[key]:
+                    proxy_dict[key] = match_dict[key]
+            
+            return proxy_dict
+
+    async def _new_session(self, include_aiohttp: bool = True, include_browser: bool = False) -> None:
+        await self.close(include_aiohttp=include_aiohttp, include_browser=include_browser)
+
+        if include_aiohttp:
+            args = {"headers": {"User-Agent": UserAgent().random}}
+            if self._proxy: args["proxy"] = self._proxy
+            self._session = aiohttp.ClientSession(**args)
+        
+            if self._debug: print(f"A new connection aiohttp has been opened. Proxy used: {args.get('proxy')}")
+
+        if include_browser:
+            self._browser = await AsyncCamoufox(headless=not self._debug, proxy=self._parse_proxy(self.proxy), geoip=True).__aenter__()
+            self._bcontext = await self._browser.new_context()
+            
+            if self._debug: print(f"A new connection browser has been opened. Proxy used: {self.proxy}")
+
+    async def close(
+        self,
+        include_aiohttp: bool = True,
+        include_browser: bool = False
+    ) -> None:
+        """
+        Close the aiohttp session and/or Camoufox browser if they are open.
+        :param include_aiohttp: close aiohttp session if True
+        :param include_browser: close browser if True
+        """
+        to_close = []
+        if include_aiohttp:
+            to_close.append("session")
+        if include_browser:
+            to_close.append("bcontext")
+            to_close.append("browser")
+
+        if not to_close:
+            raise ValueError("No connections to close")
+
+        checks = {
+            "session": lambda a: a is not None and not a.closed,
+            "browser": lambda a: a is not None,
+            "bcontext": lambda a: a is not None
+        }
+
+        for name in to_close:
+            attr = getattr(self, f"_{name}", None)
+            if checks[name](attr):
+                if "browser" in name:
+                    await attr.__aexit__(None, None, None)
+                else:
+                    await attr.close()
+                setattr(self, f"_{name}", None)
+                if self._debug:
+                    print(f"The {name} connection was closed")
+            else:
+                if self._debug:
+                    print(f"The {name} connection was not open")
+
 
