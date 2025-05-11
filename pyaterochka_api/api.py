@@ -3,8 +3,6 @@ from fake_useragent import UserAgent
 from enum import Enum
 import re
 from tqdm.asyncio import tqdm
-import asyncio
-import urllib.parse
 from camoufox import AsyncCamoufox
 
 
@@ -155,17 +153,16 @@ class PyaterochkaAPI:
         if self._browser is None or self._bcontext is None:
             await self._new_session(include_aiohttp=False, include_browser=True)
 
-        async with self._bcontext as context:
-            page = await context.new_page()
-            await page.goto(url, wait_until='domcontentloaded')
-            # Wait until the selector script tag appears
-            await page.wait_for_selector(selector=selector, state=state)
-            content = await page.content()
-            await page.close()
+        page = await self._bcontext.new_page()
+        await page.goto(url, wait_until='commit')
+        # Wait until the selector script tag appears
+        await page.wait_for_selector(selector=selector, state=state)
+        content = await page.content()
+        await page.close()
 
-            if self._autoclose_browser:
-                await self.close(include_aiohttp=False, include_browser=True)
-            return content
+        if self._autoclose_browser:
+            await self.close(include_aiohttp=False, include_browser=True)
+        return content
 
     def _parse_proxy(self, proxy_str: str | None) -> dict | None:
         if not proxy_str:

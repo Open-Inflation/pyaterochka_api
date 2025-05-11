@@ -34,14 +34,26 @@ class Pyaterochka:
         await self.close()
 
     async def rebuild_connection(self, session: bool = True, browser: bool = False) -> None:
+        """
+        Rebuilds the connection to the Pyaterochka API.
+        Args:
+            session (bool, optional): Whether to create a new session (for all, except product_info). Defaults to True.
+            browser (bool, optional): Whether to create a new browser instance (for product_info). Defaults to False.
+        """
         await self.api._new_session(session, browser)
 
-    async def close(self) -> None:
-        await self.api.close(True, True)
+    async def close(self, session: bool = True, browser: bool = True) -> None:
+        """
+        Closes the connection to the Pyaterochka API.
+        Args:
+            session (bool, optional): Whether to close the session (for all, except product_info). Defaults to True.
+            browser (bool, optional): Whether to close the browser instance (for product_info). Defaults to True.
+        """
+        await self.api.close(include_aiohttp=session, include_browser=browser)
 
     @property
     def debug(self) -> bool:
-        """Get or set debug mode. If set to True, it will print debug messages."""
+        """If True, it will print debug messages and disable headless in browser."""
         return self._debug
 
     @debug.setter
@@ -51,6 +63,7 @@ class Pyaterochka:
 
     @property
     def proxy(self) -> str:
+        """Proxy for requests. If None, it will be used without proxy."""
         return self._proxy
 
     @proxy.setter
@@ -60,6 +73,8 @@ class Pyaterochka:
     
     @property
     def autoclose_browser(self) -> bool:
+        """If True, the browser closes after each request, clearing all cookies and caches.
+        If you have more than one request and this function is enabled, the processing speed will be greatly affected! (all caches are recreated every time)"""
         return self.api._autoclose_browser
 
     @proxy.setter
@@ -127,7 +142,7 @@ class Pyaterochka:
 
     async def product_info(self, plu_id: int) -> dict:
         """
-        Asynchronously retrieves product information from the Pyaterochka API for a given PLU ID. Average time processing 7 seconds.
+        Asynchronously retrieves product information from the Pyaterochka API for a given PLU ID. Average time processing 2 seconds (first start 6 seconds).
         Args:
             plu_id (int): The PLU ID of the product.
         Returns:
