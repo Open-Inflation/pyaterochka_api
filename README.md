@@ -2,6 +2,7 @@
 
 Pyaterochka (Пятёрочка) - https://5ka.ru/
 
+[![GitHub Actions](https://github.com/Open-Inflation/pyaterochka_api/workflows/API%20Tests%20Daily/badge.svg)](https://github.com/Open-Inflation/pyaterochka_api/actions?query=workflow%3A"API+Tests+Daily?query=branch%3Amain")
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyaterochka_api)
 ![PyPI - Package Version](https://img.shields.io/pypi/v/pyaterochka_api?color=blue)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/pyaterochka_api?label=PyPi%20downloads)](https://pypi.org/project/pyaterochka-api/)
