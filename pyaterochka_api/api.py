@@ -4,6 +4,7 @@ from enum import Enum
 import re
 from tqdm.asyncio import tqdm
 from camoufox import AsyncCamoufox
+import os
 
 
 class PyaterochkaAPI:
@@ -18,13 +19,14 @@ class PyaterochkaAPI:
         LIST = r'(\w+)\s*:\s*\[([^\[\]]*(?:\[.*?\])*)\]' # key: [value]
         FIND = r'\{.*?\}|\[.*?\]'                        # {} or []
 
-    def __init__(self, debug: bool = False, proxy: str = None, autoclose_browser: bool = False):
+    def __init__(self, debug: bool = False, proxy: str = None, autoclose_browser: bool = False, trust_env: bool = False):
         self._debug = debug
         self._proxy = proxy
         self._session = None
         self._autoclose_browser = autoclose_browser
         self._browser = None
         self._bcontext = None
+        self._trust_env = trust_env
 
     @property
     def proxy(self) -> str | None:
@@ -38,12 +40,15 @@ class PyaterochkaAPI:
         """
         Выполняет HTTP-запрос к указанному URL и возвращает результат.
 
-        :return: Кортеж (успех, данные или None).
+        :return: Кортеж (успех, данные или None, тип данных или пустота).
         """
         if self._debug:
             print(f"Requesting \"{url}\"...", flush=True)
 
-        async with self._session.get(url=url) as response:
+        args = {'url': url}
+        if self._proxy: args["proxy"] = self._proxy
+
+        async with self._session.get(**args) as response:
             if self._debug:
                 print(f"Response status: {response.status}", flush=True)
 
@@ -166,7 +171,11 @@ class PyaterochkaAPI:
 
     def _parse_proxy(self, proxy_str: str | None) -> dict | None:
         if not proxy_str:
-            return None
+            if self._trust_env:
+                proxy_str = os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy")
+            
+            if not proxy_str:
+                return None
 
         # Example: user:pass@host:port or just host:port
         match = re.match(
@@ -211,9 +220,9 @@ class PyaterochkaAPI:
                     "Pragma": "no-cache",
                     "Cache-Control": "no-cache",
                     "TE": "trailers",
-                }
+                },
+                "trust_env": self._trust_env,
             }
-            if self._proxy: args["proxy"] = self._proxy
             self._session = aiohttp.ClientSession(**args)
         
             if self._debug: print(f"A new connection aiohttp has been opened. Proxy used: {args.get('proxy')}")

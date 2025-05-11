@@ -17,10 +17,10 @@ class Pyaterochka:
         DELIVERY = "delivery"
 
     @beartype
-    def __init__(self, debug: bool = False, proxy: str = None, autoclose_browser: bool = False):
+    def __init__(self, debug: bool = False, proxy: str = None, autoclose_browser: bool = False, trust_env: bool = False):
         self._debug = debug
         self._proxy = proxy
-        self.api = PyaterochkaAPI(debug=self._debug, proxy=self._proxy, autoclose_browser=autoclose_browser)
+        self.api = PyaterochkaAPI(debug=self._debug, proxy=self._proxy, autoclose_browser=autoclose_browser, trust_env=trust_env)
 
     @beartype
     def __enter__(self):
@@ -32,7 +32,7 @@ class Pyaterochka:
 
     @beartype
     async def __aenter__(self):
-        await self.rebuild_connection(session=True)
+        await self.rebuild_connection(session=True, browser=False)
         return self
 
     @beartype
@@ -94,6 +94,17 @@ class Pyaterochka:
     @beartype
     def autoclose_browser(self, value: bool):
         self.api._autoclose_browser = value
+    
+    @property
+    @beartype
+    def trust_env(self) -> bool:
+        """Passed directly to aiohttp. Also, if no proxy is specified, the system proxy (variable HTTPS_PROXY) will be used for the browser."""
+        return self.api._trust_env
+
+    @trust_env.setter
+    @beartype
+    def trust_env(self, value: bool):
+        self.api._trust_env = value
 
     @beartype
     async def categories_list(

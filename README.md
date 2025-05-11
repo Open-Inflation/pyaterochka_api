@@ -32,7 +32,7 @@ import asyncio
 
 
 async def main():
-    async with Pyaterochka(proxy="user:password@host:port", debug=False, autoclose_browser=False) as API:
+    async with Pyaterochka(proxy="user:password@host:port", debug=False, autoclose_browser=False, trust_env=False) as API:
         # RUS: Вводим геоточку (самого магазина или рядом с ним) и получаем инфу о магазине
         # ENG: Enter a geolocation (of the store or near it) and get info about the store
         find_store = await API.find_store(longitude=37.63156, latitude=55.73768)
@@ -61,6 +61,12 @@ async def main():
         # ENG: Affects only the function above (product_info), if enabled, the browser will close after the request is processed and caches are cleared.
         # I do not recommend enabling it, if you still need to free up memory, it is better to use API.close(session=False, browser=True)
         API.autoclose_browser = True
+
+        # RUS: Напрямую передается в aiohttp, так же учитывается в браузере. В первую очередь нужен для использования системного `HTTPS_PROXY`.
+        # Но системный прокси применяется, только если не указали иное напрямую в `API.proxy`.
+        # ENG: Directly passed to aiohttp, also taken into account in the browser. Primarily needed for using the system `HTTPS_PROXY`.
+        # But the system proxy is applied only if you did not specify otherwise directly in `API.proxy`.
+        API.trust_env = True
 
         # RUS: Выводит список последних промо-акций/новостей (можно поставить ограничитель по количеству, опционально)
         # ENG: Outputs a list of the latest promotions/news (you can set a limit on the number, optionally)
