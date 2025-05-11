@@ -61,6 +61,6 @@ async def test_rebuild_connection(snapshot: SnapshotTest):
 
 @pytest.mark.asyncio
 async def test_get_config(snapshot: SnapshotTest):
-    async with Pyaterochka(debug=True, trust_env=True) as API:
+    async with Pyaterochka(debug=True, trust_env=True, timeout=30) as API:
         result = await API.get_config()
         snapshot.assert_match(gen_schema(result), "get_config")

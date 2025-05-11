@@ -17,10 +17,10 @@ class Pyaterochka:
         DELIVERY = "delivery"
 
     @beartype
-    def __init__(self, debug: bool = False, proxy: str = None, autoclose_browser: bool = False, trust_env: bool = False):
+    def __init__(self, debug: bool = False, proxy: str = None, autoclose_browser: bool = False, trust_env: bool = False, timeout: int = 10):
         self._debug = debug
         self._proxy = proxy
-        self.api = PyaterochkaAPI(debug=self._debug, proxy=self._proxy, autoclose_browser=autoclose_browser, trust_env=trust_env)
+        self.api = PyaterochkaAPI(debug=self._debug, proxy=self._proxy, autoclose_browser=autoclose_browser, trust_env=trust_env, timeout=timeout)
 
     @beartype
     def __enter__(self):
@@ -105,6 +105,20 @@ class Pyaterochka:
     @beartype
     def trust_env(self, value: bool):
         self.api._trust_env = value
+    
+    @property
+    @beartype
+    def timeout(self) -> int:
+        """Timeout value for the API requests."""
+        return self.api._timeout
+
+    @trust_env.setter
+    @beartype
+    def timeout(self, value: int):
+        if value <= 0:
+            raise ValueError("Timeout must be greater than 0")
+
+        self.api._timeout = value
 
     @beartype
     async def categories_list(

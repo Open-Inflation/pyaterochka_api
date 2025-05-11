@@ -19,7 +19,7 @@ class PyaterochkaAPI:
         LIST = r'(\w+)\s*:\s*\[([^\[\]]*(?:\[.*?\])*)\]' # key: [value]
         FIND = r'\{.*?\}|\[.*?\]'                        # {} or []
 
-    def __init__(self, debug: bool = False, proxy: str = None, autoclose_browser: bool = False, trust_env: bool = False):
+    def __init__(self, debug: bool = False, proxy: str = None, autoclose_browser: bool = False, trust_env: bool = False, timeout: int = 10):
         self._debug = debug
         self._proxy = proxy
         self._session = None
@@ -27,6 +27,7 @@ class PyaterochkaAPI:
         self._browser = None
         self._bcontext = None
         self._trust_env = trust_env
+        self._timeout = timeout
 
     @property
     def proxy(self) -> str | None:
@@ -45,7 +46,7 @@ class PyaterochkaAPI:
         if self._debug:
             print(f"Requesting \"{url}\"...", flush=True)
 
-        args = {'url': url}
+        args = {'url': url, 'timeout': aiohttp.ClientTimeout(total=self._timeout)}
         if self._proxy: args["proxy"] = self._proxy
 
         async with self._session.get(**args) as response:
@@ -159,9 +160,9 @@ class PyaterochkaAPI:
             await self._new_session(include_aiohttp=False, include_browser=True)
 
         page = await self._bcontext.new_page()
-        await page.goto(url, wait_until='commit')
+        await page.goto(url, wait_until='commit', timeout=self._timeout * 1000)
         # Wait until the selector script tag appears
-        await page.wait_for_selector(selector=selector, state=state)
+        await page.wait_for_selector(selector=selector, state=state, timeout=self._timeout * 1000)
         content = await page.content()
         await page.close()
 

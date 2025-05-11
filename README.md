@@ -87,13 +87,17 @@ async def main():
         with open(image.name, 'wb') as f:
             f.write(image.getbuffer())
 
+        # RUS: Можно указать свой таймаут (браузер может его интерпретировать как x2 т.к. там 2 итерации скачивания)
+        # ENG: You can specify your own timeout (the browser may interpret it as x2 since there are 2 iterations of downloading)
+        API.timeout = 7
+
         # RUS: Так же как и debug, в рантайме можно переназначить прокси
         # ENG: As with debug, you can reassign the proxy in runtime
         API.proxy = "user:password@host:port"
-        # RUS: Чтобы применить изменения, нужно пересоздать подключение (session - aiohttp отвечающее за все, кроме product_info, за него browser)
-        # ENG: To apply changes, you need rebuild connection (session - aiohttp responsible for everything except product_info, for it browser)
-        await API.rebuild_connection()
-        await API.categories_list()
+        # RUS: Изменения происходят сразу же, кроме product_info, т.к. за него отвечает браузер
+        # ENG: Changes take effect immediately, except for product_info, as it is handled by the browser
+        await API.rebuild_connection(session=False, browser=True)
+        await API.product_info(43347)
 
 
 if __name__ == '__main__':
