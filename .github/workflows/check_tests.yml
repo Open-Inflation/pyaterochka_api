@@ -1,5 +1,9 @@
 name: API Tests Daily
 
+env:
+  HTTP_PROXY: "http://${{ secrets.RUSSIAN_PROXY }}"
+  HTTPS_PROXY: "http://${{ secrets.RUSSIAN_PROXY }}"
+
 on:
   schedule:
     - cron: '0 0 * * *'  # Запуск каждый день в 00:00 UTC
@@ -30,6 +34,6 @@ jobs:
 
       - name: Fetch browsers via Camoufox
         run: camoufox fetch
-        
+
       - name: Run Tests
-        run: pytest --maxfail=3 # --disable-warnings  # Без --snapshot-update
+        run: pytest # --disable-warnings  # Без --snapshot-update
