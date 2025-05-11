@@ -225,7 +225,7 @@ class PyaterochkaAPI:
             }
             self._session = aiohttp.ClientSession(**args)
         
-            if self._debug: print(f"A new connection aiohttp has been opened. Proxy used: {args.get('proxy')}")
+            if self._debug: print(f"A new connection aiohttp has been opened. trust_env: {args.get('trust_env')}")
 
         if include_browser:
             prox = self._parse_proxy(self.proxy)
