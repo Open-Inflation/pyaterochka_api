@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .idea/
+.vscode/
 __env__/
 .Python
 build/
