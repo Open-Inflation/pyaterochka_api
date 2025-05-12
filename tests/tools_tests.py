@@ -3,6 +3,7 @@ from pyaterochka_api.tools import parse_proxy
 import itertools
 import logging
 
+@pytest.mark.asyncio
 async def test_parse_proxy():
     # Варианты параметров
     schemes = ['http://', 'https://', '']

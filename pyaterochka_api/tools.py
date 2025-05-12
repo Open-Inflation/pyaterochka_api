@@ -3,13 +3,21 @@ import os
 import re
 from tqdm import tqdm
 
+def get_env_proxy() -> str | None:
+    """
+    Получает прокси из переменных окружения.
+    :return: Прокси-строка или None.
+    """
+    proxy = os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy") or os.environ.get("HTTP_PROXY") or os.environ.get("http_proxy")
+    return proxy if proxy else None
+
 def parse_proxy(proxy_str: str | None, trust_env: bool, logger) -> dict | None:
     logger.debug(f"Parsing proxy string: {proxy_str}")
 
     if not proxy_str:
         if trust_env:
-            logger.debug("Proxy string not provided, checking environment variables for HTTPS_PROXY")
-            proxy_str = os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy")
+            logger.debug("Proxy string not provided, checking environment variables for HTTP(S)_PROXY")
+            proxy_str = get_env_proxy()
         
         if not proxy_str:
             logger.info("No proxy string found, returning None")
@@ -41,7 +49,7 @@ def parse_proxy(proxy_str: str | None, trust_env: bool, logger) -> dict | None:
             if match_dict[key]:
                 proxy_dict[key] = match_dict[key]
         
-        logger.info(f"Proxy WITH{'OUT' if 'username' in proxy_dict else ''} credentials")
+        logger.info(f"Proxy WITH{'OUT' if 'username' not in proxy_dict else ''} credentials")
         
         logger.info(f"Proxy parsed as regex")
         return proxy_dict

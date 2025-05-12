@@ -2,7 +2,7 @@ import aiohttp
 from fake_useragent import UserAgent
 from camoufox import AsyncCamoufox
 import logging
-from .tools import parse_proxy, parse_js
+from .tools import parse_proxy, parse_js, get_env_proxy
 
 
 class PyaterochkaAPI:
@@ -42,7 +42,7 @@ class PyaterochkaAPI:
         args = {'url': url, 'timeout': aiohttp.ClientTimeout(total=self._timeout)}
         if self._proxy: args["proxy"] = self._proxy
 
-        self._logger.info(f'Requesting "{url}" with proxy "{args.get("proxy")}", timeout {self._timeout}...')
+        self._logger.info(f'Requesting "{url}" with proxy: "{args.get("proxy") or ("SYSTEM_PROXY" if get_env_proxy() else "WITHOUT")}", timeout: {self._timeout}...')
         
         async with self._session.get(**args) as response:
             self._logger.info(f'Response status: {response.status}')
