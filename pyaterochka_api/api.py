@@ -1,10 +1,8 @@
 import aiohttp
 from fake_useragent import UserAgent
-from enum import Enum
-import re
-from tqdm.asyncio import tqdm
 from camoufox import AsyncCamoufox
-import os
+import logging
+from .tools import parse_proxy, parse_js
 
 
 class PyaterochkaAPI:
@@ -12,14 +10,13 @@ class PyaterochkaAPI:
     Класс для загрузки JSON/image и парсинга JavaScript-конфигураций из удаленного источника.
     """
 
-    class Patterns(Enum):
-        JS = r'\s*let\s+n\s*=\s*({.*});\s*'              # let n = {...};
-        STR = r'(\w+)\s*:\s*"([^"\\]*(?:\\.[^"\\]*)*)"'  # key: "value"
-        DICT = r'(\w+)\s*:\s*{(.*?)}'                    # key: {...}
-        LIST = r'(\w+)\s*:\s*\[([^\[\]]*(?:\[.*?\])*)\]' # key: [value]
-        FIND = r'\{.*?\}|\[.*?\]'                        # {} or []
-
-    def __init__(self, debug: bool = False, proxy: str = None, autoclose_browser: bool = False, trust_env: bool = False, timeout: int = 10):
+    def __init__(self,
+                 debug:             bool       = False,
+                 proxy:             str | None = None,
+                 autoclose_browser: bool       = False,
+                 trust_env:         bool       = False,
+                 timeout:           float      = 10.0
+        ):
         self._debug = debug
         self._proxy = proxy
         self._session = None
@@ -29,14 +26,13 @@ class PyaterochkaAPI:
         self._trust_env = trust_env
         self._timeout = timeout
 
-    @property
-    def proxy(self) -> str | None:
-        return self._proxy if hasattr(self, '_proxy') else None
+        self._logger = logging.getLogger(self.__class__.__name__)
+        handler = logging.StreamHandler()
+        formatter = logging.Formatter('[%(asctime)s] %(levelname)s %(name)s: %(message)s')
+        handler.setFormatter(formatter)
+        if not self._logger.hasHandlers():
+            self._logger.addHandler(handler)
 
-    @proxy.setter
-    def proxy(self, value: str | None) -> None:
-        self._proxy = value
-    
     async def fetch(self, url: str) -> tuple[bool, dict | None | str, str]:
         """
         Выполняет HTTP-запрос к указанному URL и возвращает результат.
@@ -46,12 +42,10 @@ class PyaterochkaAPI:
         args = {'url': url, 'timeout': aiohttp.ClientTimeout(total=self._timeout)}
         if self._proxy: args["proxy"] = self._proxy
 
-        if self._debug:
-            print(f"Requesting \"{url}\" with proxy \"{args.get('proxy')}\", timeout {self._timeout}...", flush=True)
+        self._logger.info(f'Requesting "{url}" with proxy "{args.get("proxy")}", timeout {self._timeout}...')
         
         async with self._session.get(**args) as response:
-            if self._debug:
-                print(f"Response status: {response.status}", flush=True)
+            self._logger.info(f'Response status: {response.status}')
 
             if response.status == 200:
                 if response.headers['content-type'] == 'application/json':
@@ -63,78 +57,11 @@ class PyaterochkaAPI:
 
                 return True, await output_response, response.headers['content-type']
             elif response.status == 403:
-                if self._debug:
-                    print("Anti-bot protection. Use Russia IP address and try again.", flush=True)
+                self._logger.warning('Anti-bot protection. Use Russia IP address and try again.')
                 return False, None, ''
             else:
-                if self._debug:
-                    print(f"Unexpected error: {response.status}", flush=True)
+                self._logger.error(f'Unexpected error: {response.status}')
                 raise Exception(f"Response status: {response.status} (unknown error/status code)")
-
-    async def _parse_js(self, js_code: str) -> dict | None:
-        """
-        Парсит JavaScript-код и извлекает данные из переменной "n".
-
-        :param js_code: JS-код в виде строки.
-        :return: Распарсенные данные в виде словаря или None.
-        """
-        matches = re.finditer(self.Patterns.JS.value, js_code)
-        match_list = list(matches)
-
-        if self._debug:
-            print(f"Found matches {len(match_list)}")
-            progress_bar = tqdm(total=33, desc="Parsing JS", position=0)
-
-        async def parse_match(match: str) -> dict:
-            result = {}
-
-            if self._debug:
-                progress_bar.set_description("Parsing strings")
-
-            # Парсинг строк
-            string_matches = re.finditer(self.Patterns.STR.value, match)
-            for m in string_matches:
-                key, value = m.group(1), m.group(2)
-                result[key] = value.replace('\"', '"').replace('\\', '\\')
-
-            if self._debug:
-                progress_bar.update(1)
-                progress_bar.set_description("Parsing dictionaries")
-
-            # Парсинг словарей
-            dict_matches = re.finditer(self.Patterns.DICT.value, match)
-            for m in dict_matches:
-                key, value = m.group(1), m.group(2)
-                if not re.search(self.Patterns.STR.value, value):
-                    result[key] = await parse_match(value)
-
-            if self._debug:
-                progress_bar.update(1)
-                progress_bar.set_description("Parsing lists")
-
-            # Парсинг списков
-            list_matches = re.finditer(self.Patterns.LIST.value, match)
-            for m in list_matches:
-                key, value = m.group(1), m.group(2)
-                if not re.search(self.Patterns.STR.value, value):
-                    result[key] = [await parse_match(item.group(0)) for item in re.finditer(self.Patterns.FIND.value, value)]
-
-            if self._debug:
-                progress_bar.update(1)
-
-            return result
-
-        if match_list and len(match_list) >= 1:
-            if self._debug:
-                print("Starting to parse match")
-            result = await parse_match(match_list[1].group(0))
-            if self._debug:
-                progress_bar.close()
-            return result
-        else:
-            if self._debug:
-                progress_bar.close()
-            raise Exception("N variable in JS code not found")
 
     async def download_config(self, config_url: str) -> dict | None:
         """
@@ -147,17 +74,17 @@ class PyaterochkaAPI:
 
         if not is_success:
             if self._debug:
-                print("Failed to fetch JS code")
+                self._logger.error('Failed to fetch JS code')
             return None
         elif self._debug:
-            print("JS code fetched successfully")
+            self._logger.debug('JS code fetched successfully')
 
-        return await self._parse_js(js_code=js_code)
+        return await parse_js(js_code=js_code, debug=self._debug, logger=self._logger)
 
 
-    async def _browser_fetch(self, url: str, selector: str, state: str = 'attached') -> dict:
+    async def browser_fetch(self, url: str, selector: str, state: str = 'attached') -> dict:
         if self._browser is None or self._bcontext is None:
-            await self._new_session(include_aiohttp=False, include_browser=True)
+            await self.new_session(include_aiohttp=False, include_browser=True)
 
         page = await self._bcontext.new_page()
         await page.goto(url, wait_until='commit', timeout=self._timeout * 1000)
@@ -170,39 +97,7 @@ class PyaterochkaAPI:
             await self.close(include_aiohttp=False, include_browser=True)
         return content
 
-    def _parse_proxy(self, proxy_str: str | None) -> dict | None:
-        if not proxy_str:
-            if self._trust_env:
-                proxy_str = os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy")
-            
-            if not proxy_str:
-                return None
-
-        # Example: user:pass@host:port or just host:port
-        match = re.match(
-            r'^(?:(?P<scheme>https?:\/\/))?(?:(?P<username>[^:@]+):(?P<password>[^@]+)@)?(?P<host>[^:]+):(?P<port>\d+)$',
-            proxy_str,
-        )
-
-        proxy_dict = {}
-        if not match:
-            proxy_dict['server'] = proxy_str
-            
-            if not proxy_str.startswith('http://') and not proxy_str.startswith('https://'):
-                proxy_dict['server'] = f"http://{proxy_str}"
-            
-            return proxy_dict
-        else:
-            match_dict = match.groupdict()
-            proxy_dict['server'] = f"{match_dict['scheme'] or 'http://'}{match_dict['host']}:{match_dict['port']}"
-            
-            for key in ['username', 'password']:
-                if match_dict[key]:
-                    proxy_dict[key] = match_dict[key]
-            
-            return proxy_dict
-
-    async def _new_session(self, include_aiohttp: bool = True, include_browser: bool = False) -> None:
+    async def new_session(self, include_aiohttp: bool = True, include_browser: bool = False) -> None:
         await self.close(include_aiohttp=include_aiohttp, include_browser=include_browser)
 
         if include_aiohttp:
@@ -225,16 +120,14 @@ class PyaterochkaAPI:
                 "trust_env": self._trust_env,
             }
             self._session = aiohttp.ClientSession(**args)
-        
-            if self._debug: print(f"A new connection aiohttp has been opened. trust_env: {args.get('trust_env')}")
+            self._logger.info(f"A new aiohttp connection has been opened. trust_env: {args.get('trust_env')}")
 
         if include_browser:
-            prox = self._parse_proxy(self.proxy)
+            prox = parse_proxy(self._proxy, self._trust_env, self._logger)
+            self._logger.info(f"Opening new browser connection with proxy: {'SYSTEM_PROXY' if prox and not self._proxy else prox}")
             self._browser = await AsyncCamoufox(headless=not self._debug, proxy=prox, geoip=True).__aenter__()
             self._bcontext = await self._browser.new_context()
-            
-            toprint = "SYSTEM_PROXY" if prox and not self.proxy else prox
-            if self._debug: print(f"A new connection browser has been opened. Proxy used: {toprint}")
+            self._logger.info(f"A new browser context has been opened.")
 
     async def close(
         self,
@@ -253,8 +146,11 @@ class PyaterochkaAPI:
             to_close.append("bcontext")
             to_close.append("browser")
 
+        self._logger.info(f"Preparing to close: {to_close if to_close else 'nothing'}")
+
         if not to_close:
-            raise ValueError("No connections to close")
+            self._logger.warning("No connections to close")
+            return
 
         checks = {
             "session": lambda a: a is not None and not a.closed,
@@ -265,15 +161,20 @@ class PyaterochkaAPI:
         for name in to_close:
             attr = getattr(self, f"_{name}", None)
             if checks[name](attr):
-                if "browser" in name:
-                    await attr.__aexit__(None, None, None)
-                else:
-                    await attr.close()
-                setattr(self, f"_{name}", None)
-                if self._debug:
-                    print(f"The {name} connection was closed")
+                self._logger.info(f"Closing {name} connection...")
+                try:
+                    if name == "browser":
+                        await attr.__aexit__(None, None, None)
+                    elif name in ["bcontext", "session"]:
+                        await attr.close()
+                    else:
+                        raise ValueError(f"Unknown connection type: {name}")
+                    
+                    setattr(self, f"_{name}", None)
+                    self._logger.info(f"The {name} connection was closed")
+                except Exception as e:
+                    self._logger.error(f"Error closing {name}: {e}")
             else:
-                if self._debug:
-                    print(f"The {name} connection was not open")
+                self._logger.warning(f"The {name} connection was not open")
 
 

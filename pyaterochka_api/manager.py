@@ -4,23 +4,24 @@ import re
 import json
 from io import BytesIO
 from beartype import beartype
+from .enums import PurchaseMode
 
 
 class Pyaterochka:
-    BASE_URL = "https://5ka.ru"
-    API_URL = "https://5d.5ka.ru/api"
+    BASE_URL           = "https://5ka.ru"
+    API_URL            = "https://5d.5ka.ru/api"
     HARDCODE_JS_CONFIG = "https://prod-cdn.5ka.ru/scripts/main.a0c039ea81eb8cf69492.js" # TODO сделать не хардкодным имя файла
-    DEFAULT_STORE_ID = "Y232"
-
-    class PurchaseMode(Enum):
-        STORE = "store"
-        DELIVERY = "delivery"
+    DEFAULT_STORE_ID   = "Y232"
 
     @beartype
-    def __init__(self, debug: bool = False, proxy: str = None, autoclose_browser: bool = False, trust_env: bool = False, timeout: int = 10):
-        self._debug = debug
-        self._proxy = proxy
-        self.api = PyaterochkaAPI(debug=self._debug, proxy=self._proxy, autoclose_browser=autoclose_browser, trust_env=trust_env, timeout=timeout)
+    def __init__(self, debug: bool = False, proxy: str | None = None, autoclose_browser: bool = False, trust_env: bool = False, timeout: float = 10.0):
+        self.api = PyaterochkaAPI()
+        
+        self.debug = debug
+        self.proxy = proxy
+        self.autoclose_browser = autoclose_browser
+        self.trust_env = trust_env
+        self.timeout = timeout
 
     @beartype
     def __enter__(self):
@@ -47,7 +48,7 @@ class Pyaterochka:
             session (bool, optional): Whether to create a new session (for all, except product_info). Defaults to True.
             browser (bool, optional): Whether to create a new browser instance (for product_info). Defaults to False.
         """
-        await self.api._new_session(session, browser)
+        await self.api.new_session(session, browser)
 
     @beartype
     async def close(self, session: bool = True, browser: bool = True) -> None:
@@ -63,25 +64,23 @@ class Pyaterochka:
     @beartype
     def debug(self) -> bool:
         """If True, it will print debug messages and disable headless in browser."""
-        return self._debug
+        return self.api._debug
 
     @debug.setter
     @beartype
     def debug(self, value: bool):
-        self._debug = value
-        self.api.debug = value
+        self.api._debug = value
 
     @property
     @beartype
-    def proxy(self) -> str:
+    def proxy(self) -> str | None:
         """Proxy for requests. If None, it will be used without proxy."""
-        return self._proxy
+        return self.api._proxy
 
     @proxy.setter
     @beartype
-    def proxy(self, value: str):
-        self._proxy = value
-        self.api.proxy = value
+    def proxy(self, value: str | None):
+        self.api._proxy = value
     
     @property
     @beartype
@@ -108,13 +107,13 @@ class Pyaterochka:
     
     @property
     @beartype
-    def timeout(self) -> int:
+    def timeout(self) -> float:
         """Timeout value for the API requests."""
         return self.api._timeout
 
-    @trust_env.setter
+    @timeout.setter
     @beartype
-    def timeout(self, value: int):
+    def timeout(self, value: float):
         if value <= 0:
             raise ValueError("Timeout must be greater than 0")
 
@@ -127,7 +126,7 @@ class Pyaterochka:
             include_restrict: bool = True,
             mode: PurchaseMode = PurchaseMode.STORE,
             sap_code_store_id: str = DEFAULT_STORE_ID
-    ) -> list[dict] | None:
+    ) -> list[dict]:
         f"""
         Asynchronously retrieves a list of categories from the Pyaterochka API.
 
@@ -138,7 +137,7 @@ class Pyaterochka:
             sap_code_store_id (str, optional): The store ID (official name in API is "sap_code") to use. Defaults to "{self.DEFAULT_STORE_ID}". This lib not support search ID stores.
 
         Returns:
-            dict | None: A dictionary representing the categories list if the request is successful, None otherwise.
+            list[dict]: A dictionary representing the categories list if the request is successful, error otherwise.
 
         Raises:
             Exception: If the response status is not 200 (OK) or 403 (Forbidden / Anti-bot).
@@ -155,7 +154,7 @@ class Pyaterochka:
             mode: PurchaseMode = PurchaseMode.STORE,
             sap_code_store_id: str = DEFAULT_STORE_ID,
             limit: int = 30
-    ) -> dict | None:
+    ) -> dict:
         f"""
         Asynchronously retrieves a list of products from the Pyaterochka API for a given category.
 
@@ -166,7 +165,7 @@ class Pyaterochka:
             limit (int, optional): The maximum number of products to retrieve. Defaults to 30. Must be between 1 and 499.
 
         Returns:
-            dict | None: A dictionary representing the products list if the request is successful, None otherwise.
+            dict: A dictionary representing the products list if the request is successful, error otherwise.
 
         Raises:
             ValueError: If the limit is not between 1 and 499.
@@ -184,6 +183,7 @@ class Pyaterochka:
     async def product_info(self, plu_id: int) -> dict:
         """
         Asynchronously retrieves product information from the Pyaterochka API for a given PLU ID. Average time processing 2 seconds (first start 6 seconds).
+        
         Args:
             plu_id (int): The PLU ID of the product.
         Returns:
@@ -193,7 +193,7 @@ class Pyaterochka:
         """
 
         url = f"{self.BASE_URL}/product/{plu_id}/"
-        response = await self.api._browser_fetch(url=url, selector='script#__NEXT_DATA__[type="application/json"]')
+        response = await self.api.browser_fetch(url=url, selector='script#__NEXT_DATA__[type="application/json"]')
 
         match = re.search(
             r'<script\s+id="__NEXT_DATA__"\s+type="application/json">(.+?)</script>',
@@ -211,7 +211,7 @@ class Pyaterochka:
         return data
     
     @beartype
-    async def get_news(self, limit: int = None) -> dict | None:
+    async def get_news(self, limit: int | None = None) -> dict:
         """
         Asynchronously retrieves news from the Pyaterochka API.
 
@@ -219,7 +219,7 @@ class Pyaterochka:
             limit (int, optional): The maximum number of news items to retrieve. Defaults to None.
         
         Returns:
-            dict | None: A dictionary representing the news if the request is successful, None otherwise.
+            dict: A dictionary representing the news if the request is successful, error otherwise.
         """
         url = f"{self.BASE_URL}/api/public/v1/news/"
         if limit and limit > 0:
@@ -230,7 +230,7 @@ class Pyaterochka:
         return response
 
     @beartype
-    async def find_store(self, longitude: float, latitude: float) -> dict | None:
+    async def find_store(self, longitude: float, latitude: float) -> dict:
         """
         Asynchronously finds the store associated with the given coordinates.
 
@@ -239,7 +239,7 @@ class Pyaterochka:
             latitude (float): The latitude of the location.
 
         Returns:
-            dict | None: A dictionary representing the store information if the request is successful, None otherwise.
+            dict: A dictionary representing the store information if the request is successful, error otherwise.
         """
 
         request_url = f"{self.API_URL}/orders/v1/orders/stores/?lon={longitude}&lat={latitude}"
@@ -247,15 +247,17 @@ class Pyaterochka:
         return response
 
     @beartype
-    async def download_image(self, url: str) -> BytesIO | None:
+    async def download_image(self, url: str) -> BytesIO:
         is_success, image_data, response_type = await self.api.fetch(url=url)
 
         if not is_success:
-            if self.debug:
-                print("Failed to fetch image")
-            return None
-        elif self.debug:
-            print("Image fetched successfully")
+            self.api._logger.error("Failed to fetch image")
+            return
+        elif not isinstance(image_data, (bytes, bytearray)):
+            self.api._logger.error("Image data is not bytes")
+            return
+        
+        self.api._logger.debug("Image fetched successfully")
 
         image = BytesIO(image_data)
         image.name = f'{url.split("/")[-1]}.{response_type.split("/")[-1]}'
@@ -263,7 +265,7 @@ class Pyaterochka:
         return image
 
     @beartype
-    async def get_config(self) -> dict | None:
+    async def get_config(self) -> dict:
         """
         Asynchronously retrieves the configuration from the hardcoded JavaScript file.
 
@@ -271,7 +273,7 @@ class Pyaterochka:
             debug (bool, optional): Whether to print debug information. Defaults to False.
 
         Returns:
-            dict | None: A dictionary representing the configuration if the request is successful, None otherwise.
+            dict: A dictionary representing the configuration if the request is successful, error otherwise.
         """
 
         return await self.api.download_config(config_url=self.HARDCODE_JS_CONFIG)
