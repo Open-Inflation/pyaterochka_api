@@ -4,7 +4,6 @@ tqdm
 camoufox[geoip]
 beartype
 
-itertools
 snapshottest~=1.0.0a1
 pytest
 pytest-asyncio

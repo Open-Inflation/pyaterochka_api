@@ -3,7 +3,6 @@ from pyaterochka_api.tools import parse_proxy
 import itertools
 import logging
 
-@pytest.mark.asyncio
 async def test_parse_proxy():
     # Варианты параметров
     schemes = ['http://', 'https://', '']
@@ -12,7 +11,6 @@ async def test_parse_proxy():
     ports = ['', '8080']
 
     logger = logging.getLogger("test_parse_proxy")
-    logging.basicConfig(level=logging.DEBUG)
 
     for scheme, (username, password), host, port in itertools.product(schemes, auths, hosts, ports):
         # Формируем строку прокси
