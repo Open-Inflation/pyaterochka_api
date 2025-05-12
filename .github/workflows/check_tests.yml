@@ -3,7 +3,17 @@ name: API Tests Daily
 on:
   schedule:
     - cron: '0 0 * * *'  # Запуск каждый день в 00:00 UTC
-  workflow_dispatch:  # Возможность запустить вручную
+  workflow_dispatch:
+    inputs:
+      test_type:
+        description: 'Which tests to run? (All, API, Tools)'
+        required: false
+        default: 'Api'
+        type: choice
+        options:
+          - All
+          - API
+          - Tools
 
 jobs:
   test:
@@ -31,8 +41,15 @@ jobs:
       - name: Fetch browsers via Camoufox
         run: camoufox fetch
 
-      - name: Run Tests
+      # Run Tools Tests if selected (All or Tools)
+      - name: Run Tools Tests
+        if: ${{ github.event.inputs.test_type == 'All' || github.event.inputs.test_type == 'Tools' }}
+        run: pytest tests/tools_tests.py --log-cli-level=DEBUG
+
+      # Run API Tests if selected (All or Api) or on schedule
+      - name: Run API Tests
+        if: ${{ github.event.inputs.test_type == 'All' || github.event.inputs.test_type == 'API' }}
         env:
           HTTP_PROXY:  "http://${{ secrets.RUSSIAN_PROXY }}"
           HTTPS_PROXY: "http://${{ secrets.RUSSIAN_PROXY }}"
-        run: pytest # --disable-warnings  # Без --snapshot-update
+        run: pytest tests/api_tests.py --log-cli-level=DEBUG # --disable-warnings  # Без --snapshot-update

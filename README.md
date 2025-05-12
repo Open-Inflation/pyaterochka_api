@@ -27,7 +27,7 @@ camoufox fetch
 
 ### Usage / Использование:
 ```py
-from pyaterochka_api import Pyaterochka
+from pyaterochka_api import Pyaterochka, PurchaseMode
 import asyncio
 
 

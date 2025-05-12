@@ -667,6 +667,7 @@ snapshots['test_list products_list'] = {
                     'str'
                 ]
             },
+            'initial_weight_step': 'str',
             'labels': [
                 {
                     'bg_color': 'str',
@@ -674,6 +675,7 @@ snapshots['test_list products_list'] = {
                     'text_color': 'str'
                 }
             ],
+            'min_weight': 'str',
             'name': 'str',
             'plu': 'int',
             'prices': {
@@ -763,6 +765,7 @@ snapshots['test_product_info product_info'] = {
                         },
                         'ingredients': 'str',
                         'ingredients_html': 'NoneType',
+                        'initial_weight_step': 'str',
                         'is_available': 'bool',
                         'is_various_manufacturers': 'bool',
                         'labels': [
@@ -772,6 +775,7 @@ snapshots['test_product_info product_info'] = {
                                 'text_color': 'str'
                             }
                         ],
+                        'min_weight': 'str',
                         'name': 'str',
                         'nutrients': [
                             {
