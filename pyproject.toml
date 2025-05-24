@@ -2,6 +2,54 @@
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
+[project]
+name = "pyaterochka_api"
+dynamic = ["version"]
+description = "A Python API client for Pyaterochka store catalog"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+    {name = "Miskler"}
+]
+keywords = ["api", "pyaterochka", "store", "catalog"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Internet",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "aiohttp",
+    "camoufox[geoip]",
+    "beartype",
+    "fake-useragent",
+    "tqdm"
+]
+
+[project.optional-dependencies]
+tests = [
+    "pytest",
+    "pytest-asyncio",
+    "pytest-typed-schema-shot",
+]
+
+[project.urls]
+Homepage = "https://github.com/Open-Inflation/pyaterochka_api"
+Repository = "https://github.com/Open-Inflation/pyaterochka_api"
+Documentation = "https://open-inflation.github.io/pyaterochka_api/"
+
+[tool.setuptools.dynamic]
+version = {attr = "pyaterochka_api.__version__"}
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py", "*_test.py", "*_tests.py"]
