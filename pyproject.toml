@@ -50,5 +50,6 @@ Documentation = "https://open-inflation.github.io/pyaterochka_api/"
 version = {attr = "pyaterochka_api.__version__"}
 
 [tool.pytest.ini_options]
+pythonpath = ["."]
 testpaths = ["tests"]
-python_files = ["test_*.py", "*_test.py", "*_tests.py"]
+python_files = ["*_test.py", "*_tests.py"]
