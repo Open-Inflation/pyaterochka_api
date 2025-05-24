@@ -31,7 +31,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.13'
           cache: 'pip'
 
       - name: Install dependencies
@@ -49,9 +49,6 @@ jobs:
           # Очищаем директорию docs, сохраняя .gitkeep если он есть
           mkdir -p docs
           find docs -type f -not -name ".gitkeep" -delete
-          
-          # Запускаем тесты для создания снимков схемы
-          pytest tests/ -v
           
           # Генерируем документацию по схемам напрямую из __snapshots__
           python -m json_schema_for_humans.generate tests/__snapshots__/ docs --config-file json_schema_for_humans_config.json
