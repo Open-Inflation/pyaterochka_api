@@ -74,10 +74,6 @@ async def main():
         news = await API.get_news(limit=5)
         print(f"News output: {news!s:.100s}...\n")
 
-        # RUS: Выводит основной конфиг сайта (очень долгая функция, рекомендую сохранять в файл и переиспользовать)
-        # ENG: Outputs the main config of the site (large function, recommend to save in a file and re-use it)
-        print(f"Main config: {await API.get_config()!s:.100s}...\n")
-
         # RUS: Если требуется, можно настроить вывод логов в консоль
         # ENG: If required, you can configure the output of logs in the console
         API.debug = True

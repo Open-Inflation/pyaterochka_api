@@ -31,8 +31,7 @@ dependencies = [
     "aiohttp",
     "camoufox[geoip]",
     "beartype",
-    "fake-useragent",
-    "tqdm"
+    "fake-useragent"
 ]
 
 [project.optional-dependencies]

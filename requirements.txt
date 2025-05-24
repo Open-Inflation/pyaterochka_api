@@ -1,6 +1,5 @@
 aiohttp
 fake-useragent
-tqdm
 camoufox[geoip]
 beartype
 

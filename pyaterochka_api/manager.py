@@ -1,5 +1,4 @@
 from .api import PyaterochkaAPI
-from enum import Enum
 import re
 import json
 from io import BytesIO
@@ -263,17 +262,3 @@ class Pyaterochka:
         image.name = f'{url.split("/")[-1]}.{response_type.split("/")[-1]}'
 
         return image
-
-    @beartype
-    async def get_config(self) -> dict:
-        """
-        Asynchronously retrieves the configuration from the hardcoded JavaScript file.
-
-        Args:
-            debug (bool, optional): Whether to print debug information. Defaults to False.
-
-        Returns:
-            dict: A dictionary representing the configuration if the request is successful, error otherwise.
-        """
-
-        return await self.api.download_config(config_url=self.HARDCODE_JS_CONFIG)

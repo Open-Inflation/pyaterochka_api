@@ -2,7 +2,9 @@ import aiohttp
 from fake_useragent import UserAgent
 from camoufox import AsyncCamoufox
 import logging
-from .tools import parse_proxy, parse_js, get_env_proxy
+from typing import Union, Optional
+from beartype import beartype
+from .tools import parse_proxy, get_env_proxy
 
 
 class PyaterochkaAPI:
@@ -10,16 +12,17 @@ class PyaterochkaAPI:
     Класс для загрузки JSON/image и парсинга JavaScript-конфигураций из удаленного источника.
     """
 
+    @beartype
     def __init__(self,
                  debug:             bool       = False,
                  proxy:             str | None = None,
                  autoclose_browser: bool       = False,
                  trust_env:         bool       = False,
                  timeout:           float      = 10.0
-        ):
+        ) -> None:
         self._debug = debug
         self._proxy = proxy
-        self._session = None
+        self._session: Optional[aiohttp.ClientSession] = None
         self._autoclose_browser = autoclose_browser
         self._browser = None
         self._bcontext = None
@@ -33,7 +36,8 @@ class PyaterochkaAPI:
         if not self._logger.hasHandlers():
             self._logger.addHandler(handler)
 
-    async def fetch(self, url: str) -> tuple[bool, dict | None | str, str]:
+    @beartype
+    async def fetch(self, url: str) -> tuple[bool, Union[dict, list[dict], bytes, str, None], str]:
         """
         Выполняет HTTP-запрос к указанному URL и возвращает результат.
 
@@ -63,26 +67,8 @@ class PyaterochkaAPI:
                 self._logger.error(f'Unexpected error: {response.status}')
                 raise Exception(f"Response status: {response.status} (unknown error/status code)")
 
-    async def download_config(self, config_url: str) -> dict | None:
-        """
-        Загружает и парсит JavaScript-конфигурацию с указанного URL.
-
-        :param config_url: URL для загрузки конфигурации.
-        :return: Распарсенные данные в виде словаря или None.
-        """
-        is_success, js_code, _response_type = await self.fetch(url=config_url)
-
-        if not is_success:
-            if self._debug:
-                self._logger.error('Failed to fetch JS code')
-            return None
-        elif self._debug:
-            self._logger.debug('JS code fetched successfully')
-
-        return await parse_js(js_code=js_code, debug=self._debug, logger=self._logger)
-
-
-    async def browser_fetch(self, url: str, selector: str, state: str = 'attached') -> dict:
+    @beartype
+    async def browser_fetch(self, url: str, selector: str, state: str = 'attached') -> str:
         if self._browser is None or self._bcontext is None:
             await self.new_session(include_aiohttp=False, include_browser=True)
 
@@ -97,6 +83,7 @@ class PyaterochkaAPI:
             await self.close(include_aiohttp=False, include_browser=True)
         return content
 
+    @beartype
     async def new_session(self, include_aiohttp: bool = True, include_browser: bool = False) -> None:
         await self.close(include_aiohttp=include_aiohttp, include_browser=include_browser)
 
@@ -129,6 +116,7 @@ class PyaterochkaAPI:
             self._bcontext = await self._browser.new_context()
             self._logger.info(f"A new browser context has been opened.")
 
+    @beartype
     async def close(
         self,
         include_aiohttp: bool = True,

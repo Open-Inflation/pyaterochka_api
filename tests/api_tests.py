@@ -32,26 +32,20 @@ async def test_find_store(schemashot: SchemaShot):
         schemashot.assert_match(categories, "store_info")
 
 @pytest.mark.asyncio
-async def test_download_image(schemashot: SchemaShot):
+async def test_download_image():
     async with Pyaterochka(debug=True, trust_env=True) as API:
         result = await API.download_image("https://photos.okolo.app/product/1392827-main/800x800.jpeg")
         assert isinstance(result, BytesIO)
         assert result.getvalue()
 
 @pytest.mark.asyncio
-async def test_set_debug(schemashot: SchemaShot):
+async def test_set_debug():
     async with Pyaterochka(debug=True) as API:
         assert API.debug == True
         API.debug = False
         assert API.debug == False
 
 @pytest.mark.asyncio
-async def test_rebuild_connection(schemashot: SchemaShot):
+async def test_rebuild_connection():
     async with Pyaterochka(debug=True, trust_env=True) as API:
         await API.rebuild_connection()
-
-#@pytest.mark.asyncio
-#async def test_get_config(snapshot: SnapshotTest):
-#    async with Pyaterochka(debug=True, trust_env=True, timeout=30) as API:
-#        result = await API.get_config()
-#        snapshot.assert_match(gen_schema(result), "get_config")
