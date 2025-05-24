@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pyaterochka_api',
-    version='0.1.9',
+    version='0.1.9.1',
     packages=find_packages(),
     install_requires=[
         'aiohttp',
