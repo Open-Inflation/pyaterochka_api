@@ -37,12 +37,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
           pip install json-schema-for-humans
-
-      - name: Install the package in development mode
-        run: |
-          pip install -e .
 
       - name: Generate API documentation
         run: |
@@ -50,8 +45,8 @@ jobs:
           mkdir -p docs
           find docs -type f -not -name ".gitkeep" -delete
           
-          # Генерируем документацию по схемам напрямую из __snapshots__
-          python -m json_schema_for_humans.generate tests/__snapshots__/ docs --config-file json_schema_for_humans_config.json
+          # Генерируем документацию по схемам используя generate-schema-doc с конфигом
+          generate-schema-doc --config-file json_schema_for_humans_config.json tests/__snapshots__/ docs
           
           # Создаем индексную страницу
           python create_index_schema.py

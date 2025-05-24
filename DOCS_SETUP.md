@@ -51,7 +51,7 @@ find docs -type f -not -name ".gitkeep" -delete
 pytest tests/ -v
 
 # Генерация документации
-python -m json_schema_for_humans.generate tests/__snapshots__/ docs --config-file json_schema_for_humans_config.json
+generate-schema-doc --config-file json_schema_for_humans_config.json tests/__snapshots__/ docs
 
 # Создание индексной страницы
 python create_index_schema.py
