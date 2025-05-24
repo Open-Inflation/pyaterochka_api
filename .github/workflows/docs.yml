@@ -41,15 +41,11 @@ jobs:
 
       - name: Generate API documentation
         run: |
-          # Очищаем директорию docs, сохраняя .gitkeep если он есть
-          mkdir -p docs
-          find docs -type f -not -name ".gitkeep" -delete
-          
           # Генерируем документацию по схемам используя generate-schema-doc с конфигом
-          generate-schema-doc --config-file json_schema_for_humans_config.json tests/__snapshots__/ docs
+          generate-schema-doc --config-file docs/json_schema_for_humans_config.json tests/__snapshots__/ docs
           
           # Создаем индексную страницу
-          python create_index_schema.py
+          python docs/create_index_schema.py
           
           # Добавляем файл .nojekyll для корректной работы GitHub Pages
           touch docs/.nojekyll
