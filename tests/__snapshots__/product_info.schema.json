@@ -1,0 +1,385 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "props": {
+      "type": "object",
+      "properties": {
+        "pageProps": {
+          "type": "object",
+          "properties": {
+            "props": {
+              "type": "object",
+              "properties": {
+                "filtersPageStore": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "page"
+                  ]
+                },
+                "catalogStore": {
+                  "type": "object",
+                  "properties": {
+                    "_sections": {
+                      "type": "array"
+                    },
+                    "storeId": {
+                      "type": "string"
+                    },
+                    "sectionsFetchState": {
+                      "type": "integer"
+                    },
+                    "specificCategory": {
+                      "type": "null"
+                    },
+                    "specificCategoryFetchState": {
+                      "type": "integer"
+                    },
+                    "productsList": {
+                      "type": "array"
+                    },
+                    "productsListFetchState": {
+                      "type": "integer"
+                    },
+                    "banners": {
+                      "type": "array"
+                    },
+                    "bannersFetchState": {
+                      "type": "integer"
+                    },
+                    "promotions": {
+                      "type": "array"
+                    },
+                    "promotionsFetchState": {
+                      "type": "integer"
+                    },
+                    "products": {
+                      "type": "array"
+                    },
+                    "productsFetchState": {
+                      "type": "integer"
+                    },
+                    "productsPaginationFetchState": {
+                      "type": "integer"
+                    },
+                    "brands": {
+                      "type": "array"
+                    },
+                    "inputs": {
+                      "type": "object",
+                      "properties": {
+                        "min": {
+                          "type": "integer"
+                        },
+                        "max": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "max",
+                        "min"
+                      ]
+                    },
+                    "recommendationFetch": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "_sections",
+                    "banners",
+                    "bannersFetchState",
+                    "brands",
+                    "inputs",
+                    "products",
+                    "productsFetchState",
+                    "productsList",
+                    "productsListFetchState",
+                    "productsPaginationFetchState",
+                    "promotions",
+                    "promotionsFetchState",
+                    "recommendationFetch",
+                    "sectionsFetchState",
+                    "specificCategory",
+                    "specificCategoryFetchState",
+                    "storeId"
+                  ]
+                },
+                "productStore": {
+                  "type": "object",
+                  "properties": {
+                    "product": {
+                      "type": "object",
+                      "properties": {
+                        "plu": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "image_links": {
+                          "type": "object",
+                          "properties": {
+                            "small": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "format": "uri"
+                              }
+                            },
+                            "normal": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "format": "uri"
+                              }
+                            }
+                          },
+                          "required": [
+                            "normal",
+                            "small"
+                          ]
+                        },
+                        "uom": {
+                          "type": "string"
+                        },
+                        "step": {
+                          "type": "string"
+                        },
+                        "rating": {
+                          "type": "object",
+                          "properties": {
+                            "rating_average": {
+                              "type": "number"
+                            },
+                            "rates_count": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "rates_count",
+                            "rating_average"
+                          ]
+                        },
+                        "promo": {
+                          "type": "null"
+                        },
+                        "prices": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "value": {
+                                "type": "string"
+                              },
+                              "placement_type": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "placement_type",
+                              "value"
+                            ]
+                          }
+                        },
+                        "labels": {
+                          "type": "null"
+                        },
+                        "property_clarification": {
+                          "type": "string"
+                        },
+                        "has_age_restriction": {
+                          "type": "boolean"
+                        },
+                        "stock_limit": {
+                          "type": "string"
+                        },
+                        "initial_weight_step": {
+                          "type": "string"
+                        },
+                        "min_weight": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "description_md": {
+                          "type": "string"
+                        },
+                        "description_html": {
+                          "type": "null"
+                        },
+                        "nutrients": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "value": {
+                                "type": "string"
+                              },
+                              "text": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "text",
+                              "value"
+                            ]
+                          }
+                        },
+                        "attributes": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "value": {
+                                "type": "string"
+                              },
+                              "uom": {
+                                "type": [
+                                  "null",
+                                  "string"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "name",
+                              "uom",
+                              "value"
+                            ]
+                          }
+                        },
+                        "ingredients": {
+                          "type": "string"
+                        },
+                        "ingredients_html": {
+                          "type": "null"
+                        },
+                        "is_available": {
+                          "type": "boolean"
+                        },
+                        "is_various_manufacturers": {
+                          "type": "boolean"
+                        },
+                        "badges": {
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "attributes",
+                        "badges",
+                        "description",
+                        "description_html",
+                        "description_md",
+                        "has_age_restriction",
+                        "image_links",
+                        "ingredients",
+                        "ingredients_html",
+                        "initial_weight_step",
+                        "is_available",
+                        "is_various_manufacturers",
+                        "labels",
+                        "min_weight",
+                        "name",
+                        "nutrients",
+                        "plu",
+                        "prices",
+                        "promo",
+                        "property_clarification",
+                        "rating",
+                        "step",
+                        "stock_limit",
+                        "uom"
+                      ]
+                    },
+                    "productFetchState": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "product",
+                    "productFetchState"
+                  ]
+                },
+                "isServerRendered": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "catalogStore",
+                "filtersPageStore",
+                "isServerRendered",
+                "productStore"
+              ]
+            },
+            "_sentryTraceData": {
+              "type": "string"
+            },
+            "_sentryBaggage": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "_sentryBaggage",
+            "_sentryTraceData",
+            "props"
+          ]
+        }
+      },
+      "required": [
+        "pageProps"
+      ]
+    },
+    "page": {
+      "type": "string"
+    },
+    "query": {
+      "type": "object",
+      "properties": {
+        "pluWithSlug": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "pluWithSlug"
+      ]
+    },
+    "buildId": {
+      "type": "string"
+    },
+    "assetPrefix": {
+      "type": "string",
+      "format": "uri"
+    },
+    "isFallback": {
+      "type": "boolean"
+    },
+    "isExperimentalCompile": {
+      "type": "boolean"
+    },
+    "gip": {
+      "type": "boolean"
+    },
+    "scriptLoader": {
+      "type": "array"
+    }
+  },
+  "required": [
+    "assetPrefix",
+    "buildId",
+    "gip",
+    "isExperimentalCompile",
+    "isFallback",
+    "page",
+    "props",
+    "query",
+    "scriptLoader"
+  ]
+}

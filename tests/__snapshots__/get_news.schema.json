@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "news": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "annotation": {
+            "type": "string"
+          },
+          "preview_text": {
+            "type": "null"
+          },
+          "preview_pic": {
+            "type": "null"
+          },
+          "published_at": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "required": [
+          "annotation",
+          "id",
+          "preview_pic",
+          "preview_text",
+          "published_at",
+          "title"
+        ]
+      }
+    }
+  },
+  "required": [
+    "news"
+  ]
+}
