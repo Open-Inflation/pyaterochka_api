@@ -1,6 +1,10 @@
 name: API Tests Daily
 
 on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
   schedule:
     - cron: '0 0 * * *'  # Запуск каждый день в 00:00 UTC
   workflow_dispatch:
@@ -43,13 +47,13 @@ jobs:
 
       # Run Tools Tests if selected (All or Tools) or on schedule
       - name: Run Tools Tests
-        if: ${{ github.event_name == 'schedule' || github.event.inputs.test_type == 'All' || github.event.inputs.test_type == 'Tools' }}
+        if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.test_type == 'All' || github.event.inputs.test_type == 'Tools' }}
         run: pytest tests/tools_tests.py --log-cli-level=DEBUG
 
       # Run API Tests if selected (All or API) or on schedule
       - name: Run API Tests
-        if: ${{ github.event_name == 'schedule' || github.event.inputs.test_type == 'All' || github.event.inputs.test_type == 'API' }}
+        if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.test_type == 'All' || github.event.inputs.test_type == 'API' }}
         env:
           HTTP_PROXY:  "http://${{ secrets.RUSSIAN_PROXY }}"
           HTTPS_PROXY: "http://${{ secrets.RUSSIAN_PROXY }}"
-        run: pytest tests/api_tests.py --log-cli-level=DEBUG # --disable-warnings  # Без --snapshot-update
+        run: pytest tests/api_tests.py --log-cli-level=DEBUG # --disable-warnings  # Без --schema-update
