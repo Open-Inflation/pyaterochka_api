@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pyaterochka_api',
-    version='0.1.8',
+    version='0.1.9',
     packages=find_packages(),
     install_requires=[
         'aiohttp',
@@ -15,7 +15,7 @@ setup(
         'tests': [
             'pytest',
             'pytest-asyncio',
-            'snapshottest~=1.0.0a1',
+            'pytest-typed-schema-shot',
         ]
     },
     author='Miskler',

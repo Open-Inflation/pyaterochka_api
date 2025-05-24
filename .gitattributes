@@ -1,0 +1,4 @@
+# Указываем, что документация не должна учитываться в статистике языков
+docs/* linguist-documentation
+docs/schema_doc.min.js linguist-vendored
+docs/schema_doc.css linguist-vendored
