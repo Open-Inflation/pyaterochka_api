@@ -41,14 +41,17 @@ jobs:
 
       - name: Generate API documentation
         run: |
+          # Создаем папку для публикации
+          mkdir -p docs_publish
+          
           # Генерируем документацию по схемам используя generate-schema-doc с конфигом
-          generate-schema-doc --config-file docs/json_schema_for_humans_config.json tests/__snapshots__/ docs
+          generate-schema-doc --config-file docs/json_schema_for_humans_config.json tests/__snapshots__/ docs_publish
           
           # Создаем индексную страницу
-          python docs/create_index_schema.py
+          python docs/create_index_schema.py docs_publish
           
           # Добавляем файл .nojekyll для корректной работы GitHub Pages
-          touch docs/.nojekyll
+          touch docs_publish/.nojekyll
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -56,7 +59,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './docs'
+          path: './docs_publish'
 
   # Отдельная задача для деплоя на GitHub Pages
   deploy:

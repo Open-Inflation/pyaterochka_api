@@ -3,9 +3,9 @@ import glob
 import sys
 
 # Путь к директории с документацией
-docs_dir = "docs"
+docs_dir = sys.argv[1] if len(sys.argv) > 1 else "docs"
 if not os.path.exists(docs_dir):
-    print(f"Директория {docs_dir} не найдена. Проверьте, что вы находитесь в корневой директории проекта.")
+    print(f"Директория {docs_dir} не найдена. Проверьте путь к директории.")
     sys.exit(1)
 
 # Получаем список HTML файлов
