@@ -1,6 +1,4 @@
-aiohttp
-fake-useragent
-camoufox[geoip]
+standard-open-inflation-package
 beartype
 
 pytest-typed-schema-shot

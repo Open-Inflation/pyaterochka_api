@@ -28,10 +28,8 @@ classifiers = [
     "Topic :: Utilities",
 ]
 dependencies = [
-    "aiohttp",
-    "camoufox[geoip]",
-    "beartype",
-    "fake-useragent"
+    "standard-open-inflation-package",
+    "beartype"
 ]
 
 [project.optional-dependencies]
