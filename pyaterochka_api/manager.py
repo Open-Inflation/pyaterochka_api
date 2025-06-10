@@ -3,9 +3,6 @@ import json
 from io import BytesIO
 from urllib import response
 from beartype import beartype
-from httpcore import NetworkError
-from openai import base_url
-from sympy import im
 from .enums import PurchaseMode
 from standard_open_inflation_package import BaseAPI, Page, Cookie
 from standard_open_inflation_package.models import Request, Response, HttpMethod, Cookie
@@ -85,7 +82,7 @@ class Pyaterochka:
         request_url = f"{self.API_URL}/catalog/v2/stores/{sap_code_store_id}/categories?mode={mode.value}&include_restrict={include_restrict}&include_subcategories={1 if subcategories else 0}"
         response = await self.PAGE.direct_fetch(request_url, handlers=Handler.MAIN(expected_content=ExpectedContentType.JSON))
         if not isinstance(response, HandlerSearchSuccess):
-            raise NetworkError("Data not found")
+            raise ValueError("Data not found")
         real_resp = response.responses[0]
         return real_resp
 

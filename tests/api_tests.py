@@ -1,4 +1,3 @@
-import debian
 import pytest
 from pyaterochka_api import Pyaterochka
 from io import BytesIO
