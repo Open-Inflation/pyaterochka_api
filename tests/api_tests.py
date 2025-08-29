@@ -1,54 +1,42 @@
-import pytest
-from pyaterochka_api import Pyaterochka
+from pyaterochka_api import PyaterochkaAPI
 from io import BytesIO
-from typed_schema_shot import SchemaShot
+from pytest_jsonschema_snapshot import SchemaShot
 
 
 IS_DEBUG = True
 
 
-@pytest.mark.asyncio
-async def test_list(schemashot: SchemaShot):
-    async with Pyaterochka(debug=IS_DEBUG, trust_env=True) as API:
-        categories = await API.categories_list(subcategories=True)
-        schemashot.assert_match(categories.response, "categories_list")
+# Catalog
+def test_list(schemashot: SchemaShot):
+    with PyaterochkaAPI(headless=IS_DEBUG) as API:
+        categories = API.Catalog.tree(subcategories=True).json()
+        schemashot.assert_json_match(categories, "categories_list")
 
-        result = await API.products_list(category_id=categories.response[0]['id'], limit=5)
-        schemashot.assert_match(result.response, "products_list")
+        result = API.Catalog.products_list(category_id=categories[0]['id'], limit=5).json()
+        schemashot.assert_json_match(result, "products_list")
 
-@pytest.mark.asyncio
-async def test_product_info(schemashot: SchemaShot):
-    async with Pyaterochka(debug=IS_DEBUG, trust_env=True, timeout=200.0) as API:
-        result = await API.product_info(43347)
-        schemashot.assert_match(result, "product_info")
+def test_product_info(schemashot: SchemaShot):
+    with PyaterochkaAPI(headless=IS_DEBUG, timeout=200.0) as API:
+        result = API.Product.info(43347).json()
+        schemashot.assert_json_match(result, "product_info")
 
-@pytest.mark.asyncio
-async def test_get_news(schemashot: SchemaShot):
-    async with Pyaterochka(debug=IS_DEBUG, trust_env=True, timeout=3000.0) as API:
-        result = await API.get_news(limit=5)
-        schemashot.assert_match(result.response, "get_news")
+# Advertising
+def test_get_news(schemashot: SchemaShot):
+    with PyaterochkaAPI(headless=IS_DEBUG, timeout=3000.0) as API:
+        result = API.Advertising.get_news(limit=5).json()
+        schemashot.assert_json_match(result, "get_news")
 
-@pytest.mark.asyncio
-async def test_find_store(schemashot: SchemaShot):
-    async with Pyaterochka(debug=IS_DEBUG, trust_env=True) as API:
-        categories = await API.find_store(longitude=37.63156, latitude=55.73768)
-        schemashot.assert_match(categories.response, "store_info")
+# Geolocation
+def test_find_store(schemashot: SchemaShot):
+    with PyaterochkaAPI(headless=IS_DEBUG) as API:
+        categories = API.Geolocation.find_store(longitude=37.63156, latitude=55.73768).json()
+        schemashot.assert_json_match(categories, "store_info")
 
-@pytest.mark.asyncio
-async def test_download_image():
-    async with Pyaterochka(debug=IS_DEBUG, trust_env=True) as API:
-        result = await API.download_image("https://photos.okolo.app/product/1392827-main/800x800.jpeg")
-        assert isinstance(result.response, BytesIO)
-        assert result.response.getvalue()
-
-@pytest.mark.asyncio
-async def test_set_debug():
-    async with Pyaterochka(debug=IS_DEBUG) as API:
-        assert API.BROWSER.debug == True
-        API.BROWSER.debug = False
-        assert API.BROWSER.debug == False
-
-@pytest.mark.asyncio
-async def test_rebuild_connection():
-    async with Pyaterochka(debug=IS_DEBUG, trust_env=True) as API:
-        await API.rebuild_connection()
+# General
+def test_download_image(schemashot: SchemaShot):
+    with PyaterochkaAPI(headless=IS_DEBUG) as API:
+        result = API.General.download_image("https://photos.okolo.app/product/1392827-main/800x800.jpeg")
+        blob = result.content
+        assert isinstance(blob, bytes)
+        assert len(blob) > 0
+        assert blob[:8] == b"\x89PNG\r\n\x1a\n"
