@@ -39,9 +39,7 @@ class PyaterochkaAPI:
         self.session = hrequests.Session(
             self.browser,
             timeout=self.timeout,
-            proxy=self.proxy,         # ← автоподхват из env, если есть
         )
-        self.access_token = self.access_token  # применит setter
 
         self.Geolocation: ClassGeolocation = ClassGeolocation(self, self.CATALOG_URL)
         """Методы для работы с геолокацией и выбором магазинов."""
@@ -76,10 +74,14 @@ class PyaterochkaAPI:
             session=self.session,
             browser=self.browser,
             headless=self.headless,
+            proxy=self.proxy,
             **self.browser_opts,
         ) as page:
             page.goto(self.MAIN_SITE_URL)
             page.awaitSelector("next-route-announcer", timeout=self.timeout)
+            print(page.cookies)
+            import time
+            time.sleep(50)
 
     def _request(
         self,
@@ -99,7 +101,7 @@ class PyaterochkaAPI:
             json_body: Тело запроса в формате JSON (опционально)
         """
         # Единая точка входа в чужую библиотеку для удобства
-        resp = self.session.request(method.upper(), url, json=json_body, timeout=self.timeout)
+        resp = self.session.request(method.upper(), url, json=json_body, timeout=self.timeout, proxy=self.proxy)
         if hasattr(resp, "request"):
             raise RuntimeError(
                 "Response object does have `request` attribute. "
