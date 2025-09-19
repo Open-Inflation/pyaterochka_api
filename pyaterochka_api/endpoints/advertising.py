@@ -1,5 +1,5 @@
 """Реклама"""
-from hrequests import Response
+from human_requests.abstraction.response import Response
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -15,7 +15,7 @@ class ClassAdvertising:
         self._parent: "PyaterochkaAPI" = parent
         self.CATALOG_URL = CATALOG_URL
     
-    def get_news(self, limit: int | None = None) -> Response:
+    async def get_news(self, limit: int | None = None) -> Response:
         """
         Asynchronously retrieves news from the Pyaterochka API.
 
@@ -29,4 +29,4 @@ class ClassAdvertising:
         if limit and limit > 0:
             url += f"?limit={limit}"
 
-        return self._parent._request("GET", url)
+        return await self._parent._request("GET", url)

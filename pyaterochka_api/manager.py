@@ -1,8 +1,15 @@
+from encodings.punycode import T
 import os
 from dataclasses import dataclass, field
-from typing import Any
-import hrequests
-from requests import Request
+from typing import Any, Literal
+import human_requests
+import json
+
+import human_requests
+import human_requests.abstraction.response
+from human_requests.impersonation import ImpersonationConfig, Policy
+
+import human_requests.abstraction
 from .endpoints.advertising import ClassAdvertising
 from .endpoints.catalog import ClassCatalog
 from .endpoints.general import ClassGeneral
@@ -21,75 +28,102 @@ class PyaterochkaAPI:
     """Клиент Перекрёстка.
     """
 
-    timeout: float          = 15.0
-    browser: str            = "firefox"
-    headless: bool          = True
+    timeout: float          = 40.0
+    browser: Literal["chromium", "webkit", "firefox", "camoufox"] = "camoufox"
+    headless: bool          = False
     proxy: str | None       = field(default_factory=_pick_https_proxy)
     browser_opts: dict[str, Any] = field(default_factory=dict)
 
     MAIN_SITE_URL: str      = "https://5ka.ru"
     CATALOG_URL: str        = "https://5d.5ka.ru/api"
-    DEFAULT_STORE_ID: str   = "Y232"
 
     # будет создана в __post_init__
-    session: hrequests.Session = field(init=False, repr=False)
+    session: human_requests.Session = field(init=False, repr=False)
 
     # ───── lifecycle ─────
     def __post_init__(self) -> None:
-        self.session = hrequests.Session(
-            self.browser,
-            timeout=self.timeout,
+        self.session = human_requests.Session(
+            browser=self.browser,
+            playwright_stealth=self.browser in ("chromium", "webkit", "firefox"),
+            proxy=self.proxy,
+            headless=self.headless,
+            browser_launch_opts=self.browser_opts,
+            spoof=ImpersonationConfig(
+                policy=Policy.SYNC_WITH_BROWSER
+            )
         )
 
         self.Geolocation: ClassGeolocation = ClassGeolocation(self, self.CATALOG_URL)
         """Методы для работы с геолокацией и выбором магазинов."""
-        self.Catalog: ClassCatalog         = ClassCatalog(self, self.CATALOG_URL, self.DEFAULT_STORE_ID)
+        self.Catalog: ClassCatalog         = ClassCatalog(self, self.CATALOG_URL)
         """Методы для работы с каталогом товаров."""
         self.Advertising: ClassAdvertising = ClassAdvertising(self, self.CATALOG_URL)
         """Методы для работы с рекламными материалами."""
         self.General: ClassGeneral         = ClassGeneral(self, self.CATALOG_URL)
         """Общие методы API."""
 
-    def __enter__(self):
+    async def __aenter__(self):
         """Вход в контекстный менеджер с автоматическим прогревом сессии."""
-        self._warmup()
+        await self._warmup()
         return self
 
-    def __exit__(self, *exc):
+    async def __aexit__(self, *exc):
         """Выход из контекстного менеджера с закрытием сессии."""
-        self.close()
+        await self.close()
 
-    def close(self):
+    async def close(self):
         """Закрыть HTTP-сессию и освободить ресурсы."""
-        self.session.close()
+        await self.session.close()
 
     # Прогрев сессии (headless ➜ cookie `session` ➜ accessToken)
-    def _warmup(self) -> None:
+    async def _warmup(self) -> None:
         """Прогрев сессии через браузер для получения токена доступа.
         
         Открывает главную страницу сайта в headless браузере, получает cookie сессии
         и извлекает из неё access token для последующих API запросов.
         """
-        with hrequests.BrowserSession(
-            session=self.session,
-            browser=self.browser,
-            headless=self.headless,
-            proxy=self.proxy,
-            **self.browser_opts,
-        ) as page:
-            page.goto(self.MAIN_SITE_URL)
-            page.awaitSelector("next-route-announcer", timeout=self.timeout)
-            print(page.cookies)
-            import time
-            time.sleep(50)
+        await self.session.start()
+        async with self.session.goto_page(self.MAIN_SITE_URL, wait_until="networkidle") as page:
+            await page.wait_for_selector(
+                selector="next-route-announcer",
+                state="attached",
+                timeout=self.timeout*1000
+            )
 
-    def _request(
+    @property
+    def default_store_location(self) -> str | None:
+        return self.session.local_storage.get("https://5ka.ru", {}).get("DeliveryPanelStore")
+
+    @property
+    def default_sap_code(self) -> str | None:
+        dsl = self.default_store_location
+        if dsl:
+            json_dsl = json.loads(dsl)
+            return json_dsl['selectedAddress']['sapCode']
+        return None
+        
+    @property
+    def device_id(self) -> str | None:
+        return self.session.local_storage.get("https://5ka.ru", {}).get("deviceId")
+
+    def make_headers(self) -> dict[str, str]:
+        headers = {
+            "Origin": self.MAIN_SITE_URL,
+            "X-PLATFORM": "webapp",
+        }
+        device_id = self.device_id
+        if device_id:
+            headers["X-DEVICE-ID"] = device_id
+        headers.update({"X-APP-VERSION": "0.1.1.dev"})
+        return headers
+
+    async def _request(
         self,
         method: str,
         url: str,
         *,
         json_body: Any | None = None,
-    ) -> hrequests.Response:
+    ) -> human_requests.abstraction.response.Response:
         """Выполнить HTTP-запрос через внутреннюю сессию.
         
         Единая точка входа для всех HTTP-запросов библиотеки.
@@ -101,17 +135,12 @@ class PyaterochkaAPI:
             json_body: Тело запроса в формате JSON (опционально)
         """
         # Единая точка входа в чужую библиотеку для удобства
-        resp = self.session.request(method.upper(), url, json=json_body, timeout=self.timeout, proxy=self.proxy)
-        if hasattr(resp, "request"):
-            raise RuntimeError(
-                "Response object does have `request` attribute. "
-                "This may indicate an update in `hrequests` library."
-            )
-        
-        resp.request = Request(
+        resp = await self.session.request(
             method=method.upper(),
             url=url,
             json=json_body,
+            headers=self.make_headers(),
         )
+        
         return resp
 

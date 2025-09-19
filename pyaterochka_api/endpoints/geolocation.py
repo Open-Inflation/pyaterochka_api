@@ -1,7 +1,5 @@
 """Геолокация"""
-from .. import abstraction
-from hrequests import Response
-from urllib.parse import quote, unquote
+from human_requests.abstraction.response import Response
 
 
 class ClassGeolocation:
@@ -21,7 +19,7 @@ class ClassGeolocation:
         self._parent = parent
         self.CATALOG_URL = CATALOG_URL
     
-    def find_store(self, longitude: float, latitude: float) -> Response:
+    async def find_store(self, longitude: float, latitude: float) -> Response:
         """
         Asynchronously finds the store associated with the given coordinates.
 
@@ -34,4 +32,4 @@ class ClassGeolocation:
         """
 
         request_url = f"{self.CATALOG_URL}/orders/v1/orders/stores/?lon={longitude}&lat={latitude}"
-        return self._parent._request("GET", request_url)
+        return await self._parent._request("GET", request_url)

@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "parent_id": {
+      "type": "null"
+    },
+    "name": {
+      "type": "string"
+    },
+    "filters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "field_name": {
+            "type": "string"
+          },
+          "filter_type": {
+            "type": "string"
+          },
+          "list_values": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "all": {
+                    "type": "null"
+                  },
+                  "actual": {
+                    "type": "null"
+                  }
+                },
+                "required": [
+                  "actual",
+                  "all"
+                ]
+              }
+            ]
+          },
+          "range_min_val": {
+            "type": "null"
+          },
+          "range_max_val": {
+            "type": "null"
+          }
+        },
+        "required": [
+          "field_name",
+          "filter_type",
+          "list_values",
+          "name",
+          "range_max_val",
+          "range_min_val"
+        ]
+      }
+    },
+    "products": {
+      "type": "array"
+    }
+  },
+  "required": [
+    "filters",
+    "name",
+    "parent_id",
+    "products"
+  ]
+}

@@ -1,42 +1,48 @@
-from pyaterochka_api import PyaterochkaAPI
-from io import BytesIO
+# test_catalog.py (пример)
+import imghdr
+import pytest
 from pytest_jsonschema_snapshot import SchemaShot
 
+import pytest
+pytestmark = pytest.mark.asyncio(loop_scope="session")
 
-IS_DEBUG = True
 
 
-# Catalog
-def test_list(schemashot: SchemaShot):
-    with PyaterochkaAPI(headless=IS_DEBUG) as API:
-        categories = API.Catalog.tree(subcategories=True).json()
-        schemashot.assert_json_match(categories, API.Catalog.tree)
+# catalog
+async def test_list(schemashot: SchemaShot, api_client):
+    API = api_client
+    categories = await API.Catalog.tree(subcategories=True)
+    rjson = categories.json()
+    schemashot.assert_json_match(rjson, API.Catalog.tree)
 
-        result = API.Catalog.products_list(category_id=categories[0]['id'], limit=5).json()
-        schemashot.assert_json_match(result, API.Catalog.products_list)
+    result = await API.Catalog.products_list(category_id=rjson[0]['id'], limit=5)
+    schemashot.assert_json_match(result.json(), API.Catalog.products_list)
 
-def test_product_info(schemashot: SchemaShot):
-    with PyaterochkaAPI(headless=IS_DEBUG, timeout=200.0) as API:
-        result = API.Product.info(43347).json()
-        schemashot.assert_json_match(result, API.Product.info)
 
-# Advertising
-def test_get_news(schemashot: SchemaShot):
-    with PyaterochkaAPI(headless=IS_DEBUG, timeout=3000.0) as API:
-        result = API.Advertising.get_news(limit=5).json()
-        schemashot.assert_json_match(result, API.Advertising.get_news)
+async def test_product_info(schemashot: SchemaShot, api_client):
+    API = api_client
+    # если тебе нужен особый timeout только для этого теста — см. ниже примечание
+    result = await API.Catalog.Product.info(43347)
+    schemashot.assert_json_match(result, API.Catalog.Product.info)
 
-# Geolocation
-def test_find_store(schemashot: SchemaShot):
-    with PyaterochkaAPI(headless=IS_DEBUG) as API:
-        categories = API.Geolocation.find_store(longitude=37.63156, latitude=55.73768).json()
-        schemashot.assert_json_match(categories, API.Geolocation.find_store)
 
-# General
-def test_download_image(schemashot: SchemaShot):
-    with PyaterochkaAPI(headless=IS_DEBUG) as API:
-        result = API.General.download_image("https://photos.okolo.app/product/1392827-main/800x800.jpeg")
-        blob = result.content
-        assert isinstance(blob, bytes)
-        assert len(blob) > 0
-        assert blob[:8] == b"\x89PNG\r\n\x1a\n"
+async def test_get_news(schemashot: SchemaShot, api_client):
+    API = api_client
+    result = await API.Advertising.get_news(limit=5)
+    open("test_get_news.json", "w", encoding="utf-8").write(str(result.body))
+    schemashot.assert_json_match(result.json(), API.Advertising.get_news)
+
+
+async def test_find_store(schemashot: SchemaShot, api_client):
+    API = api_client
+    categories = await API.Geolocation.find_store(longitude=37.63156, latitude=55.73768)
+    schemashot.assert_json_match(categories.json(), API.Geolocation.find_store)
+
+
+async def test_download_image(schemashot: SchemaShot, api_client):
+    API = api_client
+    result = await API.General.download_image("https://photos.okolo.app/product/1392827-main/800x800.jpeg")
+    assert result.status_code == 200
+    assert result.headers["content-type"].startswith("image/")
+    fmt = imghdr.what(None, bytes(result.body))
+    assert fmt in ("png", "jpeg", "webp")

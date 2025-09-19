@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "name": {
+        "type": "string"
+      },
+      "additional_icons": {
+        "type": "array"
+      },
+      "categories": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "advert": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "disclaimer": {
+                      "type": "string"
+                    },
+                    "info_link": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "disclaimer",
+                    "info_link"
+                  ]
+                }
+              ]
+            },
+            "image_link": {
+              "type": "string",
+              "format": "uri"
+            },
+            "gradient_start": {
+              "type": "string"
+            },
+            "gradient_end": {
+              "type": "string"
+            },
+            "title_color": {
+              "type": "string"
+            },
+            "additional_icons": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "type",
+                  "url"
+                ]
+              }
+            }
+          },
+          "required": [
+            "additional_icons",
+            "advert",
+            "gradient_end",
+            "gradient_start",
+            "id",
+            "image_link",
+            "name",
+            "title_color"
+          ]
+        }
+      }
+    },
+    "required": [
+      "additional_icons",
+      "categories",
+      "id",
+      "name"
+    ]
+  }
+}

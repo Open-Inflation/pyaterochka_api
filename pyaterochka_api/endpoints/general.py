@@ -1,6 +1,5 @@
 """Общий (не класифицируемый) функционал"""
-from .. import abstraction
-from hrequests import Response
+from human_requests.abstraction.response import Response
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -18,5 +17,5 @@ class ClassGeneral:
         self._parent: "PyaterochkaAPI" = parent
         self.CATALOG_URL: str = CATALOG_URL
 
-    def download_image(self, url: str) -> Response:
-        return self._parent._request("GET", url)
+    async def download_image(self, url: str) -> Response:
+        return await self._parent._request("GET", url)

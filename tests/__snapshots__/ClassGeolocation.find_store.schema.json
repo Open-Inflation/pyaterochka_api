@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "shop_address": {
+      "type": "string"
+    },
+    "store_city": {
+      "type": "string"
+    },
+    "sap_code": {
+      "type": "string"
+    },
+    "has_delivery": {
+      "type": "boolean"
+    },
+    "has_24h_delivery": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "has_24h_delivery",
+    "has_delivery",
+    "sap_code",
+    "shop_address",
+    "store_city"
+  ]
+}
