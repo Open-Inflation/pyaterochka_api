@@ -35,6 +35,7 @@ class PyaterochkaAPI:
     browser_opts: dict[str, Any] = field(default_factory=dict)
 
     MAIN_SITE_URL: str      = "https://5ka.ru"
+    MAIN_SITE_API: str      = "https://api.5ka.ru"
     CATALOG_URL: str        = "https://5d.5ka.ru/api"
 
     # будет создана в __post_init__
@@ -57,7 +58,7 @@ class PyaterochkaAPI:
         """Методы для работы с геолокацией и выбором магазинов."""
         self.Catalog: ClassCatalog         = ClassCatalog(self, self.CATALOG_URL)
         """Методы для работы с каталогом товаров."""
-        self.Advertising: ClassAdvertising = ClassAdvertising(self, self.CATALOG_URL)
+        self.Advertising: ClassAdvertising = ClassAdvertising(self, self.CATALOG_URL, self.MAIN_SITE_API)
         """Методы для работы с рекламными материалами."""
         self.General: ClassGeneral         = ClassGeneral(self, self.CATALOG_URL)
         """Общие методы API."""

@@ -44,5 +44,5 @@ async def test_download_image(schemashot: SchemaShot, api_client):
     result = await API.General.download_image("https://photos.okolo.app/product/1392827-main/800x800.jpeg")
     assert result.status_code == 200
     assert result.headers["content-type"].startswith("image/")
-    fmt = imghdr.what(None, bytes(result.body))
+    fmt = imghdr.what(None, bytes(result.raw))
     assert fmt in ("png", "jpeg", "webp")
