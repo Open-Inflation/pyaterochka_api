@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from human_requests.abstraction import FetchResponse, HttpMethod
 
 if TYPE_CHECKING:
-    from ..old import ChizhikAPI
+    from ..manager import PyaterochkaAPI
 
 
 class ClassGeolocation:
@@ -15,11 +15,10 @@ class ClassGeolocation:
     и управление настройками доставки.
     """
 
-    def __init__(self, parent: "ChizhikAPI", CATALOG_URL: str):
-        self._parent: ChizhikAPI = parent
-        self.CATALOG_URL: str = CATALOG_URL
+    def __init__(self, parent: "PyaterochkaAPI"):
+        self._parent: PyaterochkaAPI = parent
 
-    async def find_store(self, longitude: float, latitude: float) -> dict:
+    async def find_store(self, longitude: float, latitude: float) -> FetchResponse:
         """
         Asynchronously finds the store associated with the given coordinates.
 
@@ -31,6 +30,5 @@ class ClassGeolocation:
             dict: A dictionary representing the store information if the request is successful, error otherwise.
         """
 
-        request_url = f"{self.API_URL}/orders/v1/orders/stores/?lon={longitude}&lat={latitude}"
-        _is_success, response, _response_type = await self.api.fetch(url=request_url)
-        return response
+        request_url = f"{self._parent.CATALOG_URL}/orders/v1/orders/stores/?lon={longitude}&lat={latitude}"
+        return await self._parent._request(method=HttpMethod.GET, url=request_url)

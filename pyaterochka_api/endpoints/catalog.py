@@ -1,11 +1,12 @@
 """Работа с каталогом"""
 
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 from human_requests.abstraction import FetchResponse, HttpMethod
 
+from ..enums import PurchaseMode
 if TYPE_CHECKING:
-    from ..old import ChizhikAPI
+    from ..manager import PyaterochkaAPI
 
 
 class ClassCatalog:
@@ -15,19 +16,18 @@ class ClassCatalog:
     работу с фидами товаров и отзывами.
     """
 
-    def __init__(self, parent: "ChizhikAPI", CATALOG_URL: str):
-        self._parent: "ChizhikAPI" = parent
-        self.CATALOG_URL: str = CATALOG_URL
+    def __init__(self, parent: "PyaterochkaAPI"):
+        self._parent: "PyaterochkaAPI" = parent
         self.Product: ProductService = ProductService(
-            parent=self._parent, CATALOG_URL=CATALOG_URL
+            parent=self._parent
         )
         """Сервис для работы с товарами в каталоге."""
 
     async def tree(self,
+                   sap_code_store_id: str,
                    subcategories: bool = False,
                    include_restrict: bool = True,
-                   mode: PurchaseMode = PurchaseMode.STORE,
-                   sap_code_store_id: str = DEFAULT_STORE_ID) -> FetchResponse:
+                   mode: PurchaseMode = PurchaseMode.STORE) -> FetchResponse:
         """
         Asynchronously retrieves a list of categories from the Pyaterochka API.
 
@@ -44,16 +44,14 @@ class ClassCatalog:
             Exception: If the response status is not 200 (OK) or 403 (Forbidden / Anti-bot).
         """
 
-        request_url = f"{self.API_URL}/catalog/v2/stores/{sap_code_store_id}/categories?mode={mode.value}&include_restrict={include_restrict}&include_subcategories={1 if subcategories else 0}"
-        _is_success, response, _response_type = await self.api.fetch(url=request_url)
-        return response
+        request_url = f"{self._parent.CATALOG_URL}/catalog/v2/stores/{sap_code_store_id}/categories?mode={mode.value}&include_restrict={include_restrict}&include_subcategories={1 if subcategories else 0}"
+        return await self._parent._request(method=HttpMethod.GET, url=request_url)
 
     async def products_list(
-        
             self,
             category_id: str,
+            sap_code_store_id: str,
             mode: PurchaseMode = PurchaseMode.STORE,
-            sap_code_store_id: str = DEFAULT_STORE_ID,
             limit: int = 30
     ) -> FetchResponse:
         f"""
@@ -76,20 +74,22 @@ class ClassCatalog:
         if limit < 1 or limit >= 500:
             raise ValueError("Limit must be between 1 and 499")
 
-        request_url = f"{self.API_URL}/catalog/v2/stores/{sap_code_store_id}/categories/{category_id}/products?mode={mode.value}&limit={limit}"
-        _is_success, response, _response_type = await self.api.fetch(url=request_url)
-        return response
+        request_url = f"{self._parent.CATALOG_URL}/catalog/v2/stores/{sap_code_store_id}/categories/{category_id}/products?mode={mode.value}&limit={limit}"
+        return await self._parent._request(method=HttpMethod.GET, url=request_url)
 
 
 class ProductService:
     """Сервис для работы с товарами в каталоге."""
 
-    def __init__(self, parent: "ChizhikAPI", CATALOG_URL: str):
-        self._parent: "ChizhikAPI" = parent
-        self.CATALOG_URL: str = CATALOG_URL
+    def __init__(self, parent: "PyaterochkaAPI"):
+        self._parent: "PyaterochkaAPI" = parent
 
     async def info(
-        self, plu_id: int
+        self,
+        sap_code_store_id: str,
+        plu_id: int,
+        mode: PurchaseMode = PurchaseMode.STORE,
+        include_restrict: bool = True
     ) -> FetchResponse:
         """
         Asynchronously retrieves product information from the Pyaterochka API for a given PLU ID. Average time processing 2 seconds (first start 6 seconds).
@@ -101,21 +101,6 @@ class ProductService:
         Raises:
             ValueError: If the response does not contain the expected JSON data.
         """
-
-        url = f"{self.BASE_URL}/product/{plu_id}/"
-        response = await self.api.browser_fetch(url=url, selector='script#__NEXT_DATA__[type="application/json"]')
-
-        match = re.search(
-            r'<script\s+id="__NEXT_DATA__"\s+type="application/json">(.+?)</script>',
-            response,
-            flags=re.DOTALL
-        )
-        if not match:
-            raise ValueError("product_info: Failed to find JSON data in the response")
-        json_text = match.group(1)
-        data = json.loads(json_text)
-        data["props"]["pageProps"]["props"]["productStore"] = json.loads(data["props"]["pageProps"]["props"]["productStore"])
-        data["props"]["pageProps"]["props"]["catalogStore"] = json.loads(data["props"]["pageProps"]["props"]["catalogStore"])
-        data["props"]["pageProps"]["props"]["filtersPageStore"] = json.loads(data["props"]["pageProps"]["props"]["filtersPageStore"])
-
-        return data
+                 
+        request_url = f"{self._parent.CATALOG_URL}/catalog/v2/stores/{sap_code_store_id}/products/{plu_id}?mode={mode.value}&include_restrict={str(include_restrict).lower()}"
+        return await self._parent._request(method=HttpMethod.GET, url=request_url)

@@ -5,7 +5,6 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from camoufox.async_api import AsyncCamoufox
-from playwright.async_api import TimeoutError
 from human_requests import HumanBrowser, HumanContext, HumanPage
 from human_requests.abstraction import FetchResponse, HttpMethod, Proxy
 
@@ -60,10 +59,10 @@ class PyaterochkaAPI:
 
     # ───── lifecycle ─────
     def __post_init__(self) -> None:
-        self.Geolocation = ClassGeolocation(self, self.CATALOG_URL)
-        self.Catalog = ClassCatalog(self, self.CATALOG_URL)
-        self.Advertising = ClassAdvertising(self, self.CATALOG_URL)
-        self.General = ClassGeneral(self, self.CATALOG_URL)
+        self.Geolocation = ClassGeolocation(self)
+        self.Catalog = ClassCatalog(self)
+        self.Advertising = ClassAdvertising(self)
+        self.General = ClassGeneral(self)
 
     async def __aenter__(self):
         """Вход в контекстный менеджер с автоматическим прогревом сессии."""
@@ -82,24 +81,10 @@ class PyaterochkaAPI:
         self.session = HumanBrowser.replace(br)
         self.ctx = await self.session.new_context()
         self.page = await self.ctx.new_page()
-        await self.page.goto(self.CATALOG_URL, wait_until="networkidle")
-        
-        ok = False
-        try_count = 3
-        while not ok or try_count <= 0:
-            try_count -= 1
-            try:
-                await self.page.wait_for_selector(
-                    "pre", timeout=self.timeout_ms, state="attached"
-                )
-                ok = True
-            except TimeoutError:
-                await self.page.reload()
-        if not ok:
-            raise RuntimeError(self.page.content)
-        
-        # await self.page.wait_for_load_state("networkidle")
-        # await asyncio.sleep(3)
+
+        await self.page.goto("https://5ka.ru", wait_until="load")
+        await self.page.wait_for_selector(selector="next-route-announcer", state="attached")
+        await self.page.wait_for_load_state('networkidle')
 
     async def __aexit__(self, *exc):
         """Выход из контекстного менеджера с закрытием сессии."""
@@ -134,7 +119,7 @@ class PyaterochkaAPI:
             body=json_body,
             mode="cors",
             timeout_ms=self.timeout_ms,
-            referrer=self.MAIN_SITE_ORIGIN,
+            referrer=self.MAIN_SITE_URL,
             headers={"Accept": "application/json, text/plain, */*"},
         )
 
