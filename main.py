@@ -1,4 +1,5 @@
 from pyaterochka_api import PyaterochkaAPI
+from pprint import pprint
 
 async def main():
     # RUS: Использование проксирования опционально. Вы можете создать несколько агентов с разными прокси для ускорения парса.
@@ -6,7 +7,7 @@ async def main():
     async with PyaterochkaAPI(headless=False) as API:
         # RUS: Выводит активные предложения магазина
         # ENG: Outputs active offers of the store
-        print(f"Active offers output: {(await API.Catalog.tree(sap_code_store_id="35XY")).json()!s:.100s}...\n")
+        pprint((await API.Catalog.tree(sap_code_store_id="35XY", subcategories=False)).json())
 
 import asyncio
 asyncio.run(main())

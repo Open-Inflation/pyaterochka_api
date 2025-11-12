@@ -1,10 +1,10 @@
 """Работа с каталогом"""
 
-from typing import TYPE_CHECKING
-
+from typing import TYPE_CHECKING, Optional
+import urllib.parse
 from human_requests.abstraction import FetchResponse, HttpMethod
 
-from ..enums import PurchaseMode
+from ..enums import PurchaseMode, Sorting
 if TYPE_CHECKING:
     from ..manager import PyaterochkaAPI
 
@@ -47,10 +47,34 @@ class ClassCatalog:
         request_url = f"{self._parent.CATALOG_URL}/catalog/v2/stores/{sap_code_store_id}/categories?mode={mode.value}&include_restrict={include_restrict}&include_subcategories={1 if subcategories else 0}"
         return await self._parent._request(method=HttpMethod.GET, url=request_url)
 
+    async def tree_extended(self,
+                            sap_code_store_id: str,
+                            category_id: str,
+                            include_restrict: bool = True,
+                            mode: PurchaseMode = PurchaseMode.STORE) -> FetchResponse:
+        """Расширенное представление категории и её подкатегорий."""
+        request_url = f"{self._parent.CATALOG_URL}/api/catalog/v2/stores/{sap_code_store_id}/categories/{category_id}/extended?mode={mode.value}&include_restrict={str(include_restrict).lower()}"
+        return await self._parent._request(method=HttpMethod.GET, url=request_url)
+
+    async def search(self,
+                     sap_code_store_id: str,
+                     query: str,
+                     include_restrict: bool = True,
+                     mode: PurchaseMode = PurchaseMode.STORE,
+                     limit: int = 12) -> FetchResponse:
+        """Поиск по товарам И категориям."""
+        q = urllib.parse.quote(query)
+        request_url = f"{self._parent.CATALOG_URL}/api/catalog/v3/stores/{sap_code_store_id}/search?mode={mode.value}&include_restrict={str(include_restrict).lower()}&q={q}&limit={limit}"
+        return await self._parent._request(method=HttpMethod.GET, url=request_url)
+
     async def products_list(
             self,
             category_id: str,
             sap_code_store_id: str,
+            price_min: Optional[int] = None,
+            price_max: Optional[int] = None,
+            brands: list[str] = [],
+            include_restrict: bool = True,
             mode: PurchaseMode = PurchaseMode.STORE,
             limit: int = 30
     ) -> FetchResponse:
@@ -74,7 +98,27 @@ class ClassCatalog:
         if limit < 1 or limit >= 500:
             raise ValueError("Limit must be between 1 and 499")
 
-        request_url = f"{self._parent.CATALOG_URL}/catalog/v2/stores/{sap_code_store_id}/categories/{category_id}/products?mode={mode.value}&limit={limit}"
+        request_url = f"{self._parent.CATALOG_URL}/catalog/v2/stores/{sap_code_store_id}/categories/{category_id}/products?mode={mode.value}&limit={limit}&include_restrict={str(include_restrict).lower()}"
+        if price_min:
+            request_url += "&price_min="+str(price_min)
+        if price_max:
+            request_url += "&price_max="+str(price_max)
+        if len(brands) > 0:
+            encoded_brands = [f'brands={urllib.parse.quote(brand)}' for brand in brands]
+            request_url += "&" + '&&'.join(encoded_brands)
+
+        return await self._parent._request(method=HttpMethod.GET, url=request_url)
+
+    async def products_line(
+            self,
+            category_id: str,
+            sap_code_store_id: str,
+            include_restrict: bool = True,
+            mode: PurchaseMode = PurchaseMode.STORE,
+            order_by: Sorting = Sorting.POPULARITY
+        ) -> FetchResponse:
+        """Рекомендованные товары \"что интересного?\"."""
+        request_url = f"https://5d.5ka.ru/api/catalog/v1/stores/{sap_code_store_id}/categories/{category_id}/products_line?mode={mode.value}&include_restrict={str(include_restrict).lower()}&order_by={order_by.value}"
         return await self._parent._request(method=HttpMethod.GET, url=request_url)
 
 
