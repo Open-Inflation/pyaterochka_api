@@ -1,10 +1,7 @@
 aiohttp
 fake-useragent
 camoufox[geoip]
-beartype
 
 pytest-typed-schema-shot
 pytest
 pytest-asyncio
-
-setuptools
