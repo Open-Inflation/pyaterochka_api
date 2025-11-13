@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass, field
 from typing import Any
+import json
 
 from camoufox.async_api import AsyncCamoufox
 from human_requests import HumanBrowser, HumanContext, HumanPage
@@ -94,6 +95,10 @@ class PyaterochkaAPI:
         """Закрыть HTTP-сессию и освободить ресурсы."""
         await self.session.close()
 
+    async def delivery_panel_store(self) -> dict:
+        """Текущий адрес доставке (при инициализации проставляется автоматически)"""
+        return json.loads((await self.page.local_storage()).get("DeliveryPanelStore"))
+
     async def _request(
         self,
         method: HttpMethod,
@@ -104,7 +109,6 @@ class PyaterochkaAPI:
         """Выполнить HTTP-запрос через внутреннюю сессию.
 
         Единая точка входа для всех HTTP-запросов библиотеки.
-        Добавляет к ответу объект Request для совместимости.
 
         Args:
             method: HTTP метод (GET, POST, PUT, DELETE и т.д.)

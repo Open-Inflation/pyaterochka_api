@@ -1,6 +1,6 @@
 """Реклама"""
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal
 
 from human_requests.abstraction import FetchResponse, HttpMethod
 
@@ -17,18 +17,18 @@ class ClassAdvertising:
     def __init__(self, parent: "PyaterochkaAPI"):
         self._parent: "PyaterochkaAPI" = parent
 
-    async def get_news(self, limit: int | None = None) -> FetchResponse:
-        """
-        Asynchronously retrieves news from the Pyaterochka API.
+    async def news(self,
+                   limit: int = 12,
+                   offset: int = 0):
+        request_url = f"{self._parent.CATALOG_URL}/public/v1/news/?limit={limit}&offset={offset}"
+        return await self._parent._request(method=HttpMethod.GET, url=request_url)
 
-        Args:
-            limit (int, optional): The maximum number of news items to retrieve. Defaults to None.
-        
-        Returns:
-            dict: A dictionary representing the news if the request is successful, error otherwise.
-        """
-        url = f"{self._parent.MAIN_SITE_URL}/api/public/v1/news/"
-        if limit and limit > 0:
-            url += f"?limit={limit}"
-
-        return await self._parent._request(method=HttpMethod.GET, url=url)
+    async def promo_offers(self,
+                       limit: int = 20,
+                       web_version: bool = True,
+                       type_offers: Literal["mainpage_promotion",
+                                            "zooclub_promotion",
+                                            "childrenclub_promotion",
+                                            "barclub_promotion"] = "mainpage_promotion") -> FetchResponse:
+        request_url = f"{self._parent.CATALOG_URL}/public/v1/promo-offers/?limit={limit}&web_version={str(web_version).lower()}&type={type_offers}"
+        return await self._parent._request(method=HttpMethod.GET, url=request_url)
