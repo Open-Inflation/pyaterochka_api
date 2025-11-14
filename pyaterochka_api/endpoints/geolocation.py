@@ -36,7 +36,7 @@ class ClassGeolocation:
 
     async def suggest(self, query: str) -> FetchResponse:
         """Начинайте вводить адрес, он предложит точные варианты"""
-        request_url = f"{self._parent.CATALOG_URL}/maps/suggest/?text={urllib.parse.quote(query)}"
+        request_url = f"{self._parent.MAIN_SITE_URL}/api/maps/suggest/?text={urllib.parse.quote(query)}"
         return await self._parent._request(method=HttpMethod.GET, url=request_url, add_unstandard_headers=True)
 
     async def geocode(self,

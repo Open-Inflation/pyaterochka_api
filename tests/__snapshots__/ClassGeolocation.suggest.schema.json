@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "suggest_reqid": {
+      "type": "string"
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string"
+              },
+              "hl": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "begin": {
+                      "type": "integer"
+                    },
+                    "end": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "begin",
+                    "end"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "text"
+            ]
+          },
+          "subtitle": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string"
+              },
+              "hl": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "begin": {
+                      "type": "integer"
+                    },
+                    "end": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "begin",
+                    "end"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "text"
+            ]
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "distance": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "number"
+              },
+              "text": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "text",
+              "value"
+            ]
+          },
+          "address": {
+            "type": "object",
+            "properties": {
+              "formatted_address": {
+                "type": "string"
+              },
+              "component": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "name"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "component",
+              "formatted_address"
+            ]
+          }
+        },
+        "required": [
+          "address",
+          "distance",
+          "subtitle",
+          "tags",
+          "title"
+        ]
+      }
+    }
+  },
+  "required": [
+    "results",
+    "suggest_reqid"
+  ]
+}

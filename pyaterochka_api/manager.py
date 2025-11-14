@@ -38,6 +38,8 @@ class PyaterochkaAPI:
     """Дополнительные опции для браузера (см. https://camoufox.com/python/installation/)"""
     CATALOG_URL: str = "https://5d.5ka.ru/api"
     """URL для работы с каталогом."""
+    SECOND_API_URL: str = "https://api.5ka.ru/api"
+    """Видимо старый эндпоинт на котором сохранилась небольшая функциональность."""
     MAIN_SITE_URL: str = "https://5ka.ru"
     """URL главной страницы сайта."""
 

@@ -39,6 +39,12 @@ async def product_plu(api: PyaterochkaAPI, sap_code: str, category_id: str) -> s
     data = resp.json()
     return data["products"][0]["plu"]
 
+@pytest.fixture(scope="session")
+async def geoposition(api: PyaterochkaAPI):
+    resp = await api.Geolocation.geocode()
+    pos: str = resp.json()["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]["Point"]["pos"]
+    return pos.split(" ")
+
 
 async def test_delivery_panel_store(api: PyaterochkaAPI, schemashot: SchemaShot):
     resp = await api.delivery_panel_store()
@@ -98,6 +104,9 @@ async def test_geocode(api: PyaterochkaAPI, schemashot: SchemaShot):
     data = resp.json()
     schemashot.assert_json_match(data, api.Geolocation.geocode)
 
-# TODO find store
+async def test_find_store(geoposition: list[float, float], api: PyaterochkaAPI, schemashot: SchemaShot):
+    resp = await api.Geolocation.find_store(longitude=geoposition[0], latitude=geoposition[1])
+    data = resp.json()
+    schemashot.assert_json_match(data, api.Geolocation.find_store)
 
 # TODO download image

@@ -30,5 +30,5 @@ class ClassAdvertising:
                                             "zooclub_promotion",
                                             "childrenclub_promotion",
                                             "barclub_promotion"] = "mainpage_promotion") -> FetchResponse:
-        request_url = f"{self._parent.CATALOG_URL}/public/v1/promo-offers/?limit={limit}&web_version={str(web_version).lower()}&type={type_offers}"
+        request_url = f"{self._parent.SECOND_API_URL}/public/v1/promo-offers/?limit={limit}&web_version={str(web_version).lower()}&type={type_offers}"
         return await self._parent._request(method=HttpMethod.GET, url=request_url)

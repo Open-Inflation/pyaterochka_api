@@ -1,0 +1,313 @@
+{
+  "suggest_reqid": "1763155247216276-1771185306-rtyzkge7q663gh4p",
+  "results": [
+    {
+      "title": {
+        "text": "улица Маршала Баграмяна"
+      },
+      "subtitle": {
+        "text": "Армавир",
+        "hl": [
+          {
+            "begin": 0,
+            "end": 7
+          }
+        ]
+      },
+      "tags": [
+        "street"
+      ],
+      "distance": {
+        "value": 6299150.038,
+        "text": "6299.15 км"
+      },
+      "address": {
+        "formatted_address": "Армавир, улица Маршала Баграмяна",
+        "component": [
+          {
+            "name": "Армения",
+            "kind": [
+              "COUNTRY"
+            ]
+          },
+          {
+            "name": "Армавир",
+            "kind": [
+              "LOCALITY"
+            ]
+          },
+          {
+            "name": "улица Маршала Баграмяна",
+            "kind": [
+              "STREET"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "title": {
+        "text": "улица Араратян"
+      },
+      "subtitle": {
+        "text": "Армавир",
+        "hl": [
+          {
+            "begin": 0,
+            "end": 7
+          }
+        ]
+      },
+      "tags": [
+        "street"
+      ],
+      "distance": {
+        "value": 6299553.516,
+        "text": "6299.55 км"
+      },
+      "address": {
+        "formatted_address": "Армавир, улица Араратян",
+        "component": [
+          {
+            "name": "Армения",
+            "kind": [
+              "COUNTRY"
+            ]
+          },
+          {
+            "name": "Армавир",
+            "kind": [
+              "LOCALITY"
+            ]
+          },
+          {
+            "name": "улица Араратян",
+            "kind": [
+              "STREET"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "title": {
+        "text": "улица Максима Горького"
+      },
+      "subtitle": {
+        "text": "Армавир",
+        "hl": [
+          {
+            "begin": 0,
+            "end": 7
+          }
+        ]
+      },
+      "tags": [
+        "street"
+      ],
+      "distance": {
+        "value": 6300440.268,
+        "text": "6300.44 км"
+      },
+      "address": {
+        "formatted_address": "Армавир, улица Максима Горького",
+        "component": [
+          {
+            "name": "Армения",
+            "kind": [
+              "COUNTRY"
+            ]
+          },
+          {
+            "name": "Армавир",
+            "kind": [
+              "LOCALITY"
+            ]
+          },
+          {
+            "name": "улица Максима Горького",
+            "kind": [
+              "STREET"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "title": {
+        "text": "улица Мгера Мкртчяана"
+      },
+      "subtitle": {
+        "text": "Армавир",
+        "hl": [
+          {
+            "begin": 0,
+            "end": 7
+          }
+        ]
+      },
+      "tags": [
+        "street"
+      ],
+      "distance": {
+        "value": 6300293.668,
+        "text": "6300.29 км"
+      },
+      "address": {
+        "formatted_address": "Армавир, улица Мгера Мкртчяана",
+        "component": [
+          {
+            "name": "Армения",
+            "kind": [
+              "COUNTRY"
+            ]
+          },
+          {
+            "name": "Армавир",
+            "kind": [
+              "LOCALITY"
+            ]
+          },
+          {
+            "name": "улица Мгера Мкртчяана",
+            "kind": [
+              "STREET"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "title": {
+        "text": "улица Саят-Новы"
+      },
+      "subtitle": {
+        "text": "Армавир",
+        "hl": [
+          {
+            "begin": 0,
+            "end": 7
+          }
+        ]
+      },
+      "tags": [
+        "street"
+      ],
+      "distance": {
+        "value": 6299630.395,
+        "text": "6299.63 км"
+      },
+      "address": {
+        "formatted_address": "Армавир, улица Саят-Новы",
+        "component": [
+          {
+            "name": "Армения",
+            "kind": [
+              "COUNTRY"
+            ]
+          },
+          {
+            "name": "Армавир",
+            "kind": [
+              "LOCALITY"
+            ]
+          },
+          {
+            "name": "улица Саят-Новы",
+            "kind": [
+              "STREET"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "title": {
+        "text": "Армавирская улица",
+        "hl": [
+          {
+            "begin": 0,
+            "end": 7
+          }
+        ]
+      },
+      "subtitle": {
+        "text": "Москва"
+      },
+      "tags": [
+        "street"
+      ],
+      "distance": {
+        "value": 7056627.137,
+        "text": "7056.63 км"
+      },
+      "address": {
+        "formatted_address": "Москва, Армавирская улица",
+        "component": [
+          {
+            "name": "Россия",
+            "kind": [
+              "COUNTRY"
+            ]
+          },
+          {
+            "name": "Москва",
+            "kind": [
+              "LOCALITY"
+            ]
+          },
+          {
+            "name": "Армавирская улица",
+            "kind": [
+              "STREET"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "title": {
+        "text": "улица Лермонтова, переулок 4"
+      },
+      "subtitle": {
+        "text": "Армавир",
+        "hl": [
+          {
+            "begin": 0,
+            "end": 7
+          }
+        ]
+      },
+      "tags": [
+        "street"
+      ],
+      "distance": {
+        "value": 6300288.565,
+        "text": "6300.29 км"
+      },
+      "address": {
+        "formatted_address": "Армавир, улица Лермонтова, переулок 4",
+        "component": [
+          {
+            "name": "Армения",
+            "kind": [
+              "COUNTRY"
+            ]
+          },
+          {
+            "name": "Армавир",
+            "kind": [
+              "LOCALITY"
+            ]
+          },
+          {
+            "name": "улица Лермонтова, переулок 4",
+            "kind": [
+              "STREET"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
