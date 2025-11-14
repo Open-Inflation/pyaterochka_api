@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "offers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "web_version": {
+            "type": "boolean"
+          },
+          "mobile_version": {
+            "type": "boolean"
+          },
+          "available_for_non_participants": {
+            "type": "null"
+          },
+          "is_unlimited": {
+            "type": "boolean"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "annonce": {
+            "type": "string"
+          },
+          "preview": {
+            "type": "string"
+          },
+          "active_since": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "active_till": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "preview_mobile": {
+            "type": "string"
+          },
+          "external_link": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "advert": {
+            "type": "object",
+            "properties": {
+              "is_advert": {
+                "type": "boolean"
+              },
+              "advertiser": {
+                "type": "null"
+              },
+              "advertiser_inn": {
+                "type": "null"
+              },
+              "advert_web_erid": {
+                "type": "null"
+              },
+              "advert_mobile_erid": {
+                "type": "null"
+              },
+              "advert_info_web_link": {
+                "type": "null"
+              },
+              "advert_info_mobile_link": {
+                "type": "null"
+              }
+            },
+            "required": [
+              "advert_info_mobile_link",
+              "advert_info_web_link",
+              "advert_mobile_erid",
+              "advert_web_erid",
+              "advertiser",
+              "advertiser_inn",
+              "is_advert"
+            ]
+          }
+        },
+        "required": [
+          "active_since",
+          "active_till",
+          "advert",
+          "annonce",
+          "available_for_non_participants",
+          "external_link",
+          "is_unlimited",
+          "mobile_version",
+          "preview",
+          "preview_mobile",
+          "slug",
+          "title",
+          "type",
+          "web_version"
+        ]
+      }
+    }
+  },
+  "required": [
+    "offers"
+  ]
+}

@@ -153,7 +153,8 @@ class PyaterochkaAPI:
         url: str,
         *,
         json_body: Any | None = None,
-        add_unstandard_headers: bool = True
+        add_unstandard_headers: bool = True,
+        credentials: bool = True
     ) -> FetchResponse:
         """Выполнить HTTP-запрос через внутреннюю сессию.
 
@@ -172,6 +173,7 @@ class PyaterochkaAPI:
             method=method,
             body=json_body,
             mode="cors",
+            credentials="include" if credentials else "omit",
             timeout_ms=self.timeout_ms,
             referrer=self.MAIN_SITE_URL,
             headers={"Accept": "application/json, text/plain, */*"}.update(self.unstandard_headers if add_unstandard_headers else {}),
