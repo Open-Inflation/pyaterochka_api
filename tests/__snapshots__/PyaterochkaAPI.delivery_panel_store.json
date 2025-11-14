@@ -1,0 +1,27 @@
+{
+  "selectedAddress": {
+    "value": null,
+    "coordinates": [],
+    "sapCode": "35XY",
+    "shopAddress": "Москва, Севастопольский проспект, 28к2"
+  },
+  "selectedStore": {
+    "coordinates": [],
+    "sapCode": "35XY",
+    "shopAddress": "Москва, Севастопольский проспект, 28к2"
+  },
+  "filterData": {
+    "value": "",
+    "source": [],
+    "loadingState": 0,
+    "coordinates": [],
+    "selectedItem": null,
+    "hasDelivery": 0,
+    "sapCode": "35XY",
+    "shopAddress": "Москва, Севастопольский проспект, 28к2",
+    "error": null
+  },
+  "geoPositionError": false,
+  "fetchApplyPrevAddress": 6,
+  "isReadyForStorage": true
+}

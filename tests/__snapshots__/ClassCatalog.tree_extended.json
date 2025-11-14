@@ -1,0 +1,26 @@
+{
+  "id": "251C17045",
+  "name": "Пятёрочка выручает!",
+  "description": null,
+  "description_html": null,
+  "image_link": null,
+  "gradient_start": "#F6726A",
+  "gradient_end": "#C64E46",
+  "title_color": "#000000",
+  "advert": null,
+  "categories_tags": [
+    {
+      "id": "251C17046",
+      "name": "Скидки недели"
+    },
+    {
+      "id": "251C17047",
+      "name": "Выгодно"
+    },
+    {
+      "id": "251C17048",
+      "name": "Новинки с доставкой"
+    }
+  ],
+  "additional_icons": []
+}

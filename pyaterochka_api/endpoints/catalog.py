@@ -45,7 +45,7 @@ class ClassCatalog:
         """
 
         request_url = f"{self._parent.CATALOG_URL}/catalog/v2/stores/{sap_code_store_id}/categories?mode={mode.value}&include_restrict={include_restrict}&include_subcategories={1 if subcategories else 0}"
-        return await self._parent._request(method=HttpMethod.GET, url=request_url)
+        return await self._parent._request(method=HttpMethod.GET, url=request_url, add_unstandard_headers=True)
 
     async def tree_extended(self,
                             sap_code_store_id: str,
@@ -53,8 +53,8 @@ class ClassCatalog:
                             include_restrict: bool = True,
                             mode: PurchaseMode = PurchaseMode.STORE) -> FetchResponse:
         """Расширенное представление категории и её подкатегорий."""
-        request_url = f"{self._parent.CATALOG_URL}/api/catalog/v2/stores/{sap_code_store_id}/categories/{category_id}/extended?mode={mode.value}&include_restrict={str(include_restrict).lower()}"
-        return await self._parent._request(method=HttpMethod.GET, url=request_url)
+        request_url = f"{self._parent.CATALOG_URL}/catalog/v2/stores/{sap_code_store_id}/categories/{category_id}/extended?mode={mode.value}&include_restrict={str(include_restrict).lower()}"
+        return await self._parent._request(method=HttpMethod.GET, url=request_url, add_unstandard_headers=True)
 
     async def search(self,
                      sap_code_store_id: str,
@@ -64,8 +64,8 @@ class ClassCatalog:
                      limit: int = 12) -> FetchResponse:
         """Поиск по товарам И категориям."""
         q = urllib.parse.quote(query)
-        request_url = f"{self._parent.CATALOG_URL}/api/catalog/v3/stores/{sap_code_store_id}/search?mode={mode.value}&include_restrict={str(include_restrict).lower()}&q={q}&limit={limit}"
-        return await self._parent._request(method=HttpMethod.GET, url=request_url)
+        request_url = f"{self._parent.CATALOG_URL}/catalog/v3/stores/{sap_code_store_id}/search?mode={mode.value}&include_restrict={str(include_restrict).lower()}&q={q}&limit={limit}"
+        return await self._parent._request(method=HttpMethod.GET, url=request_url, add_unstandard_headers=True)
 
     async def products_list(
             self,
@@ -84,7 +84,7 @@ class ClassCatalog:
         Args:
             category_id (str): The ID of the (sub)category.
             mode (PurchaseMode, optional): The purchase mode to use. Defaults to PurchaseMode.STORE.
-            sap_code_store_id (str, optional): The store ID (official name in API is "sap_code") to use. Defaults to "{self.DEFAULT_STORE_ID}". This lib not support search ID stores.
+            sap_code_store_id (str, optional): The store ID (official name in API is "sap_code") to use. This lib not support search ID stores.
             limit (int, optional): The maximum number of products to retrieve. Defaults to 30. Must be between 1 and 499.
 
         Returns:
@@ -107,7 +107,7 @@ class ClassCatalog:
             encoded_brands = [f'brands={urllib.parse.quote(brand)}' for brand in brands]
             request_url += "&" + '&&'.join(encoded_brands)
 
-        return await self._parent._request(method=HttpMethod.GET, url=request_url)
+        return await self._parent._request(method=HttpMethod.GET, url=request_url, add_unstandard_headers=True)
 
     async def products_line(
             self,
@@ -118,8 +118,8 @@ class ClassCatalog:
             order_by: Sorting = Sorting.POPULARITY
         ) -> FetchResponse:
         """Рекомендованные товары \"что интересного?\"."""
-        request_url = f"https://5d.5ka.ru/api/catalog/v1/stores/{sap_code_store_id}/categories/{category_id}/products_line?mode={mode.value}&include_restrict={str(include_restrict).lower()}&order_by={order_by.value}"
-        return await self._parent._request(method=HttpMethod.GET, url=request_url)
+        request_url = f"{self._parent.CATALOG_URL}/catalog/v1/stores/{sap_code_store_id}/categories/{category_id}/products_line?mode={mode.value}&include_restrict={str(include_restrict).lower()}&order_by={order_by.value}"
+        return await self._parent._request(method=HttpMethod.GET, url=request_url, add_unstandard_headers=True)
 
 
 class ProductService:
@@ -147,4 +147,4 @@ class ProductService:
         """
                  
         request_url = f"{self._parent.CATALOG_URL}/catalog/v2/stores/{sap_code_store_id}/products/{plu_id}?mode={mode.value}&include_restrict={str(include_restrict).lower()}"
-        return await self._parent._request(method=HttpMethod.GET, url=request_url)
+        return await self._parent._request(method=HttpMethod.GET, url=request_url, add_unstandard_headers=True)

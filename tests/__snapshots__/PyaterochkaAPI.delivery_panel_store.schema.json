@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "selectedAddress": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "null"
+        },
+        "coordinates": {
+          "type": "array"
+        },
+        "sapCode": {
+          "type": "string"
+        },
+        "shopAddress": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "coordinates",
+        "sapCode",
+        "shopAddress",
+        "value"
+      ]
+    },
+    "selectedStore": {
+      "type": "object",
+      "properties": {
+        "coordinates": {
+          "type": "array"
+        },
+        "sapCode": {
+          "type": "string"
+        },
+        "shopAddress": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "coordinates",
+        "sapCode",
+        "shopAddress"
+      ]
+    },
+    "filterData": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "source": {
+          "type": "array"
+        },
+        "loadingState": {
+          "type": "integer"
+        },
+        "coordinates": {
+          "type": "array"
+        },
+        "selectedItem": {
+          "type": "null"
+        },
+        "hasDelivery": {
+          "type": "integer"
+        },
+        "sapCode": {
+          "type": "string"
+        },
+        "shopAddress": {
+          "type": "string"
+        },
+        "error": {
+          "type": "null"
+        }
+      },
+      "required": [
+        "coordinates",
+        "error",
+        "hasDelivery",
+        "loadingState",
+        "sapCode",
+        "selectedItem",
+        "shopAddress",
+        "source",
+        "value"
+      ]
+    },
+    "geoPositionError": {
+      "type": "boolean"
+    },
+    "fetchApplyPrevAddress": {
+      "type": "integer"
+    },
+    "isReadyForStorage": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "fetchApplyPrevAddress",
+    "filterData",
+    "geoPositionError",
+    "isReadyForStorage",
+    "selectedAddress",
+    "selectedStore"
+  ]
+}

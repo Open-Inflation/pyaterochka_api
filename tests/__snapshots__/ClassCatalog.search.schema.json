@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "search_query_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "query_type": {
+      "type": "string"
+    },
+    "products": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "plu": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "image_links": {
+            "type": "object",
+            "properties": {
+              "small": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              },
+              "normal": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            },
+            "required": [
+              "normal",
+              "small"
+            ]
+          },
+          "uom": {
+            "type": "string"
+          },
+          "step": {
+            "type": "string"
+          },
+          "rating": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "rating_average": {
+                    "type": "number"
+                  },
+                  "rates_count": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "rates_count",
+                  "rating_average"
+                ]
+              }
+            ]
+          },
+          "promo": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "rebate": {
+                    "type": "object",
+                    "properties": {
+                      "units_to_activate": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "units_to_activate"
+                    ]
+                  }
+                },
+                "required": [
+                  "rebate"
+                ]
+              }
+            ]
+          },
+          "prices": {
+            "type": "object",
+            "properties": {
+              "regular": {
+                "type": "string"
+              },
+              "discount": {
+                "type": [
+                  "null",
+                  "string"
+                ]
+              },
+              "cpd_promo_price": {
+                "type": [
+                  "null",
+                  "string"
+                ]
+              }
+            },
+            "required": [
+              "cpd_promo_price",
+              "discount",
+              "regular"
+            ]
+          },
+          "labels": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "bg_color": {
+                      "type": "string"
+                    },
+                    "text_color": {
+                      "type": "string"
+                    },
+                    "icon_url": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "bg_color",
+                    "label",
+                    "text_color"
+                  ]
+                }
+              }
+            ]
+          },
+          "property_clarification": {
+            "type": "string"
+          },
+          "has_age_restriction": {
+            "type": "boolean"
+          },
+          "stock_limit": {
+            "type": "string"
+          },
+          "product_advert": {
+            "type": "null"
+          },
+          "is_large_card": {
+            "type": "null"
+          },
+          "boost_type": {
+            "type": "null"
+          },
+          "badges": {
+            "type": "array"
+          },
+          "initial_weight_step": {
+            "type": "string"
+          },
+          "min_weight": {
+            "type": "string"
+          },
+          "orange_loyalty_points": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "is_available": {
+            "type": "boolean"
+          },
+          "price_piece_unit": {
+            "type": "null"
+          }
+        },
+        "required": [
+          "badges",
+          "boost_type",
+          "has_age_restriction",
+          "image_links",
+          "initial_weight_step",
+          "is_available",
+          "is_large_card",
+          "labels",
+          "min_weight",
+          "name",
+          "orange_loyalty_points",
+          "plu",
+          "price_piece_unit",
+          "prices",
+          "product_advert",
+          "promo",
+          "property_clarification",
+          "rating",
+          "step",
+          "stock_limit",
+          "uom"
+        ]
+      }
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "parent_name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "parent_name",
+          "type"
+        ]
+      }
+    }
+  },
+  "required": [
+    "categories",
+    "products",
+    "query_type",
+    "search_query_id"
+  ]
+}

@@ -4,7 +4,7 @@ import os
 from dataclasses import dataclass, field
 from typing import Any
 import json
-
+from collections import defaultdict
 from camoufox.async_api import AsyncCamoufox
 from human_requests import HumanBrowser, HumanContext, HumanPage
 from human_requests.abstraction import FetchResponse, HttpMethod, Proxy
@@ -50,7 +50,7 @@ class PyaterochkaAPI:
     page: HumanPage = field(init=False, repr=False)
     """Внутренний страница сессии браузера"""
     
-    unstandard_headers: dict[str, str] = {}
+    unstandard_headers: dict[str, str] = field(init=False, repr=False)
     """Список нестандартных заголовков пойманных при инициализации"""
 
     Geolocation: ClassGeolocation = field(init=False)
@@ -116,8 +116,17 @@ class PyaterochkaAPI:
             timeout_ms=self.timeout_ms
         )
 
-        result = await sniffer.complete()
-        self.unstandard_headers = result.get("https://5d.5ka.ru")
+        result_sniffer = await sniffer.complete()
+        # Результат: {заголовок: [уникальные значения]}
+        result = defaultdict(set)
+
+        # Проходим по всем URL в 'request'
+        for _url, headers in result_sniffer['request'].items():
+            for header, values in headers.items():
+                result[header].update(values)  # добавляем значения, set уберёт дубли
+
+        # Преобразуем set обратно в list
+        self.unstandard_headers = {k: list(v) for k, v in result.items()}
 
     async def __aexit__(self, *exc):
         """Выход из контекстного менеджера с закрытием сессии."""

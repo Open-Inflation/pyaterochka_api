@@ -53,3 +53,5 @@ version = {attr = "pyaterochka_api.__version__"}
 pythonpath = ["."]
 testpaths = ["tests"]
 python_files = ["*_test.py", "*_tests.py"]
+anyio_mode = "auto"
+addopts = "-v --tb=short --disable-warnings"

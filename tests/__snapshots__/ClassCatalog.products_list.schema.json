@@ -1,5 +1,5 @@
 {
-  "$schema": "http://json-schema.org/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "properties": {
     "parent_id": {
@@ -111,22 +111,52 @@
             "type": "string"
           },
           "rating": {
-            "type": "object",
-            "properties": {
-              "rating_average": {
-                "type": "number"
+            "anyOf": [
+              {
+                "type": "null"
               },
-              "rates_count": {
-                "type": "integer"
+              {
+                "type": "object",
+                "properties": {
+                  "rating_average": {
+                    "type": "number"
+                  },
+                  "rates_count": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "rates_count",
+                  "rating_average"
+                ]
               }
-            },
-            "required": [
-              "rates_count",
-              "rating_average"
             ]
           },
           "promo": {
-            "type": "null"
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "rebate": {
+                    "type": "object",
+                    "properties": {
+                      "units_to_activate": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "units_to_activate"
+                    ]
+                  }
+                },
+                "required": [
+                  "rebate"
+                ]
+              }
+            ]
           },
           "prices": {
             "type": "object",
@@ -135,10 +165,16 @@
                 "type": "string"
               },
               "discount": {
-                "type": "string"
+                "type": [
+                  "null",
+                  "string"
+                ]
               },
               "cpd_promo_price": {
-                "type": "null"
+                "type": [
+                  "null",
+                  "string"
+                ]
               }
             },
             "required": [
@@ -148,26 +184,36 @@
             ]
           },
           "labels": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "label": {
-                  "type": "string"
-                },
-                "bg_color": {
-                  "type": "string"
-                },
-                "text_color": {
-                  "type": "string"
-                }
+            "anyOf": [
+              {
+                "type": "null"
               },
-              "required": [
-                "bg_color",
-                "label",
-                "text_color"
-              ]
-            }
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "bg_color": {
+                      "type": "string"
+                    },
+                    "text_color": {
+                      "type": "string"
+                    },
+                    "icon_url": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "bg_color",
+                    "label",
+                    "text_color"
+                  ]
+                }
+              }
+            ]
           },
           "property_clarification": {
             "type": "string"
@@ -186,6 +232,18 @@
           },
           "min_weight": {
             "type": "string"
+          },
+          "orange_loyalty_points": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "is_available": {
+            "type": "boolean"
+          },
+          "price_piece_unit": {
+            "type": "null"
           }
         },
         "required": [
@@ -193,10 +251,13 @@
           "has_age_restriction",
           "image_links",
           "initial_weight_step",
+          "is_available",
           "labels",
           "min_weight",
           "name",
+          "orange_loyalty_points",
           "plu",
+          "price_piece_unit",
           "prices",
           "promo",
           "property_clarification",

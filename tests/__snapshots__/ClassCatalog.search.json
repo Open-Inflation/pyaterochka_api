@@ -1,0 +1,514 @@
+{
+  "search_query_id": "b4ceaf90-5607-4557-a2a8-7f21cb5397cc",
+  "query_type": "strict",
+  "products": [
+    {
+      "plu": 4429993,
+      "name": "Напиток Кола Добрый с пониженной калорийностью газированный 1л",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/2063329-main/320x320.jpeg?updated_at=2025-09-29T11:29:23.079Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/2063329-main/800x800.jpeg?updated_at=2025-09-29T11:29:23.079Z"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.85,
+        "rates_count": 9332
+      },
+      "promo": null,
+      "prices": {
+        "regular": "89.99",
+        "discount": null,
+        "cpd_promo_price": null
+      },
+      "labels": null,
+      "property_clarification": "1 л",
+      "has_age_restriction": false,
+      "stock_limit": "39.00",
+      "product_advert": null,
+      "is_large_card": null,
+      "boost_type": null,
+      "badges": [],
+      "initial_weight_step": "1.0",
+      "min_weight": "1.0",
+      "orange_loyalty_points": 62,
+      "is_available": true,
+      "price_piece_unit": null
+    },
+    {
+      "plu": 4042943,
+      "name": "Крем для лица Tolk Pharm Коллаген косметический 40мл",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1454261-main/320x320.jpeg?updated_at=2025-05-02T17:09:37.403Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1454261-main/800x800.jpeg?updated_at=2025-05-02T17:09:37.403Z",
+          "https://catalog-images.x5static.net/product/20d6eaf4fdfed9ffab2c5f7eef85cd01-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/ff83f746e9a244ef15c3444a56898fae-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": null,
+      "promo": null,
+      "prices": {
+        "regular": "189.99",
+        "discount": null,
+        "cpd_promo_price": null
+      },
+      "labels": null,
+      "property_clarification": "40 мл",
+      "has_age_restriction": false,
+      "stock_limit": "0.00",
+      "product_advert": null,
+      "is_large_card": null,
+      "boost_type": null,
+      "badges": [],
+      "initial_weight_step": "1.0",
+      "min_weight": "1.0",
+      "orange_loyalty_points": 70,
+      "is_available": true,
+      "price_piece_unit": null
+    },
+    {
+      "plu": 4316013,
+      "name": "Напиток Любимая Кола газированный 2л",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1574988-main/320x320.jpeg?updated_at=2025-01-31T14:19:44.790Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1574988-main/800x800.jpeg?updated_at=2025-01-31T14:19:44.790Z",
+          "https://catalog-images.x5static.net/product/8b65d972fa99ee3323f2ca3a1312cb17-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/1940005236f27382cfbf8e7eaed84e49-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.86,
+        "rates_count": 243
+      },
+      "promo": null,
+      "prices": {
+        "regular": "217.99",
+        "discount": null,
+        "cpd_promo_price": null
+      },
+      "labels": null,
+      "property_clarification": "2 л",
+      "has_age_restriction": false,
+      "stock_limit": "6.00",
+      "product_advert": null,
+      "is_large_card": null,
+      "boost_type": null,
+      "badges": [],
+      "initial_weight_step": "1.0",
+      "min_weight": "1.0",
+      "orange_loyalty_points": 140,
+      "is_available": true,
+      "price_piece_unit": null
+    },
+    {
+      "plu": 4279793,
+      "name": "Напиток Любимая Кола газированный 1л",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1502059-main/320x320.jpeg?updated_at=2025-01-13T06:06:50.056Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1502059-main/800x800.jpeg?updated_at=2025-01-13T06:06:50.056Z",
+          "https://catalog-images.x5static.net/product/1e53600e3ed291d4bb355d53f2429494-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/45af3f26bb4cc5194585dc8e50bd5aa4-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/77bea9ce06ff45b1a99aaa4bbef93824-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/bd2f0ebbb6e6e624928b76f5a3cb4064-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/fca49911061e7eeae8943ad1767e1d65-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.6,
+        "rates_count": 11
+      },
+      "promo": null,
+      "prices": {
+        "regular": "117.99",
+        "discount": null,
+        "cpd_promo_price": null
+      },
+      "labels": null,
+      "property_clarification": "1 л",
+      "has_age_restriction": false,
+      "stock_limit": "23.00",
+      "product_advert": null,
+      "is_large_card": null,
+      "boost_type": null,
+      "badges": [],
+      "initial_weight_step": "1.0",
+      "min_weight": "1.0",
+      "orange_loyalty_points": 70,
+      "is_available": true,
+      "price_piece_unit": null
+    },
+    {
+      "plu": 4279795,
+      "name": "Напиток газированный Любимая Кола 1.5л",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1499734-main/320x320.jpeg?updated_at=2024-12-24T14:28:46.464Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1499734-main/800x800.jpeg?updated_at=2024-12-24T14:28:46.464Z",
+          "https://catalog-images.x5static.net/product/006f1beddcd43d21ed03d8a3567275a7-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.3,
+        "rates_count": 10
+      },
+      "promo": null,
+      "prices": {
+        "regular": "190.99",
+        "discount": null,
+        "cpd_promo_price": null
+      },
+      "labels": null,
+      "property_clarification": "1.5 л",
+      "has_age_restriction": false,
+      "stock_limit": "9.00",
+      "product_advert": null,
+      "is_large_card": null,
+      "boost_type": null,
+      "badges": [],
+      "initial_weight_step": "1.0",
+      "min_weight": "1.0",
+      "orange_loyalty_points": 70,
+      "is_available": true,
+      "price_piece_unit": null
+    },
+    {
+      "plu": 4279789,
+      "name": "Напиток Любимая Кола газированный 500мл",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1506044-main/320x320.jpeg?updated_at=2025-01-31T14:19:42.485Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1506044-main/800x800.jpeg?updated_at=2025-01-31T14:19:42.485Z",
+          "https://catalog-images.x5static.net/product/a6d7e74b9b0a08bf041ec325f02b860f-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/9fa4ed6bc6c9e81c57647f66bafdb6c6-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/65b5e5d0e7b9503dd06860b18c26752e-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/d7032517d1a8acbea560eb34e7caa000-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.79,
+        "rates_count": 175
+      },
+      "promo": null,
+      "prices": {
+        "regular": "89.99",
+        "discount": null,
+        "cpd_promo_price": null
+      },
+      "labels": null,
+      "property_clarification": "500 мл",
+      "has_age_restriction": false,
+      "stock_limit": "7.00",
+      "product_advert": null,
+      "is_large_card": null,
+      "boost_type": null,
+      "badges": [],
+      "initial_weight_step": "1.0",
+      "min_weight": "1.0",
+      "orange_loyalty_points": 62,
+      "is_available": true,
+      "price_piece_unit": null
+    },
+    {
+      "plu": 4279817,
+      "name": "Напиток Любимая Кола газированный 0.33л",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1499712-main/320x320.jpeg?updated_at=2025-02-24T13:19:20.998Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1499712-main/800x800.jpeg?updated_at=2025-02-24T13:19:20.998Z",
+          "https://catalog-images.x5static.net/product/be00b99a8d24d398f088368270fc8f36-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/cd157eb52fd951628b37992dca4026f3-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.75,
+        "rates_count": 12
+      },
+      "promo": null,
+      "prices": {
+        "regular": "65.99",
+        "discount": null,
+        "cpd_promo_price": null
+      },
+      "labels": null,
+      "property_clarification": "330 мл",
+      "has_age_restriction": false,
+      "stock_limit": "0.00",
+      "product_advert": null,
+      "is_large_card": null,
+      "boost_type": null,
+      "badges": [],
+      "initial_weight_step": "1.0",
+      "min_weight": "1.0",
+      "orange_loyalty_points": 46,
+      "is_available": true,
+      "price_piece_unit": null
+    },
+    {
+      "plu": 4213891,
+      "name": "Напиток Черноголовка Кола 2л",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1447700-main/320x320.jpeg?updated_at=2025-10-29T10:37:30.311Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1447700-main/800x800.jpeg?updated_at=2025-10-29T10:37:30.311Z",
+          "https://catalog-images.x5static.net/product/a7200adf71f9bc86383293a7dde3ba2c-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/b6428af12e388b318a321d45f3e630a2-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/556623c891db8b77c3756f0d13a0dafd-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/7f29f11663caa1871a4490777f293981-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.89,
+        "rates_count": 51643
+      },
+      "promo": null,
+      "prices": {
+        "regular": "139.99",
+        "discount": null,
+        "cpd_promo_price": null
+      },
+      "labels": null,
+      "property_clarification": "2 л",
+      "has_age_restriction": false,
+      "stock_limit": "13.00",
+      "product_advert": null,
+      "is_large_card": null,
+      "boost_type": null,
+      "badges": [],
+      "initial_weight_step": "1.0",
+      "min_weight": "1.0",
+      "orange_loyalty_points": 70,
+      "is_available": true,
+      "price_piece_unit": null
+    },
+    {
+      "plu": 4279557,
+      "name": "Напиток Evervess Кола газированный 1л",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1499731-main/320x320.jpeg?updated_at=2025-03-10T18:15:29.565Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1499731-main/800x800.jpeg?updated_at=2025-03-10T18:15:29.565Z",
+          "https://catalog-images.x5static.net/product/fd6ee1fee6343a65c53f186e5077b849-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/626a6024e4302723d111d33f571bf4c4-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/203cca2747ff0c0f6b64944474ee01b2-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/b7bdabc4dcf178e0d41ea6874d9b904b-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/8de11c6dd551da3abff51517532b46ed-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/ac8be54b44a17d28b7c9064e694feacf-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.87,
+        "rates_count": 27398
+      },
+      "promo": {
+        "rebate": {
+          "units_to_activate": 2
+        }
+      },
+      "prices": {
+        "regular": "119.99",
+        "discount": "99.99",
+        "cpd_promo_price": "84.99"
+      },
+      "labels": [
+        {
+          "label": "% от 2 шт",
+          "bg_color": "#FFD700",
+          "text_color": "#302E33"
+        }
+      ],
+      "property_clarification": "1 л",
+      "has_age_restriction": false,
+      "stock_limit": "89.00",
+      "product_advert": null,
+      "is_large_card": null,
+      "boost_type": null,
+      "badges": [],
+      "initial_weight_step": "1.0",
+      "min_weight": "1.0",
+      "orange_loyalty_points": null,
+      "is_available": true,
+      "price_piece_unit": null
+    },
+    {
+      "plu": 4306402,
+      "name": "Напиток Черноголовка Кола без сахара газированный 1.5л",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1599225-main/320x320.jpeg?updated_at=2025-10-29T10:37:30.085Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1599225-main/800x800.jpeg?updated_at=2025-10-29T10:37:30.085Z",
+          "https://catalog-images.x5static.net/product/d84959e1fa9c3d51d0bbd3fff7afe509-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/2e2e9bee63ed9c1fb81f7020e6ccbfa7-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.87,
+        "rates_count": 19484
+      },
+      "promo": null,
+      "prices": {
+        "regular": "114.99",
+        "discount": null,
+        "cpd_promo_price": null
+      },
+      "labels": [
+        {
+          "label": "Без сахара",
+          "icon_url": null,
+          "bg_color": "#8FAACB",
+          "text_color": "#FFFFFF"
+        }
+      ],
+      "property_clarification": "1.5 л",
+      "has_age_restriction": false,
+      "stock_limit": "4.00",
+      "product_advert": null,
+      "is_large_card": null,
+      "boost_type": null,
+      "badges": [],
+      "initial_weight_step": "1.0",
+      "min_weight": "1.0",
+      "orange_loyalty_points": 70,
+      "is_available": true,
+      "price_piece_unit": null
+    },
+    {
+      "plu": 4336084,
+      "name": "Напиток Добрый Кола газированный 250мл",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1595607-main/320x320.jpeg?updated_at=2025-03-10T13:41:11.187Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1595607-main/800x800.jpeg?updated_at=2025-03-10T13:41:11.187Z",
+          "https://catalog-images.x5static.net/product/95e23b4cf6915730450c59ff38a97c37-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.83,
+        "rates_count": 2188
+      },
+      "promo": null,
+      "prices": {
+        "regular": "75.99",
+        "discount": null,
+        "cpd_promo_price": null
+      },
+      "labels": null,
+      "property_clarification": "250 г",
+      "has_age_restriction": false,
+      "stock_limit": "12.00",
+      "product_advert": null,
+      "is_large_card": null,
+      "boost_type": null,
+      "badges": [],
+      "initial_weight_step": "1.0",
+      "min_weight": "1.0",
+      "orange_loyalty_points": 53,
+      "is_available": true,
+      "price_piece_unit": null
+    },
+    {
+      "plu": 4311536,
+      "name": "Напиток Добрый Кола газированный 250мл",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1564814-main/320x320.jpeg?updated_at=2025-03-10T13:41:12.520Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1564814-main/800x800.jpeg?updated_at=2025-03-10T13:41:12.520Z",
+          "https://catalog-images.x5static.net/product/5123220f257202906745870d9e6ec8c3-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.87,
+        "rates_count": 23220
+      },
+      "promo": null,
+      "prices": {
+        "regular": "61.99",
+        "discount": null,
+        "cpd_promo_price": null
+      },
+      "labels": null,
+      "property_clarification": "250 мл",
+      "has_age_restriction": false,
+      "stock_limit": "15.00",
+      "product_advert": null,
+      "is_large_card": null,
+      "boost_type": null,
+      "badges": [],
+      "initial_weight_step": "1.0",
+      "min_weight": "1.0",
+      "orange_loyalty_points": 43,
+      "is_available": true,
+      "price_piece_unit": null
+    }
+  ],
+  "categories": [
+    {
+      "id": "251C13451",
+      "type": "subcategory",
+      "name": "Газировка, лимонад",
+      "parent_name": "Газировка"
+    },
+    {
+      "id": "251C17054",
+      "type": "subcategory",
+      "name": "Все все все",
+      "parent_name": "Новинки с доставкой"
+    },
+    {
+      "id": "251C13744",
+      "type": "subcategory",
+      "name": "Уход для лица",
+      "parent_name": "Уход за телом и лицом"
+    }
+  ]
+}

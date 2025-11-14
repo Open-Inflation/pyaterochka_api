@@ -32,12 +32,12 @@ class ClassGeolocation:
         """
 
         request_url = f"{self._parent.CATALOG_URL}/orders/v1/orders/stores/?lon={longitude}&lat={latitude}"
-        return await self._parent._request(method=HttpMethod.GET, url=request_url)
+        return await self._parent._request(method=HttpMethod.GET, url=request_url, add_unstandard_headers=True)
 
     async def suggest(self, query: str) -> FetchResponse:
         """Начинайте вводить адрес, он предложит точные варианты"""
         request_url = f"{self._parent.CATALOG_URL}/maps/suggest/?text={urllib.parse.quote(query)}"
-        return await self._parent._request(method=HttpMethod.GET, url=request_url)
+        return await self._parent._request(method=HttpMethod.GET, url=request_url, add_unstandard_headers=True)
 
     async def geocode(self,
                       country: str = "Россия",
@@ -51,4 +51,4 @@ class ClassGeolocation:
         string = urllib.parse.quote(", ".join(tup))
         
         request_url = f"{self._parent.MAIN_SITE_URL}/api/maps/geocode/?geocode={string}"
-        return await self._parent._request(method=HttpMethod.GET, url=request_url)
+        return await self._parent._request(method=HttpMethod.GET, url=request_url, add_unstandard_headers=True)

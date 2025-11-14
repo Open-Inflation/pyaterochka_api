@@ -1,0 +1,111 @@
+{
+  "plu": 3395339,
+  "name": "Кофе Egoiste Noir молотый 250г",
+  "image_links": {
+    "small": [
+      "https://catalog-images.x5static.net/product/1168633-main/320x320.jpeg?updated_at=2025-01-31T14:11:57.593Z"
+    ],
+    "normal": [
+      "https://catalog-images.x5static.net/product/1168633-main/800x800.jpeg?updated_at=2025-01-31T14:11:57.593Z",
+      "https://catalog-images.x5static.net/product/ba2653c5bf60bbbaaf1a1172cb085d76-additional/800x800.jpeg",
+      "https://catalog-images.x5static.net/product/4554e5c39733ee63941b3a4f971e40c5-additional/800x800.jpeg",
+      "https://catalog-images.x5static.net/product/e05db61b722c4f81b4314ff7cfd723bc-additional/800x800.jpeg"
+    ]
+  },
+  "uom": "шт",
+  "step": "1.0",
+  "rating": {
+    "rating_average": 5.0,
+    "rates_count": 10,
+    "reviews_count": null
+  },
+  "promo": null,
+  "prices": [
+    {
+      "value": "999.99",
+      "placement_type": "regular_primary"
+    }
+  ],
+  "labels": null,
+  "property_clarification": "250 г",
+  "has_age_restriction": false,
+  "stock_limit": "3.00",
+  "initial_weight_step": "1.0",
+  "min_weight": "1.0",
+  "price_piece_unit": null,
+  "description": "EGOISTE Noir \nМолотый кофе \nОтборные кофейные зерна из Эфиопии в сочетании с сортами из Папуа-Новой Гвинеи подарили этому бленду ярко выраженный фруктово-цветочный вкус и ненавязчивой кислинкой в послевкусии.\nВкусовой профиль: Сладкий фруктовый, цветочный. Насыщенный и мягкий.\nРегион произрастания зерен: Эфиопия, Папуа-Новая Гвинея\nПодходит для всех методов заваривания.",
+  "description_md": "EGOISTE Noir \nМолотый кофе \nОтборные кофейные зерна из Эфиопии в сочетании с сортами из Папуа-Новой Гвинеи подарили этому бленду ярко выраженный фруктово-цветочный вкус и ненавязчивой кислинкой в послевкусии.\nВкусовой профиль: Сладкий фруктовый, цветочный. Насыщенный и мягкий.\nРегион произрастания зерен: Эфиопия, Папуа-Новая Гвинея\nПодходит для всех методов заваривания.",
+  "description_html": "<p>EGOISTE Noir <br>Молотый кофе <br>Отборные кофейные зерна из Эфиопии в сочетании с сортами из Папуа-Новой Гвинеи подарили этому бленду ярко выраженный фруктово-цветочный вкус и ненавязчивой кислинкой в послевкусии.<br>Вкусовой профиль: Сладкий фруктовый, цветочный. Насыщенный и мягкий.<br>Регион произрастания зерен: Эфиопия, Папуа-Новая Гвинея<br>Подходит для всех методов заваривания.</p>",
+  "nutrients": [
+    {
+      "value": "1.5",
+      "text": "белки"
+    },
+    {
+      "value": "3.6",
+      "text": "жиры"
+    },
+    {
+      "value": "0.0",
+      "text": "углеводы"
+    },
+    {
+      "value": "94.2",
+      "text": "ккал"
+    }
+  ],
+  "attributes": [
+    {
+      "name": "Вес",
+      "value": "0.25",
+      "uom": "кг"
+    },
+    {
+      "name": "Срок хранения",
+      "value": "730 дней",
+      "uom": null
+    },
+    {
+      "name": "Условия хранения",
+      "value": "плотно закрытым в сухом прохладном месте без посторонних запахов при температуре не выше +20°С и относительной влажности воздуха не более 70%",
+      "uom": null
+    },
+    {
+      "name": "Бренд",
+      "value": "Egoiste",
+      "uom": null
+    },
+    {
+      "name": "Страна производства",
+      "value": "Германия",
+      "uom": null
+    },
+    {
+      "name": "Белки",
+      "value": "1.5",
+      "uom": "г"
+    },
+    {
+      "name": "Жиры",
+      "value": "3.6",
+      "uom": "г"
+    },
+    {
+      "name": "Углеводы",
+      "value": "0.0",
+      "uom": "г"
+    },
+    {
+      "name": "Энергетическая ценность",
+      "value": "94.2",
+      "uom": "ккал"
+    }
+  ],
+  "ingredients": "100% арабика",
+  "ingredients_html": null,
+  "is_available": true,
+  "is_various_manufacturers": false,
+  "badges": [],
+  "orange_loyalty_points": 630,
+  "can_view_reviews": false
+}

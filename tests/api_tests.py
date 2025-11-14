@@ -1,51 +1,103 @@
 import pytest
-from pyaterochka_api import Pyaterochka
-from io import BytesIO
-from typed_schema_shot import SchemaShot
+from PIL import Image
+from pyaterochka_api import PyaterochkaAPI
+from pytest_jsonschema_snapshot import SchemaShot
 
 
-@pytest.mark.asyncio
-async def test_list(schemashot: SchemaShot):
-    async with Pyaterochka(debug=True, trust_env=True) as API:
-        categories = await API.categories_list(subcategories=True)
-        schemashot.assert_match(categories, "categories_list")
+@pytest.fixture(scope="session")
+def anyio_backend():
+    """
+    Переопределяет фикстуру anyio_backend, чтобы использовать asyncio 
+    для всей сессии, устраняя ScopeMismatch с фикстурой 'api'.
+    """
+    return 'asyncio' 
 
-        result = await API.products_list(category_id=categories[0]['id'], limit=5)
-        schemashot.assert_match(result, "products_list")
 
-@pytest.mark.asyncio
-async def test_product_info(schemashot: SchemaShot):
-    async with Pyaterochka(trust_env=True) as API:
-        result = await API.product_info(43347)
-        schemashot.assert_match(result, "product_info")
+@pytest.fixture(scope="session")
+async def api():
+    """Фикстура для инициализации API в рамках сессии"""
+    # anyio автоматически управляет асинхронным контекстным менеджером
+    async with PyaterochkaAPI() as api_instance:
+        yield api_instance
 
-@pytest.mark.asyncio
-async def test_get_news(schemashot: SchemaShot):
-    async with Pyaterochka(debug=True, trust_env=True) as API:
-        result = await API.get_news(limit=5)
-        schemashot.assert_match(result, "get_news")
 
-@pytest.mark.asyncio
-async def test_find_store(schemashot: SchemaShot):
-    async with Pyaterochka(debug=True, trust_env=True) as API:
-        categories = await API.find_store(longitude=37.63156, latitude=55.73768)
-        schemashot.assert_match(categories, "store_info")
+@pytest.fixture(scope="session")
+async def sap_code(api: PyaterochkaAPI) -> str:
+    resp = await api.delivery_panel_store()
+    return resp["selectedStore"]["sapCode"]
 
-@pytest.mark.asyncio
-async def test_download_image():
-    async with Pyaterochka(debug=True, trust_env=True) as API:
-        result = await API.download_image("https://photos.okolo.app/product/1392827-main/800x800.jpeg")
-        assert isinstance(result, BytesIO)
-        assert result.getvalue()
+@pytest.fixture(scope="session")
+async def category_id(api: PyaterochkaAPI, sap_code: str) -> str:
+    """Фикстура для получения данных категории"""
+    tree_resp = await api.Catalog.tree(sap_code_store_id=sap_code)
+    tree_data = tree_resp.json()
+    return tree_data[0]["id"]
 
-@pytest.mark.asyncio
-async def test_set_debug():
-    async with Pyaterochka(debug=True) as API:
-        assert API.debug == True
-        API.debug = False
-        assert API.debug == False
+@pytest.fixture(scope="session")
+async def product_plu(api: PyaterochkaAPI, sap_code: str, category_id: str) -> str:
+    resp = await api.Catalog.products_list(category_id=category_id, sap_code_store_id=sap_code)
+    data = resp.json()
+    return data["products"][0]["plu"]
 
-@pytest.mark.asyncio
-async def test_rebuild_connection():
-    async with Pyaterochka(debug=True, trust_env=True) as API:
-        await API.rebuild_connection()
+
+async def test_delivery_panel_store(api: PyaterochkaAPI, schemashot: SchemaShot):
+    resp = await api.delivery_panel_store()
+    schemashot.assert_json_match(resp, api.delivery_panel_store)
+
+async def test_device_id(api: PyaterochkaAPI, schemashot: SchemaShot):
+    resp = await api.device_id()
+    schemashot.assert_json_match(resp, api.device_id)
+
+async def test_tree(sap_code: str, api: PyaterochkaAPI, schemashot: SchemaShot):
+    resp = await api.Catalog.tree(sap_code_store_id=sap_code)
+    data = resp.json()
+    schemashot.assert_json_match(data, api.Catalog.tree)
+
+async def test_tree_extended(sap_code: str, category_id: str, api: PyaterochkaAPI, schemashot: SchemaShot):
+    resp = await api.Catalog.tree_extended(sap_code_store_id=sap_code, category_id=category_id)
+    data = resp.json()
+    schemashot.assert_json_match(data, api.Catalog.tree_extended)
+
+async def test_search(sap_code: str, api: PyaterochkaAPI, schemashot: SchemaShot):
+    resp = await api.Catalog.search(sap_code_store_id=sap_code, query="кола")
+    data = resp.json()
+    schemashot.assert_json_match(data, api.Catalog.search)
+
+async def test_products_list(sap_code: str, category_id: str, api: PyaterochkaAPI, schemashot: SchemaShot):
+    resp = await api.Catalog.products_list(category_id=category_id, sap_code_store_id=sap_code)
+    data = resp.json()
+    schemashot.assert_json_match(data, api.Catalog.products_list)
+
+async def test_products_line(sap_code: str, category_id: str, api: PyaterochkaAPI, schemashot: SchemaShot):
+    resp = await api.Catalog.products_line(category_id=category_id, sap_code_store_id=sap_code)
+    data = resp.json()
+    schemashot.assert_json_match(data, api.Catalog.products_line)
+
+async def test_product_info(product_plu: str, sap_code: str, api: PyaterochkaAPI, schemashot: SchemaShot):
+    resp = await api.Catalog.Product.info(sap_code_store_id=sap_code, plu_id=product_plu)
+    data = resp.json()
+    schemashot.assert_json_match(data, api.Catalog.Product.info)
+
+async def test_news(api: PyaterochkaAPI, schemashot: SchemaShot):
+    resp = await api.Advertising.news()
+    data = resp.json()
+    schemashot.assert_json_match(data, api.Advertising.news)
+
+async def test_promo_offers(api: PyaterochkaAPI, schemashot: SchemaShot):
+    resp = await api.Advertising.promo_offers()
+    data = resp.json()
+    schemashot.assert_json_match(data, api.Advertising.promo_offers)
+
+async def test_suggest(api: PyaterochkaAPI, schemashot: SchemaShot):
+    resp = await api.Geolocation.suggest("армавир")
+    data = resp.json()
+    schemashot.assert_json_match(data, api.Geolocation.suggest)
+
+async def test_geocode(api: PyaterochkaAPI, schemashot: SchemaShot):
+    resp = await api.Geolocation.geocode()
+    data = resp.json()
+    schemashot.assert_json_match(data, api.Geolocation.geocode)
+
+# TODO find store
+
+# TODO download image

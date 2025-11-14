@@ -7,7 +7,7 @@ async def main():
     async with PyaterochkaAPI(headless=False) as API:
         # RUS: Выводит активные предложения магазина
         # ENG: Outputs active offers of the store
-        pprint((await API.Catalog.tree(sap_code_store_id="35XY", subcategories=False)).json())
+        tree = (await API.Catalog.tree(sap_code_store_id="35XY", subcategories=False)).json()
 
 import asyncio
 asyncio.run(main())

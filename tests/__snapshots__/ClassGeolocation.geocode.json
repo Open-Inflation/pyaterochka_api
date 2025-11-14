@@ -1,0 +1,289 @@
+{
+  "response": {
+    "GeoObjectCollection": {
+      "metaDataProperty": {
+        "GeocoderResponseMetaData": {
+          "request": "Россия, Москва, проспект Мира",
+          "results": "10",
+          "found": "4"
+        }
+      },
+      "featureMember": [
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "precision": "street",
+                "text": "Россия, Москва, проспект Мира",
+                "kind": "street",
+                "Address": {
+                  "country_code": "RU",
+                  "formatted": "Россия, Москва, проспект Мира",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "Россия"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Центральный федеральный округ"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Москва"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "Москва"
+                    },
+                    {
+                      "kind": "street",
+                      "name": "проспект Мира"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Россия, Москва, проспект Мира",
+                    "CountryNameCode": "RU",
+                    "CountryName": "Россия",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "Москва",
+                      "Locality": {
+                        "LocalityName": "Москва",
+                        "Thoroughfare": {
+                          "ThoroughfareName": "проспект Мира"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "name": "проспект Мира",
+            "description": "Москва, Россия",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "37.632215 55.772831",
+                "upperCorner": "37.669791 55.845542"
+              }
+            },
+            "uri": "ymapsbm1://geo?data=Cgc4MDUyOTUxEjXQoNC-0YHRgdC40Y8sINCc0L7RgdC60LLQsCwg0L_RgNC-0YHQv9C10LrRgiDQnNC40YDQsCIKDTuNFkIV1D9fQg,,",
+            "Point": {
+              "pos": "37.637919 55.812332"
+            }
+          }
+        },
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "precision": "other",
+                "text": "Россия, Москва, Калужско-Рижская линия, метро Проспект Мира",
+                "kind": "metro",
+                "Address": {
+                  "country_code": "RU",
+                  "formatted": "Россия, Москва, Калужско-Рижская линия, метро Проспект Мира",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "Россия"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Центральный федеральный округ"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Москва"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "Москва"
+                    },
+                    {
+                      "kind": "route",
+                      "name": "Калужско-Рижская линия"
+                    },
+                    {
+                      "kind": "metro",
+                      "name": "метро Проспект Мира"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Россия, Москва, Калужско-Рижская линия, метро Проспект Мира",
+                    "CountryNameCode": "RU",
+                    "CountryName": "Россия",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "Москва",
+                      "Locality": {
+                        "LocalityName": "Москва",
+                        "Thoroughfare": {
+                          "ThoroughfareName": "Калужско-Рижская линия",
+                          "Premise": {
+                            "PremiseName": "метро Проспект Мира"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "name": "метро Проспект Мира",
+            "description": "Калужско-Рижская линия, Москва, Россия",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "37.624804 55.77711",
+                "upperCorner": "37.641261 55.786384"
+              }
+            },
+            "uri": "ymapsbm1://geo?data=CgkxMDAwNzkyMTISbNCg0L7RgdGB0LjRjywg0JzQvtGB0LrQstCwLCDQmtCw0LvRg9C20YHQutC-LdCg0LjQttGB0LrQsNGPINC70LjQvdC40Y8sINC80LXRgtGA0L4g0J_RgNC-0YHQv9C10LrRgiDQnNC40YDQsCIKDTmIFkIVgiBfQg,,",
+            "Point": {
+              "pos": "37.633032 55.781747"
+            }
+          }
+        },
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "precision": "other",
+                "text": "Россия, Москва, Кольцевая линия, метро Проспект Мира",
+                "kind": "metro",
+                "Address": {
+                  "country_code": "RU",
+                  "formatted": "Россия, Москва, Кольцевая линия, метро Проспект Мира",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "Россия"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Центральный федеральный округ"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Москва"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "Москва"
+                    },
+                    {
+                      "kind": "route",
+                      "name": "Кольцевая линия"
+                    },
+                    {
+                      "kind": "metro",
+                      "name": "метро Проспект Мира"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Россия, Москва, Кольцевая линия, метро Проспект Мира",
+                    "CountryNameCode": "RU",
+                    "CountryName": "Россия",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "Москва",
+                      "Locality": {
+                        "LocalityName": "Москва",
+                        "Thoroughfare": {
+                          "ThoroughfareName": "Кольцевая линия",
+                          "Premise": {
+                            "PremiseName": "метро Проспект Мира"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "name": "метро Проспект Мира",
+            "description": "Кольцевая линия, Москва, Россия",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "37.625244 55.774998",
+                "upperCorner": "37.641701 55.784273"
+              }
+            },
+            "uri": "ymapsbm1://geo?data=CgkxMDAwNzkxOTYSX9Cg0L7RgdGB0LjRjywg0JzQvtGB0LrQstCwLCDQmtC-0LvRjNGG0LXQstCw0Y8g0LvQuNC90LjRjywg0LzQtdGC0YDQviDQn9GA0L7RgdC_0LXQutGCINCc0LjRgNCwIgoNrIgWQhVYHl9C",
+            "Point": {
+              "pos": "37.633473 55.779636"
+            }
+          }
+        },
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "precision": "street",
+                "text": "Россия, Москва, проспект Мира (дублёр)",
+                "kind": "street",
+                "Address": {
+                  "country_code": "RU",
+                  "formatted": "Россия, Москва, проспект Мира (дублёр)",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "Россия"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Центральный федеральный округ"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Москва"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "Москва"
+                    },
+                    {
+                      "kind": "street",
+                      "name": "проспект Мира (дублёр)"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Россия, Москва, проспект Мира (дублёр)",
+                    "CountryNameCode": "RU",
+                    "CountryName": "Россия",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "Москва",
+                      "Locality": {
+                        "LocalityName": "Москва",
+                        "Thoroughfare": {
+                          "ThoroughfareName": "проспект Мира (дублёр)"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "name": "проспект Мира (дублёр)",
+            "description": "Москва, Россия",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "37.63438 55.799998",
+                "upperCorner": "37.652041 55.831393"
+              }
+            },
+            "uri": "ymapsbm1://geo?data=CggxMDA1MDQ0NRJE0KDQvtGB0YHQuNGPLCDQnNC-0YHQutCy0LAsINC_0YDQvtGB0L_QtdC60YIg0JzQuNGA0LAgKNC00YPQsdC70ZHRgCkiCg3GjhZCFc9EX0I,",
+            "Point": {
+              "pos": "37.639428 55.817198"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

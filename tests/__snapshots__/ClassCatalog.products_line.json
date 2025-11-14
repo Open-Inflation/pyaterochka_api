@@ -1,0 +1,948 @@
+{
+  "category_title": "Пятёрочка выручает!",
+  "products": [
+    {
+      "plu": 3395339,
+      "name": "Кофе Egoiste Noir молотый 250г",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1168633-main/320x320.jpeg?updated_at=2025-01-31T14:11:57.593Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1168633-main/800x800.jpeg?updated_at=2025-01-31T14:11:57.593Z",
+          "https://catalog-images.x5static.net/product/ba2653c5bf60bbbaaf1a1172cb085d76-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/4554e5c39733ee63941b3a4f971e40c5-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/e05db61b722c4f81b4314ff7cfd723bc-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 5.0,
+        "rates_count": 10
+      },
+      "promo": null,
+      "prices": {
+        "regular": "999.99",
+        "discount": null
+      },
+      "labels": null,
+      "property_clarification": "250 г",
+      "has_age_restriction": false,
+      "stock_limit": "3.00"
+    },
+    {
+      "plu": 4327381,
+      "name": "Виноград Шайн Мускат нефритовый",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1623007-main/320x320.jpeg?updated_at=2025-09-24T17:36:02.279Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1623007-main/800x800.jpeg?updated_at=2025-09-24T17:36:02.279Z",
+          "https://catalog-images.x5static.net/product/b724f1f4a0ad1084cbc9800cb26ffcc4-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/258e07caeb95c4c33e30d27e48e6545c-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "кг",
+      "step": "1.1",
+      "rating": {
+        "rating_average": 4.83,
+        "rates_count": 15709
+      },
+      "promo": null,
+      "prices": {
+        "regular": "399.99",
+        "discount": null
+      },
+      "labels": null,
+      "property_clarification": "Цена за 1 кг",
+      "has_age_restriction": false,
+      "stock_limit": "46.37"
+    },
+    {
+      "plu": 4225898,
+      "name": "Вино Free Feather безалкогольное газированное сладкое белое 0.75л",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1488585-main/320x320.jpeg?updated_at=2025-03-11T20:38:21.773Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1488585-main/800x800.jpeg?updated_at=2025-03-11T20:38:21.773Z"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": null,
+      "promo": null,
+      "prices": {
+        "regular": "799.99",
+        "discount": null
+      },
+      "labels": null,
+      "property_clarification": "750 мл",
+      "has_age_restriction": false,
+      "stock_limit": "9.00"
+    },
+    {
+      "plu": 3406629,
+      "name": "Зефир Шарлиз глазированный ваниль 240г",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1169170-main/320x320.jpeg?updated_at=2025-09-25T10:28:53.508Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1169170-main/800x800.jpeg?updated_at=2025-09-25T10:28:53.508Z"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.84,
+        "rates_count": 13066
+      },
+      "promo": null,
+      "prices": {
+        "regular": "169.99",
+        "discount": "99.99"
+      },
+      "labels": [
+        {
+          "label": "-41%",
+          "bg_color": "#FFD700",
+          "text_color": "#302E33"
+        }
+      ],
+      "property_clarification": "240 г",
+      "has_age_restriction": false,
+      "stock_limit": "0.00"
+    },
+    {
+      "plu": 29866,
+      "name": "Помело розовое",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1157869-main/320x320.jpeg?updated_at=2025-03-12T07:06:20.501Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1157869-main/800x800.jpeg?updated_at=2025-03-12T07:06:20.501Z",
+          "https://catalog-images.x5static.net/product/73e68b09a514a66025d1e382e7e1b3ce-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/b7fe0a7f0120d5db891e58c5e8c966aa-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "кг",
+      "step": "1.2",
+      "rating": {
+        "rating_average": 4.69,
+        "rates_count": 8338
+      },
+      "promo": null,
+      "prices": {
+        "regular": "179.99",
+        "discount": "159.99"
+      },
+      "labels": [
+        {
+          "label": "-11%",
+          "bg_color": "#FFD700",
+          "text_color": "#302E33"
+        }
+      ],
+      "property_clarification": "Цена за 1 кг",
+      "has_age_restriction": false,
+      "stock_limit": "5.05"
+    },
+    {
+      "plu": 4297371,
+      "name": "Конфеты шоколадные Коркунов Коллекция из темного и молочного шоколада с фундуком и вафельной крошкой 165г",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1511851-main/320x320.jpeg?updated_at=2025-10-17T12:23:32.022Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1511851-main/800x800.jpeg?updated_at=2025-10-17T12:23:32.022Z",
+          "https://catalog-images.x5static.net/product/f8038844d82ea67655db25656d909a3c-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/19ea51418e9fa2a9a300eb776fbcada3-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/e1fe1d6e295b28fbb5b33ad9db9372f5-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/cd957347b33199d877c76de2e765d531-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/1a1f52aeeccfa12dd3abad45410da25c-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/4e5eedbbfa6149d9254b7f3244eccafc-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.88,
+        "rates_count": 9846
+      },
+      "promo": null,
+      "prices": {
+        "regular": "349.99",
+        "discount": "307.99"
+      },
+      "labels": [
+        {
+          "label": "-12%",
+          "bg_color": "#FFD700",
+          "text_color": "#302E33"
+        }
+      ],
+      "property_clarification": "165 г",
+      "has_age_restriction": false,
+      "stock_limit": "5.00"
+    },
+    {
+      "plu": 3992925,
+      "name": "Смесь Mixbar из жареных орехов с цукатами 130г",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1199168-main/320x320.jpeg?updated_at=2025-02-18T13:16:44.439Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1199168-main/800x800.jpeg?updated_at=2025-02-18T13:16:44.439Z"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.8,
+        "rates_count": 4921
+      },
+      "promo": null,
+      "prices": {
+        "regular": "189.99",
+        "discount": "169.99"
+      },
+      "labels": [
+        {
+          "label": "-11%",
+          "bg_color": "#FFD700",
+          "text_color": "#302E33"
+        }
+      ],
+      "property_clarification": "130 г",
+      "has_age_restriction": false,
+      "stock_limit": "6.00"
+    },
+    {
+      "plu": 3473706,
+      "name": "Цикорий Большая чашка черничный растворимый 85г",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1174962-main/320x320.jpeg?updated_at=2025-03-10T18:16:37.684Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1174962-main/800x800.jpeg?updated_at=2025-03-10T18:16:37.684Z",
+          "https://catalog-images.x5static.net/product/45815688d91db9efa3105db2cea098d0-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.85,
+        "rates_count": 6999
+      },
+      "promo": null,
+      "prices": {
+        "regular": "119.99",
+        "discount": "69.99"
+      },
+      "labels": [
+        {
+          "label": "-42%",
+          "bg_color": "#FFD700",
+          "text_color": "#302E33"
+        }
+      ],
+      "property_clarification": "85 г",
+      "has_age_restriction": false,
+      "stock_limit": "13.00"
+    },
+    {
+      "plu": 4343840,
+      "name": "Чипсы Русская Картошка Краб 190г",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1602397-main/320x320.jpeg?updated_at=2025-10-24T07:15:02.626Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1602397-main/800x800.jpeg?updated_at=2025-10-24T07:15:02.626Z",
+          "https://catalog-images.x5static.net/product/8f8cb54868c8896a3ff5407999722291-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/241bb91eb396e2ebcfcc35399a8d5b31-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.83,
+        "rates_count": 15223
+      },
+      "promo": null,
+      "prices": {
+        "regular": "139.99",
+        "discount": null
+      },
+      "labels": null,
+      "property_clarification": "190 г",
+      "has_age_restriction": false,
+      "stock_limit": "7.00"
+    },
+    {
+      "plu": 54727,
+      "name": "Голубика 125г",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1158475-main/320x320.jpeg?updated_at=2025-10-15T12:59:02.471Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1158475-main/800x800.jpeg?updated_at=2025-10-15T12:59:02.471Z",
+          "https://catalog-images.x5static.net/product/b933fa2b96eca5af7c3cdee108fd4b09-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.79,
+        "rates_count": 8484
+      },
+      "promo": null,
+      "prices": {
+        "regular": "199.99",
+        "discount": "179.99"
+      },
+      "labels": [
+        {
+          "label": "-10%",
+          "bg_color": "#FFD700",
+          "text_color": "#302E33"
+        }
+      ],
+      "property_clarification": "125 г",
+      "has_age_restriction": false,
+      "stock_limit": "12.00"
+    },
+    {
+      "plu": 4343841,
+      "name": "Чипсы Русская Картошка Зеленый лук и сметана 190г",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1602396-main/320x320.jpeg?updated_at=2025-03-10T18:25:25.040Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1602396-main/800x800.jpeg?updated_at=2025-03-10T18:25:25.040Z",
+          "https://catalog-images.x5static.net/product/bcef776c789b37426592933a1af36d5d-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/785c91663ddebd8d79d8f843dc9657f9-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.85,
+        "rates_count": 20916
+      },
+      "promo": null,
+      "prices": {
+        "regular": "139.99",
+        "discount": null
+      },
+      "labels": null,
+      "property_clarification": "190 г",
+      "has_age_restriction": false,
+      "stock_limit": "16.00"
+    },
+    {
+      "plu": 4137255,
+      "name": "Орех Макадамия",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1402753-main/320x320.jpeg?updated_at=2025-03-10T18:15:33.197Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1402753-main/800x800.jpeg?updated_at=2025-03-10T18:15:33.197Z"
+        ]
+      },
+      "uom": "кг",
+      "step": "0.1",
+      "rating": {
+        "rating_average": 4.72,
+        "rates_count": 6092
+      },
+      "promo": null,
+      "prices": {
+        "regular": "119.90",
+        "discount": "99.99"
+      },
+      "labels": [
+        {
+          "label": "-17%",
+          "bg_color": "#FFD700",
+          "text_color": "#302E33"
+        }
+      ],
+      "property_clarification": "Цена за 100 г",
+      "has_age_restriction": false,
+      "stock_limit": "0.00"
+    },
+    {
+      "plu": 3933060,
+      "name": "Фисташки неочищенные обжаренные подсоленные",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1194909-main/320x320.jpeg?updated_at=2025-03-10T18:32:06.253Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1194909-main/800x800.jpeg?updated_at=2025-03-10T18:32:06.253Z"
+        ]
+      },
+      "uom": "кг",
+      "step": "0.1",
+      "rating": {
+        "rating_average": 4.58,
+        "rates_count": 12147
+      },
+      "promo": null,
+      "prices": {
+        "regular": "159.90",
+        "discount": "140.90"
+      },
+      "labels": [
+        {
+          "label": "-12%",
+          "bg_color": "#FFD700",
+          "text_color": "#302E33"
+        }
+      ],
+      "property_clarification": "Цена за 100 г",
+      "has_age_restriction": false,
+      "stock_limit": "4.07"
+    },
+    {
+      "plu": 4327553,
+      "name": "Манго Mixbar сушеное 100г",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1613577-main/320x320.jpeg?updated_at=2025-02-26T12:50:52.100Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1613577-main/800x800.jpeg?updated_at=2025-02-26T12:50:52.100Z"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.72,
+        "rates_count": 1347
+      },
+      "promo": null,
+      "prices": {
+        "regular": "219.99",
+        "discount": "139.99"
+      },
+      "labels": [
+        {
+          "label": "-36%",
+          "bg_color": "#FFD700",
+          "text_color": "#302E33"
+        }
+      ],
+      "property_clarification": "100 г",
+      "has_age_restriction": false,
+      "stock_limit": "13.00"
+    },
+    {
+      "plu": 3931923,
+      "name": "Палочки крабовые Русское море охлажденные 400г",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1370427-main/320x320.jpeg?updated_at=2025-01-10T10:08:45.596Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1370427-main/800x800.jpeg?updated_at=2025-01-10T10:08:45.596Z",
+          "https://catalog-images.x5static.net/product/a7ebbbf4e62a7e5baecff9911b28d0a8-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/2dfb3397249fdb49b922c0bd6a0031f3-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.88,
+        "rates_count": 11979
+      },
+      "promo": null,
+      "prices": {
+        "regular": "259.99",
+        "discount": null
+      },
+      "labels": null,
+      "property_clarification": "400 г",
+      "has_age_restriction": false,
+      "stock_limit": "0.00"
+    },
+    {
+      "plu": 3992940,
+      "name": "Смесь Mix Bar Коктейль сухофрукты и орехи 150г",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1199169-main/320x320.jpeg?updated_at=2025-11-06T14:43:27.917Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1199169-main/800x800.jpeg?updated_at=2025-11-06T14:43:27.917Z"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.81,
+        "rates_count": 3108
+      },
+      "promo": null,
+      "prices": {
+        "regular": "244.99",
+        "discount": "219.99"
+      },
+      "labels": [
+        {
+          "label": "-10%",
+          "bg_color": "#FFD700",
+          "text_color": "#302E33"
+        }
+      ],
+      "property_clarification": "150 г",
+      "has_age_restriction": false,
+      "stock_limit": "7.00"
+    },
+    {
+      "plu": 3148279,
+      "name": "Авокадо Global Village Хасс 2шт.",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1162650-main/320x320.jpeg?updated_at=2025-03-10T18:16:32.545Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1162650-main/800x800.jpeg?updated_at=2025-03-10T18:16:32.545Z",
+          "https://catalog-images.x5static.net/product/b40281188d5c9685aa8f320fdf755dbf-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.7,
+        "rates_count": 19732
+      },
+      "promo": null,
+      "prices": {
+        "regular": "229.99",
+        "discount": "199.99"
+      },
+      "labels": [
+        {
+          "label": "-13%",
+          "bg_color": "#FFD700",
+          "text_color": "#302E33"
+        }
+      ],
+      "property_clarification": "2 шт",
+      "has_age_restriction": false,
+      "stock_limit": "10.00"
+    },
+    {
+      "plu": 3447711,
+      "name": "Колбаса Casademont Сальчичон монтанья экстра сыровяленая 250г",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1172974-main/320x320.jpeg?updated_at=2025-02-25T14:27:53.174Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1172974-main/800x800.jpeg?updated_at=2025-02-25T14:27:53.174Z",
+          "https://catalog-images.x5static.net/product/f1b5647bb967d15d0650806f3b86e28c-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.88,
+        "rates_count": 25
+      },
+      "promo": null,
+      "prices": {
+        "regular": "499.99",
+        "discount": null
+      },
+      "labels": null,
+      "property_clarification": "250 г",
+      "has_age_restriction": false,
+      "stock_limit": "6.00"
+    },
+    {
+      "plu": 3982582,
+      "name": "Грецкий орех Mix Bar 100г",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1198743-main/320x320.jpeg?updated_at=2025-02-26T12:50:14.992Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1198743-main/800x800.jpeg?updated_at=2025-02-26T12:50:14.992Z"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.79,
+        "rates_count": 3660
+      },
+      "promo": null,
+      "prices": {
+        "regular": "169.99",
+        "discount": "149.99"
+      },
+      "labels": [
+        {
+          "label": "-12%",
+          "bg_color": "#FFD700",
+          "text_color": "#302E33"
+        }
+      ],
+      "property_clarification": "100 г",
+      "has_age_restriction": false,
+      "stock_limit": "5.00"
+    },
+    {
+      "plu": 2131933,
+      "name": "Авокадо Puro Gusto фасованный 1уп.",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1503630-main/320x320.jpeg?updated_at=2024-05-03T10:53:34.652Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1503630-main/800x800.jpeg?updated_at=2024-05-03T10:53:34.652Z",
+          "https://catalog-images.x5static.net/product/5ce5f7c28e0d3850918b2c534d347855-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.5,
+        "rates_count": 10
+      },
+      "promo": null,
+      "prices": {
+        "regular": "569.99",
+        "discount": null
+      },
+      "labels": null,
+      "property_clarification": "500 г",
+      "has_age_restriction": false,
+      "stock_limit": "0.00"
+    },
+    {
+      "plu": 3673806,
+      "name": "Фарш Мираторг свино-говяжий домашний 400г",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1441037-main/320x320.jpeg?updated_at=2025-02-27T14:58:26.896Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1441037-main/800x800.jpeg?updated_at=2025-02-27T14:58:26.896Z"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.85,
+        "rates_count": 22688
+      },
+      "promo": null,
+      "prices": {
+        "regular": "219.99",
+        "discount": null
+      },
+      "labels": null,
+      "property_clarification": "400 г",
+      "has_age_restriction": false,
+      "stock_limit": "17.00"
+    },
+    {
+      "plu": 3694097,
+      "name": "Мармелад Fruittella Крутой микс жевательный 150г",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1192582-main/320x320.jpeg?updated_at=2025-02-25T19:46:42.893Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1192582-main/800x800.jpeg?updated_at=2025-02-25T19:46:42.893Z",
+          "https://catalog-images.x5static.net/product/dd4d200740abf97fab2723c259a47b57-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/41efedf4ac2a2f2c607fed360d2d2008-additional/800x800.jpeg",
+          "https://catalog-images.x5static.net/product/85ff4ccf3f7735a6ae77daae8b15cad6-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.87,
+        "rates_count": 12992
+      },
+      "promo": null,
+      "prices": {
+        "regular": "129.99",
+        "discount": null
+      },
+      "labels": null,
+      "property_clarification": "150 г",
+      "has_age_restriction": false,
+      "stock_limit": "26.00"
+    },
+    {
+      "plu": 4271772,
+      "name": "Яблоки Ред Делишес",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1564887-main/320x320.jpeg?updated_at=2025-03-10T18:16:31.771Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1564887-main/800x800.jpeg?updated_at=2025-03-10T18:16:31.771Z"
+        ]
+      },
+      "uom": "кг",
+      "step": "0.25",
+      "rating": {
+        "rating_average": 4.82,
+        "rates_count": 12203
+      },
+      "promo": null,
+      "prices": {
+        "regular": "179.99",
+        "discount": "149.99"
+      },
+      "labels": [
+        {
+          "label": "-17%",
+          "bg_color": "#FFD700",
+          "text_color": "#302E33"
+        }
+      ],
+      "property_clarification": "Цена за 1 кг",
+      "has_age_restriction": false,
+      "stock_limit": "5.63"
+    },
+    {
+      "plu": 3964790,
+      "name": "Палочки сдобные Шарлиз Снежка с малиновым джемом 370г",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1197113-main/320x320.jpeg?updated_at=2025-09-25T10:28:24.391Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1197113-main/800x800.jpeg?updated_at=2025-09-25T10:28:24.391Z"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.88,
+        "rates_count": 44567
+      },
+      "promo": null,
+      "prices": {
+        "regular": "164.99",
+        "discount": "134.9"
+      },
+      "labels": [
+        {
+          "label": "-18%",
+          "bg_color": "#FFD700",
+          "text_color": "#302E33"
+        }
+      ],
+      "property_clarification": "370 г",
+      "has_age_restriction": false,
+      "stock_limit": "27.00"
+    },
+    {
+      "plu": 3657675,
+      "name": "Салат Руккола 75г",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1186987-main/320x320.jpeg?updated_at=2025-03-05T10:57:40.019Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1186987-main/800x800.jpeg?updated_at=2025-03-05T10:57:40.019Z"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.84,
+        "rates_count": 24409
+      },
+      "promo": null,
+      "prices": {
+        "regular": "124.99",
+        "discount": null
+      },
+      "labels": null,
+      "property_clarification": "75 г",
+      "has_age_restriction": false,
+      "stock_limit": "23.00"
+    },
+    {
+      "plu": 2057820,
+      "name": "Ирис Красный октябрь Золотой ключик 250г",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1159936-main/320x320.jpeg?updated_at=2025-03-10T18:26:15.838Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1159936-main/800x800.jpeg?updated_at=2025-03-10T18:26:15.838Z"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.85,
+        "rates_count": 5461
+      },
+      "promo": null,
+      "prices": {
+        "regular": "169.99",
+        "discount": "129.99"
+      },
+      "labels": [
+        {
+          "label": "-24%",
+          "bg_color": "#FFD700",
+          "text_color": "#302E33"
+        }
+      ],
+      "property_clarification": "250 г",
+      "has_age_restriction": false,
+      "stock_limit": "9.00"
+    },
+    {
+      "plu": 3681362,
+      "name": "Чак-Чак Караван-Сарай медовый 250г",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1190468-main/320x320.jpeg?updated_at=2025-03-10T18:16:21.447Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1190468-main/800x800.jpeg?updated_at=2025-03-10T18:16:21.447Z"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.83,
+        "rates_count": 9450
+      },
+      "promo": null,
+      "prices": {
+        "regular": "169.99",
+        "discount": "119.99"
+      },
+      "labels": [
+        {
+          "label": "-29%",
+          "bg_color": "#FFD700",
+          "text_color": "#302E33"
+        }
+      ],
+      "property_clarification": "250 г",
+      "has_age_restriction": false,
+      "stock_limit": "19.00"
+    },
+    {
+      "plu": 4239701,
+      "name": "Кукурузные шарики Twister Сыр 140г",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1473051-main/320x320.jpeg?updated_at=2025-03-03T16:05:18.336Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1473051-main/800x800.jpeg?updated_at=2025-03-03T16:05:18.336Z"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.73,
+        "rates_count": 8899
+      },
+      "promo": null,
+      "prices": {
+        "regular": "99.99",
+        "discount": null
+      },
+      "labels": null,
+      "property_clarification": "140 г",
+      "has_age_restriction": false,
+      "stock_limit": "7.00"
+    },
+    {
+      "plu": 12398,
+      "name": "Слива крупная",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1157378-main/320x320.jpeg?updated_at=2025-01-10T10:02:54.497Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1157378-main/800x800.jpeg?updated_at=2025-01-10T10:02:54.497Z"
+        ]
+      },
+      "uom": "кг",
+      "step": "0.25",
+      "rating": {
+        "rating_average": 4.74,
+        "rates_count": 20600
+      },
+      "promo": null,
+      "prices": {
+        "regular": "249.99",
+        "discount": "219.99"
+      },
+      "labels": [
+        {
+          "label": "-12%",
+          "bg_color": "#FFD700",
+          "text_color": "#302E33"
+        }
+      ],
+      "property_clarification": "Цена за 1 кг",
+      "has_age_restriction": false,
+      "stock_limit": "0.00"
+    },
+    {
+      "plu": 3291332,
+      "name": "Конфеты Рот Фронт Птичье молоко настоящее 225г",
+      "image_links": {
+        "small": [
+          "https://catalog-images.x5static.net/product/1165225-main/320x320.jpeg?updated_at=2025-03-10T18:26:15.032Z"
+        ],
+        "normal": [
+          "https://catalog-images.x5static.net/product/1165225-main/800x800.jpeg?updated_at=2025-03-10T18:26:15.032Z",
+          "https://catalog-images.x5static.net/product/d3107fe088285f7105394e2e85abeafe-additional/800x800.jpeg"
+        ]
+      },
+      "uom": "шт",
+      "step": "1.0",
+      "rating": {
+        "rating_average": 4.84,
+        "rates_count": 12248
+      },
+      "promo": null,
+      "prices": {
+        "regular": "229.99",
+        "discount": "182.99"
+      },
+      "labels": [
+        {
+          "label": "-20%",
+          "bg_color": "#FFD700",
+          "text_color": "#302E33"
+        }
+      ],
+      "property_clarification": "225 г",
+      "has_age_restriction": false,
+      "stock_limit": "19.00"
+    }
+  ]
+}
