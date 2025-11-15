@@ -1,14 +1,16 @@
 from __future__ import annotations
 
+import json
 import os
+from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Any
-import json
-from collections import defaultdict
+
 from camoufox.async_api import AsyncCamoufox
 from human_requests import HumanBrowser, HumanContext, HumanPage
 from human_requests.abstraction import FetchResponse, HttpMethod, Proxy
-from human_requests.network_analyzer.anomaly_sniffer import HeaderAnomalySniffer, WaitSource, WaitHeader
+from human_requests.network_analyzer.anomaly_sniffer import (
+    HeaderAnomalySniffer, WaitHeader, WaitSource)
 
 from .endpoints.advertising import ClassAdvertising
 from .endpoints.catalog import ClassCatalog
@@ -51,7 +53,7 @@ class PyaterochkaAPI:
     """Внутренний контекст сессии браузера"""
     page: HumanPage = field(init=False, repr=False)
     """Внутренний страница сессии браузера"""
-    
+
     unstandard_headers: dict[str, str] = field(init=False, repr=False)
     """Список нестандартных заголовков пойманных при инициализации"""
 
@@ -94,28 +96,26 @@ class PyaterochkaAPI:
             extra_request_allow=["x-forwarded-for", "x-real-ip"],
             extra_response_allow=[],
             # нормализуем URL: без фрагмента, но с query
-            #url_normalizer=lambda u: u.split("#", 1)[0],
-            include_subresources=True,   # или False, если интересны только документы
-            url_filter=lambda u: u.startswith("https://5d.5ka.ru/")
+            # url_normalizer=lambda u: u.split("#", 1)[0],
+            include_subresources=True,  # или False, если интересны только документы
+            url_filter=lambda u: u.startswith("https://5d.5ka.ru/"),
         )
         await sniffer.start(self.ctx)
 
         await self.page.goto("https://5ka.ru", wait_until="load")
-        await self.page.wait_for_selector(selector="next-route-announcer", state="attached")
-        await self.page.wait_for_load_state('networkidle')
+        await self.page.wait_for_selector(
+            selector="next-route-announcer", state="attached"
+        )
+        await self.page.wait_for_load_state("networkidle")
 
         await sniffer.wait(
             tasks=[
                 WaitHeader(
                     source=WaitSource.REQUEST,
-                    headers=[
-                        "x-app-version",
-                        "x-device-id",
-                        "x-platform"
-                    ]
+                    headers=["x-app-version", "x-device-id", "x-platform"],
                 )
             ],
-            timeout_ms=self.timeout_ms
+            timeout_ms=self.timeout_ms,
         )
 
         result_sniffer = await sniffer.complete()
@@ -123,7 +123,7 @@ class PyaterochkaAPI:
         result = defaultdict(set)
 
         # Проходим по всем URL в 'request'
-        for _url, headers in result_sniffer['request'].items():
+        for _url, headers in result_sniffer["request"].items():
             for header, values in headers.items():
                 result[header].update(values)  # добавляем значения, set уберёт дубли
 
@@ -154,16 +154,11 @@ class PyaterochkaAPI:
         *,
         json_body: Any | None = None,
         add_unstandard_headers: bool = True,
-        credentials: bool = True
+        credentials: bool = True,
     ) -> FetchResponse:
         """Выполнить HTTP-запрос через внутреннюю сессию.
 
         Единая точка входа для всех HTTP-запросов библиотеки.
-
-        Args:
-            method: HTTP метод (GET, POST, PUT, DELETE и т.д.)
-            url: URL для запроса
-            json_body: Тело запроса в формате JSON (опционально)
         """
         # Единая точка входа в чужую библиотеку для удобства
         # TODO: пройтись по библиотеке и проверить где add_unstandard_headers должен быть false
@@ -176,7 +171,9 @@ class PyaterochkaAPI:
             credentials="include" if credentials else "omit",
             timeout_ms=self.timeout_ms,
             referrer=self.MAIN_SITE_URL,
-            headers={"Accept": "application/json, text/plain, */*"}.update(self.unstandard_headers if add_unstandard_headers else {}),
+            headers={"Accept": "application/json, text/plain, */*"}.update(
+                self.unstandard_headers if add_unstandard_headers else {}
+            ),
         )
 
         return resp

@@ -2,8 +2,9 @@ from enum import Enum
 
 
 class PurchaseMode(Enum):
-    STORE    = "store"
+    STORE = "store"
     DELIVERY = "delivery"
+
 
 class Sorting(Enum):
     PRICE_DESC = "price_desc"

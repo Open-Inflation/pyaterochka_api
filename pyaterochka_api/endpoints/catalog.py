@@ -1,10 +1,12 @@
 """Работа с каталогом"""
 
-from typing import TYPE_CHECKING, Optional
 import urllib.parse
+from typing import TYPE_CHECKING, Optional
+
 from human_requests.abstraction import FetchResponse, HttpMethod
 
 from ..enums import PurchaseMode, Sorting
+
 if TYPE_CHECKING:
     from ..manager import PyaterochkaAPI
 
@@ -18,81 +20,70 @@ class ClassCatalog:
 
     def __init__(self, parent: "PyaterochkaAPI"):
         self._parent: "PyaterochkaAPI" = parent
-        self.Product: ProductService = ProductService(
-            parent=self._parent
-        )
+        self.Product: ProductService = ProductService(parent=self._parent)
         """Сервис для работы с товарами в каталоге."""
 
-    async def tree(self,
-                   sap_code_store_id: str,
-                   subcategories: bool = False,
-                   include_restrict: bool = True,
-                   mode: PurchaseMode = PurchaseMode.STORE) -> FetchResponse:
+    async def tree(
+        self,
+        sap_code_store_id: str,
+        subcategories: bool = False,
+        include_restrict: bool = True,
+        mode: PurchaseMode = PurchaseMode.STORE,
+    ) -> FetchResponse:
         """
-        Asynchronously retrieves a list of categories from the Pyaterochka API.
+        Список категорий (глобальный).
 
-        Args:
-            subcategories (bool, optional): Whether to include subcategories in the response. Defaults to False.
-            include_restrict (bool, optional): I DO NOT KNOW WHAT IS IT
-            mode (PurchaseMode, optional): The purchase mode to use. Defaults to PurchaseMode.STORE.
-            sap_code_store_id (str, optional): The store ID (official name in API is "sap_code") to use. Defaults to "{self.DEFAULT_STORE_ID}". This lib not support search ID stores.
-
-        Returns:
-            list[dict]: A dictionary representing the categories list if the request is successful, error otherwise.
-
-        Raises:
-            Exception: If the response status is not 200 (OK) or 403 (Forbidden / Anti-bot).
+        include_restrict - включать ли в выдачу закончившиеся в магазине товары.
         """
 
         request_url = f"{self._parent.CATALOG_URL}/catalog/v2/stores/{sap_code_store_id}/categories?mode={mode.value}&include_restrict={include_restrict}&include_subcategories={1 if subcategories else 0}"
-        return await self._parent._request(method=HttpMethod.GET, url=request_url, add_unstandard_headers=True)
+        return await self._parent._request(
+            method=HttpMethod.GET, url=request_url, add_unstandard_headers=True
+        )
 
-    async def tree_extended(self,
-                            sap_code_store_id: str,
-                            category_id: str,
-                            include_restrict: bool = True,
-                            mode: PurchaseMode = PurchaseMode.STORE) -> FetchResponse:
+    async def tree_extended(
+        self,
+        sap_code_store_id: str,
+        category_id: str,
+        include_restrict: bool = True,
+        mode: PurchaseMode = PurchaseMode.STORE,
+    ) -> FetchResponse:
         """Расширенное представление категории и её подкатегорий."""
         request_url = f"{self._parent.CATALOG_URL}/catalog/v2/stores/{sap_code_store_id}/categories/{category_id}/extended?mode={mode.value}&include_restrict={str(include_restrict).lower()}"
-        return await self._parent._request(method=HttpMethod.GET, url=request_url, add_unstandard_headers=True)
+        return await self._parent._request(
+            method=HttpMethod.GET, url=request_url, add_unstandard_headers=True
+        )
 
-    async def search(self,
-                     sap_code_store_id: str,
-                     query: str,
-                     include_restrict: bool = True,
-                     mode: PurchaseMode = PurchaseMode.STORE,
-                     limit: int = 12) -> FetchResponse:
+    async def search(
+        self,
+        sap_code_store_id: str,
+        query: str,
+        include_restrict: bool = True,
+        mode: PurchaseMode = PurchaseMode.STORE,
+        limit: int = 12,
+    ) -> FetchResponse:
         """Поиск по товарам И категориям."""
         q = urllib.parse.quote(query)
         request_url = f"{self._parent.CATALOG_URL}/catalog/v3/stores/{sap_code_store_id}/search?mode={mode.value}&include_restrict={str(include_restrict).lower()}&q={q}&limit={limit}"
-        return await self._parent._request(method=HttpMethod.GET, url=request_url, add_unstandard_headers=True)
+        return await self._parent._request(
+            method=HttpMethod.GET, url=request_url, add_unstandard_headers=True
+        )
 
     async def products_list(
-            self,
-            category_id: str,
-            sap_code_store_id: str,
-            price_min: Optional[int] = None,
-            price_max: Optional[int] = None,
-            brands: list[str] = [],
-            include_restrict: bool = True,
-            mode: PurchaseMode = PurchaseMode.STORE,
-            limit: int = 30
+        self,
+        category_id: str,
+        sap_code_store_id: str,
+        price_min: Optional[int] = None,
+        price_max: Optional[int] = None,
+        brands: list[str] = [],
+        include_restrict: bool = True,
+        mode: PurchaseMode = PurchaseMode.STORE,
+        limit: int = 30,
     ) -> FetchResponse:
-        f"""
-        Asynchronously retrieves a list of products from the Pyaterochka API for a given category.
+        """
+        Список категорий (основная лента каталога).
 
-        Args:
-            category_id (str): The ID of the (sub)category.
-            mode (PurchaseMode, optional): The purchase mode to use. Defaults to PurchaseMode.STORE.
-            sap_code_store_id (str, optional): The store ID (official name in API is "sap_code") to use. This lib not support search ID stores.
-            limit (int, optional): The maximum number of products to retrieve. Defaults to 30. Must be between 1 and 499.
-
-        Returns:
-            dict: A dictionary representing the products list if the request is successful, error otherwise.
-
-        Raises:
-            ValueError: If the limit is not between 1 and 499.
-            Exception: If the response status is not 200 (OK) or 403 (Forbidden / Anti-bot).
+        brands - должно быть полное совпадение, другие едпоинты предоставляют их.
         """
 
         if limit < 1 or limit >= 500:
@@ -100,26 +91,30 @@ class ClassCatalog:
 
         request_url = f"{self._parent.CATALOG_URL}/catalog/v2/stores/{sap_code_store_id}/categories/{category_id}/products?mode={mode.value}&limit={limit}&include_restrict={str(include_restrict).lower()}"
         if price_min:
-            request_url += "&price_min="+str(price_min)
+            request_url += "&price_min=" + str(price_min)
         if price_max:
-            request_url += "&price_max="+str(price_max)
+            request_url += "&price_max=" + str(price_max)
         if len(brands) > 0:
-            encoded_brands = [f'brands={urllib.parse.quote(brand)}' for brand in brands]
-            request_url += "&" + '&&'.join(encoded_brands)
+            encoded_brands = [f"brands={urllib.parse.quote(brand)}" for brand in brands]
+            request_url += "&" + "&&".join(encoded_brands)
 
-        return await self._parent._request(method=HttpMethod.GET, url=request_url, add_unstandard_headers=True)
+        return await self._parent._request(
+            method=HttpMethod.GET, url=request_url, add_unstandard_headers=True
+        )
 
     async def products_line(
-            self,
-            category_id: str,
-            sap_code_store_id: str,
-            include_restrict: bool = True,
-            mode: PurchaseMode = PurchaseMode.STORE,
-            order_by: Sorting = Sorting.POPULARITY
-        ) -> FetchResponse:
+        self,
+        category_id: str,
+        sap_code_store_id: str,
+        include_restrict: bool = True,
+        mode: PurchaseMode = PurchaseMode.STORE,
+        order_by: Sorting = Sorting.POPULARITY,
+    ) -> FetchResponse:
         """Рекомендованные товары \"что интересного?\"."""
         request_url = f"{self._parent.CATALOG_URL}/catalog/v1/stores/{sap_code_store_id}/categories/{category_id}/products_line?mode={mode.value}&include_restrict={str(include_restrict).lower()}&order_by={order_by.value}"
-        return await self._parent._request(method=HttpMethod.GET, url=request_url, add_unstandard_headers=True)
+        return await self._parent._request(
+            method=HttpMethod.GET, url=request_url, add_unstandard_headers=True
+        )
 
 
 class ProductService:
@@ -133,18 +128,12 @@ class ProductService:
         sap_code_store_id: str,
         plu_id: int,
         mode: PurchaseMode = PurchaseMode.STORE,
-        include_restrict: bool = True
+        include_restrict: bool = True,
     ) -> FetchResponse:
         """
-        Asynchronously retrieves product information from the Pyaterochka API for a given PLU ID. Average time processing 2 seconds (first start 6 seconds).
-        
-        Args:
-            plu_id (int): The PLU ID of the product.
-        Returns:
-            dict: A dictionary representing the product information.
-        Raises:
-            ValueError: If the response does not contain the expected JSON data.
+        Подробная информация о конкретном товаре.
         """
-                 
         request_url = f"{self._parent.CATALOG_URL}/catalog/v2/stores/{sap_code_store_id}/products/{plu_id}?mode={mode.value}&include_restrict={str(include_restrict).lower()}"
-        return await self._parent._request(method=HttpMethod.GET, url=request_url, add_unstandard_headers=True)
+        return await self._parent._request(
+            method=HttpMethod.GET, url=request_url, add_unstandard_headers=True
+        )

@@ -1,5 +1,5 @@
-from .manager import PyaterochkaAPI
 from .enums import PurchaseMode, Sorting
+from .manager import PyaterochkaAPI
 
 __version__ = "0.2.0.1"
-__all__ = ['PyaterochkaAPI', 'PurchaseMode', 'Sorting']
+__all__ = ["PyaterochkaAPI", "PurchaseMode", "Sorting"]

@@ -7,14 +7,14 @@ install-dev:
 	pip install -e .[dev]
 
 test:
-	pytest --cov=chizhik_api --cov-report=xml --cov-report=html --cov-report=term-missing
+	pytest --cov=pyaterochka_api --cov-report=xml --cov-report=html --cov-report=term-missing
 
 test-quick:
 	pytest --tb=short
 
 format:
-	black chizhik_api/ tests/
-	isort chizhik_api/ tests/
+	black pyaterochka_api/ tests/
+	isort pyaterochka_api/ tests/
 
 clean:
 	rm -rf build/ dist/ *.egg-info/
