@@ -1,0 +1,48 @@
+name: tests
+
+on:
+  pull_request:
+  schedule:
+    - cron: "17 3 * * *"  # daily at 03:17 UTC
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      python-version:
+        required: false
+        type: string
+        default: "3.12"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python-version || '3.12' }}
+          cache: "pip"
+          cache-dependency-path: |
+            requirements.txt
+            pyproject.toml
+
+      - name: Install project (dev)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python -m camoufox fetch
+          sudo apt install xvfb
+
+      - name: Run tests
+        run: |
+          xvfb-run make test-quick

@@ -1,7 +1,9 @@
-aiohttp
-fake-useragent
 camoufox[geoip]
+human_requests
+aiohttp
+aiohttp-retry
 
-pytest-typed-schema-shot
 pytest
-pytest-asyncio
+pytest-anyio
+pytest-jsonschema-snapshot
+pillow

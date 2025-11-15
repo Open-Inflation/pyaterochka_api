@@ -1,0 +1,33 @@
+name: "📚 Docs issue"
+description: Flag inaccurate or missing documentation
+title: "[Docs] <short title>"
+labels: ["documentation"]
+assignees: ["miskler"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Help us keep the docs sharp!**
+
+  - type: input
+    id: url
+    attributes:
+      label: Link to the problematic page
+      placeholder: "https://example.com/docs/..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What’s broken or unclear?
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots (optional)
+      description: Drag & drop images if they help illustrate the issue.

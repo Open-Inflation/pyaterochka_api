@@ -28,10 +28,10 @@ classifiers = [
     "Topic :: Utilities",
 ]
 dependencies = [
-    "aiohttp",
     "camoufox[geoip]",
-    "beartype",
-    "fake-useragent"
+    "human_requests",
+    "aiohttp",
+    "aiohttp-retry"
 ]
 
 [project.optional-dependencies]
@@ -39,6 +39,7 @@ tests = [
     "pytest",
     "pytest-asyncio",
     "pytest-typed-schema-shot",
+    "jsoncrack-for-sphinx",
 ]
 
 [project.urls]

@@ -1,0 +1,55 @@
+name: "🐛 Bug report"
+description: Report something that isn’t working as intended
+title: "[Bug] <short title>"
+labels: ["bug"]
+assignees: ["miskler"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Thanks for taking the time to report a bug!**
+
+  - type: checkboxes
+    id: area
+    attributes:
+      label: Affected area(s)
+      description: Check all that apply.
+      options:
+        - label: core
+        - label: anti-bot
+        - label: python interface
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: What did you do?
+      description: Step-by-step commands or actions to reproduce the issue.
+      render: plaintext
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened?
+      description: Paste error messages or describe the incorrect behaviour. Logs can be attached below.
+      render: plaintext
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+      render: plaintext
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / screenshots
+      description: Drag & drop log files or screenshots here.
