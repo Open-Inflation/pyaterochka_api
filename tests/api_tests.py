@@ -27,15 +27,15 @@ async def sap_code(api: PyaterochkaAPI) -> str:
     return resp["selectedStore"]["sapCode"]
 
 @pytest.fixture(scope="session")
-async def category_id(api: PyaterochkaAPI, sap_code: str) -> str:
+async def first_category(api: PyaterochkaAPI, sap_code: str) -> str:
     """Фикстура для получения данных категории"""
     tree_resp = await api.Catalog.tree(sap_code_store_id=sap_code)
     tree_data = tree_resp.json()
-    return tree_data[0]["id"]
+    return tree_data[0]
 
 @pytest.fixture(scope="session")
-async def product_plu(api: PyaterochkaAPI, sap_code: str, category_id: str) -> str:
-    resp = await api.Catalog.products_list(category_id=category_id, sap_code_store_id=sap_code)
+async def product_plu(api: PyaterochkaAPI, sap_code: str, first_category: dict) -> str:
+    resp = await api.Catalog.products_list(category_id=first_category["id"], sap_code_store_id=sap_code)
     data = resp.json()
     return data["products"][0]["plu"]
 
@@ -59,8 +59,8 @@ async def test_tree(sap_code: str, api: PyaterochkaAPI, schemashot: SchemaShot):
     data = resp.json()
     schemashot.assert_json_match(data, api.Catalog.tree)
 
-async def test_tree_extended(sap_code: str, category_id: str, api: PyaterochkaAPI, schemashot: SchemaShot):
-    resp = await api.Catalog.tree_extended(sap_code_store_id=sap_code, category_id=category_id)
+async def test_tree_extended(sap_code: str, first_category: dict, api: PyaterochkaAPI, schemashot: SchemaShot):
+    resp = await api.Catalog.tree_extended(sap_code_store_id=sap_code, category_id=first_category["id"])
     data = resp.json()
     schemashot.assert_json_match(data, api.Catalog.tree_extended)
 
@@ -69,13 +69,13 @@ async def test_search(sap_code: str, api: PyaterochkaAPI, schemashot: SchemaShot
     data = resp.json()
     schemashot.assert_json_match(data, api.Catalog.search)
 
-async def test_products_list(sap_code: str, category_id: str, api: PyaterochkaAPI, schemashot: SchemaShot):
-    resp = await api.Catalog.products_list(category_id=category_id, sap_code_store_id=sap_code)
+async def test_products_list(sap_code: str, first_category: dict, api: PyaterochkaAPI, schemashot: SchemaShot):
+    resp = await api.Catalog.products_list(category_id=first_category["id"], sap_code_store_id=sap_code)
     data = resp.json()
     schemashot.assert_json_match(data, api.Catalog.products_list)
 
-async def test_products_line(sap_code: str, category_id: str, api: PyaterochkaAPI, schemashot: SchemaShot):
-    resp = await api.Catalog.products_line(category_id=category_id, sap_code_store_id=sap_code)
+async def test_products_line(sap_code: str, first_category: dict, api: PyaterochkaAPI, schemashot: SchemaShot):
+    resp = await api.Catalog.products_line(category_id=first_category["id"], sap_code_store_id=sap_code)
     data = resp.json()
     schemashot.assert_json_match(data, api.Catalog.products_line)
 
@@ -109,4 +109,9 @@ async def test_find_store(geoposition: list[float, float], api: PyaterochkaAPI, 
     data = resp.json()
     schemashot.assert_json_match(data, api.Geolocation.find_store)
 
-# TODO download image
+async def test_download_image(api: PyaterochkaAPI, first_category: dict):
+    resp = await api.General.download_image(first_category["categories"][0]["image_link"])
+
+    with Image.open(resp) as img:
+        fmt = img.format.lower()
+    assert fmt in ("png", "jpeg", "webp")
