@@ -1,4 +1,4 @@
-chizhik\_api package
+pyaterochka\_api package
 ====================
 
 .. automodule:: pyaterochka_api

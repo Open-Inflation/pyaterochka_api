@@ -29,7 +29,7 @@ class PyaterochkaAPI:
     Клиент Пятерочки.
     """
 
-    timeout_ms: float = 5000.0
+    timeout_ms: float = 10000.0
     """Время ожидания ответа от сервера в миллисекундах."""
     headless: bool = False
     """Запускать браузер в headless режиме?"""
@@ -102,11 +102,21 @@ class PyaterochkaAPI:
         )
         await sniffer.start(self.ctx)
 
-        await self.page.goto("https://5ka.ru", wait_until="load")
-        await self.page.wait_for_selector(
-            selector="next-route-announcer", state="attached"
-        )
-        await self.page.wait_for_load_state("networkidle")
+        ok = False
+        try_count = 3
+        while not ok or try_count <= 0:
+            try_count -= 1
+            try:
+                await self.page.goto("https://5ka.ru", wait_until="load", timeout=self.timeout_ms)
+                await self.page.wait_for_selector(
+                    selector="next-route-announcer", state="attached", timeout=self.timeout_ms
+                )
+                await self.page.wait_for_load_state("networkidle", timeout=self.timeout_ms)
+                ok = True
+            except TimeoutError:
+                await self.page.reload()
+        if not ok:
+            raise RuntimeError(self.page.content)
 
         await sniffer.wait(
             tasks=[
@@ -161,8 +171,6 @@ class PyaterochkaAPI:
         Единая точка входа для всех HTTP-запросов библиотеки.
         """
         # Единая точка входа в чужую библиотеку для удобства
-        # TODO: пройтись по библиотеке и проверить где add_unstandard_headers должен быть false
-        print(url)
         resp: FetchResponse = await self.page.fetch(
             url=url,
             method=method,

@@ -38,7 +38,7 @@ def _get_version() -> str:
         pass
     # 3) fallback: import from package (may fail on RTD without deps)
     try:
-        from chizhik_api import __version__  # type: ignore
+        from pyaterochka_api import __version__  # type: ignore
         return __version__
     except Exception:
         return "0.0.0"
