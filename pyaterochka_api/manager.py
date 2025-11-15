@@ -11,6 +11,7 @@ from human_requests import HumanBrowser, HumanContext, HumanPage
 from human_requests.abstraction import FetchResponse, HttpMethod, Proxy
 from human_requests.network_analyzer.anomaly_sniffer import (
     HeaderAnomalySniffer, WaitHeader, WaitSource)
+from playwright.async_api import TimeoutError as PWTimeoutError
 
 from .endpoints.advertising import ClassAdvertising
 from .endpoints.catalog import ClassCatalog
@@ -113,7 +114,7 @@ class PyaterochkaAPI:
                 )
                 await self.page.wait_for_load_state("networkidle", timeout=self.timeout_ms)
                 ok = True
-            except TimeoutError:
+            except PWTimeoutError:
                 await self.page.reload()
         if not ok:
             raise RuntimeError(self.page.content)
