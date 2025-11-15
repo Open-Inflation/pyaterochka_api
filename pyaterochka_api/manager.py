@@ -139,7 +139,7 @@ class PyaterochkaAPI:
                 result[header].update(values)  # добавляем значения, set уберёт дубли
 
         # Преобразуем set обратно в list
-        self.unstandard_headers = {k: list(v) for k, v in result.items()}
+        self.unstandard_headers = {k: list(v)[0] for k, v in result.items()}
 
     async def __aexit__(self, *exc):
         """Выход из контекстного менеджера с закрытием сессии."""
@@ -180,9 +180,7 @@ class PyaterochkaAPI:
             credentials="include" if credentials else "omit",
             timeout_ms=self.timeout_ms,
             referrer=self.MAIN_SITE_URL,
-            headers={"Accept": "application/json, text/plain, */*"}.update(
-                self.unstandard_headers if add_unstandard_headers else {}
-            ),
+            headers={"Accept": "application/json, text/plain, */*"} | (self.unstandard_headers if add_unstandard_headers else {}),
         )
 
         return resp
