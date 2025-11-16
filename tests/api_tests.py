@@ -28,9 +28,9 @@ async def test_proxy_ip():
 
     async with aiohttp.ClientSession() as session:
         async with session.get("http://httpbin.org/ip", proxy=prx.as_str()) as resp:
-            ip = resp.json()["origin"]
+            ip = (await resp.json())["origin"]
 
-    assert ip == prx._server.split(":")[0]
+    assert ip == prx._server.removeprefix("http://").removeprefix("https://").split(":")[0]
 
 
 
