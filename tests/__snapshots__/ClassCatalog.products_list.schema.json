@@ -87,15 +87,15 @@
               "small": {
                 "type": "array",
                 "items": {
-                  "type": "string",
-                  "format": "uri"
+                  "format": "uri",
+                  "type": "string"
                 }
               },
               "normal": {
                 "type": "array",
                 "items": {
-                  "type": "string",
-                  "format": "uri"
+                  "format": "uri",
+                  "type": "string"
                 }
               }
             },
@@ -150,10 +150,24 @@
                     "required": [
                       "units_to_activate"
                     ]
+                  },
+                  "n_plus_m": {
+                    "type": "object",
+                    "properties": {
+                      "units_to_activate": {
+                        "type": "integer"
+                      },
+                      "units_to_add": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "units_to_activate",
+                      "units_to_add"
+                    ]
                   }
                 },
                 "required": [
-                  "rebate"
                 ]
               }
             ]

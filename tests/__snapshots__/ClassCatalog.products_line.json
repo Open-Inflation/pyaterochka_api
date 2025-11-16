@@ -29,7 +29,7 @@
       "labels": null,
       "property_clarification": "250 г",
       "has_age_restriction": false,
-      "stock_limit": "3.00"
+      "stock_limit": "2.00"
     },
     {
       "plu": 4327381,
@@ -52,13 +52,13 @@
       },
       "promo": null,
       "prices": {
-        "regular": "399.99",
+        "regular": "419.99",
         "discount": null
       },
       "labels": null,
       "property_clarification": "Цена за 1 кг",
       "has_age_restriction": false,
-      "stock_limit": "17.38"
+      "stock_limit": "106.15"
     },
     {
       "plu": 4225898,
@@ -82,7 +82,7 @@
       "labels": null,
       "property_clarification": "750 мл",
       "has_age_restriction": false,
-      "stock_limit": "9.00"
+      "stock_limit": "7.00"
     },
     {
       "plu": 3406629,
@@ -150,7 +150,7 @@
       ],
       "property_clarification": "Цена за 1 кг",
       "has_age_restriction": false,
-      "stock_limit": "2.84"
+      "stock_limit": "4.24"
     },
     {
       "plu": 4297371,
@@ -189,7 +189,7 @@
       ],
       "property_clarification": "165 г",
       "has_age_restriction": false,
-      "stock_limit": "5.00"
+      "stock_limit": "3.00"
     },
     {
       "plu": 3992925,
@@ -222,7 +222,7 @@
       ],
       "property_clarification": "130 г",
       "has_age_restriction": false,
-      "stock_limit": "6.00"
+      "stock_limit": "2.00"
     },
     {
       "plu": 3473706,
@@ -256,7 +256,7 @@
       ],
       "property_clarification": "85 г",
       "has_age_restriction": false,
-      "stock_limit": "13.00"
+      "stock_limit": "20.00"
     },
     {
       "plu": 4343840,
@@ -285,7 +285,7 @@
       "labels": null,
       "property_clarification": "190 г",
       "has_age_restriction": false,
-      "stock_limit": "7.00"
+      "stock_limit": "8.00"
     },
     {
       "plu": 54727,
@@ -319,7 +319,7 @@
       ],
       "property_clarification": "125 г",
       "has_age_restriction": false,
-      "stock_limit": "9.00"
+      "stock_limit": "4.00"
     },
     {
       "plu": 4343841,
@@ -348,7 +348,7 @@
       "labels": null,
       "property_clarification": "190 г",
       "has_age_restriction": false,
-      "stock_limit": "10.00"
+      "stock_limit": "5.00"
     },
     {
       "plu": 4137255,
@@ -414,7 +414,7 @@
       ],
       "property_clarification": "Цена за 100 г",
       "has_age_restriction": false,
-      "stock_limit": "4.07"
+      "stock_limit": "3.07"
     },
     {
       "plu": 4327553,
@@ -476,7 +476,7 @@
       "labels": null,
       "property_clarification": "400 г",
       "has_age_restriction": false,
-      "stock_limit": "0.00"
+      "stock_limit": "6.00"
     },
     {
       "plu": 3992940,
@@ -543,7 +543,7 @@
       ],
       "property_clarification": "2 шт",
       "has_age_restriction": false,
-      "stock_limit": "5.00"
+      "stock_limit": "13.00"
     },
     {
       "plu": 3447711,
@@ -571,7 +571,7 @@
       "labels": null,
       "property_clarification": "250 г",
       "has_age_restriction": false,
-      "stock_limit": "6.00"
+      "stock_limit": "2.00"
     },
     {
       "plu": 3982582,
@@ -604,7 +604,7 @@
       ],
       "property_clarification": "100 г",
       "has_age_restriction": false,
-      "stock_limit": "5.00"
+      "stock_limit": "0.00"
     },
     {
       "plu": 2131933,
@@ -659,7 +659,7 @@
       "labels": null,
       "property_clarification": "400 г",
       "has_age_restriction": false,
-      "stock_limit": "12.00"
+      "stock_limit": "1.00"
     },
     {
       "plu": 3694097,
@@ -689,7 +689,7 @@
       "labels": null,
       "property_clarification": "150 г",
       "has_age_restriction": false,
-      "stock_limit": "23.00"
+      "stock_limit": "12.00"
     },
     {
       "plu": 4271772,
@@ -722,7 +722,7 @@
       ],
       "property_clarification": "Цена за 1 кг",
       "has_age_restriction": false,
-      "stock_limit": "3.64"
+      "stock_limit": "33.39"
     },
     {
       "plu": 3964790,
@@ -755,7 +755,7 @@
       ],
       "property_clarification": "370 г",
       "has_age_restriction": false,
-      "stock_limit": "26.00"
+      "stock_limit": "9.00"
     },
     {
       "plu": 3657675,
@@ -776,13 +776,13 @@
       },
       "promo": null,
       "prices": {
-        "regular": "124.99",
+        "regular": "119.99",
         "discount": null
       },
       "labels": null,
       "property_clarification": "75 г",
       "has_age_restriction": false,
-      "stock_limit": "21.00"
+      "stock_limit": "28.00"
     },
     {
       "plu": 2057820,
@@ -815,7 +815,7 @@
       ],
       "property_clarification": "250 г",
       "has_age_restriction": false,
-      "stock_limit": "7.00"
+      "stock_limit": "3.00"
     },
     {
       "plu": 3681362,
@@ -908,7 +908,7 @@
       ],
       "property_clarification": "Цена за 1 кг",
       "has_age_restriction": false,
-      "stock_limit": "0.00"
+      "stock_limit": "1.06"
     },
     {
       "plu": 3291332,
@@ -942,7 +942,7 @@
       ],
       "property_clarification": "225 г",
       "has_age_restriction": false,
-      "stock_limit": "19.00"
+      "stock_limit": "13.00"
     }
   ]
 }

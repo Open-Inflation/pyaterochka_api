@@ -3,8 +3,8 @@
   "type": "object",
   "properties": {
     "search_query_id": {
-      "type": "string",
-      "format": "uuid"
+      "format": "uuid",
+      "type": "string"
     },
     "query_type": {
       "type": "string"
@@ -26,15 +26,15 @@
               "small": {
                 "type": "array",
                 "items": {
-                  "type": "string",
-                  "format": "uri"
+                  "format": "uri",
+                  "type": "string"
                 }
               },
               "normal": {
                 "type": "array",
                 "items": {
-                  "type": "string",
-                  "format": "uri"
+                  "format": "uri",
+                  "type": "string"
                 }
               }
             },

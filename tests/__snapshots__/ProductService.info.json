@@ -29,7 +29,7 @@
   "labels": null,
   "property_clarification": "250 г",
   "has_age_restriction": false,
-  "stock_limit": "3.00",
+  "stock_limit": "2.00",
   "initial_weight_step": "1.0",
   "min_weight": "1.0",
   "price_piece_unit": null,
