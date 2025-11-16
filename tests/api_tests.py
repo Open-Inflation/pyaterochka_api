@@ -16,6 +16,24 @@ def anyio_backend():
     return "asyncio"
 
 
+
+async def test_proxy_ip():
+    from pyaterochka_api.manager import _pick_https_proxy
+    proxy = _pick_https_proxy()
+
+    if not proxy:
+        pytest.skip("Proxy not configured")
+
+    prx = Proxy(api.proxy)
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get("http://httpbin.org/ip", proxy=prx.as_str()) as resp:
+            ip = resp.json()["origin"]
+
+    assert ip == prx._server.split(":")[0]
+
+
+
 @pytest.fixture(scope="session")
 async def api():
     """Фикстура для инициализации API в рамках сессии"""
@@ -160,15 +178,3 @@ async def test_download_image(api: PyaterochkaAPI, first_category: dict):
     with Image.open(resp) as img:
         fmt = img.format.lower()
     assert fmt in ("png", "jpeg", "webp")
-
-async def test_proxy_ip(api: PyaterochkaAPI):
-    if not api.proxy:
-        pytest.skip("Proxy not configured")
-
-    prx = Proxy(api.proxy)
-
-    async with aiohttp.ClientSession() as session:
-        async with session.get("http://httpbin.org/ip", proxy=prx.as_str()) as resp:
-            ip = resp.json()["origin"]
-
-    assert ip == prx._server.split(":")[0]
