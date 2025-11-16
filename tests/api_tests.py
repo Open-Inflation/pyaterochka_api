@@ -2,6 +2,8 @@ import pytest
 from PIL import Image
 from pytest_jsonschema_snapshot import SchemaShot
 
+import aiohttp
+from human_requests.abstraction import Proxy
 from pyaterochka_api import PyaterochkaAPI
 
 
@@ -158,3 +160,15 @@ async def test_download_image(api: PyaterochkaAPI, first_category: dict):
     with Image.open(resp) as img:
         fmt = img.format.lower()
     assert fmt in ("png", "jpeg", "webp")
+
+async def test_proxy_ip(api: PyaterochkaAPI):
+    if not api.proxy:
+        pytest.skip("Proxy not configured")
+
+    prx = Proxy(api.proxy)
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get("http://httpbin.org/ip", proxy=prx.as_str()) as resp:
+            ip = resp.json()["origin"]
+
+    assert ip == prx._server.split(":")[0]

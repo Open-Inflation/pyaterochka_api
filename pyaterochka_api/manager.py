@@ -115,7 +115,7 @@ class PyaterochkaAPI:
                 await self.page.wait_for_load_state("networkidle", timeout=self.timeout_ms)
                 ok = True
             except PWTimeoutError:
-                await self.page.reload()
+                await self.page.reload(wait_until="commit")
         if not ok:
             raise RuntimeError(self.page.content)
 
