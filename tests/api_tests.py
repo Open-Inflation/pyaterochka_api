@@ -24,7 +24,7 @@ async def test_proxy_ip():
     if not proxy:
         pytest.skip("Proxy not configured")
 
-    prx = Proxy(api.proxy)
+    prx = Proxy(proxy)
 
     async with aiohttp.ClientSession() as session:
         async with session.get("http://httpbin.org/ip", proxy=prx.as_str()) as resp:
