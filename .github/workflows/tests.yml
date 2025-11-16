@@ -44,5 +44,8 @@ jobs:
           sudo apt install xvfb
 
       - name: Run tests
+        env:
+          HTTPS_PROXY: ${{ secrets.HTTPS_PROXY }}
+          HTTP_PROXY: ${{ secrets.HTTPS_PROXY }}
         run: |
           xvfb-run make test-quick
