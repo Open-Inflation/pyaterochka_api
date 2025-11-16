@@ -43,6 +43,9 @@ jobs:
           python -m camoufox fetch
           sudo apt install xvfb
 
+      - name: Debug proxy
+        run: echo "HTTPS_PROXY is $HTTPS_PROXY"
+
       - name: Run tests
         env:
           HTTPS_PROXY: ${{ secrets.HTTPS_PROXY }}
