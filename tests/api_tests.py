@@ -1,10 +1,13 @@
 import pytest
 from PIL import Image
 from pytest_jsonschema_snapshot import SchemaShot
+from camoufox.async_api import AsyncCamoufox
+from human_requests import HumanBrowser, HumanContext, HumanPage
 
 import aiohttp
 from human_requests.abstraction import Proxy
 from pyaterochka_api import PyaterochkaAPI
+from pyaterochka_api.manager import _pick_https_proxy
 
 
 @pytest.fixture(scope="session")
@@ -18,7 +21,6 @@ def anyio_backend():
 
 
 async def test_proxy_ip():
-    from pyaterochka_api.manager import _pick_https_proxy
     proxy = _pick_https_proxy()
 
     if not proxy:
@@ -32,6 +34,20 @@ async def test_proxy_ip():
 
     assert ip == prx._server.removeprefix("http://").removeprefix("https://").split(":")[0]
 
+async def test_another_site():
+    proxy = _pick_https_proxy()
+    br = await AsyncCamoufox(
+        locale="en-US",
+        headless=False,
+        proxy=Proxy(proxy).as_dict() if proxy else None,
+    ).start()
+
+    session = HumanBrowser.replace(br)
+    ctx = await session.new_context()
+    page = await ctx.new_page()
+
+    await page.goto("https://www.google.com/", wait_until="domcontentloaded")
+    await session.close()
 
 
 @pytest.fixture(scope="session")

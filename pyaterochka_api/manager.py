@@ -83,6 +83,7 @@ class PyaterochkaAPI:
     async def _warmup(self) -> None:
         """Прогрев сессии через браузер для получения человекоподобности."""
         br = await AsyncCamoufox(
+            locale="ru-RU",
             headless=self.headless,
             proxy=Proxy(self.proxy).as_dict() if self.proxy else None,
             **self.browser_opts,
@@ -93,11 +94,6 @@ class PyaterochkaAPI:
         self.page = await self.ctx.new_page()
 
         sniffer = HeaderAnomalySniffer(
-            # доп. вайтлист, если нужно
-            extra_request_allow=["x-forwarded-for", "x-real-ip"],
-            extra_response_allow=[],
-            # нормализуем URL: без фрагмента, но с query
-            # url_normalizer=lambda u: u.split("#", 1)[0],
             include_subresources=True,  # или False, если интересны только документы
             url_filter=lambda u: u.startswith("https://5d.5ka.ru/"),
         )
