@@ -34,20 +34,37 @@ async def test_proxy_ip():
 
     assert ip == prx._server.removeprefix("http://").removeprefix("https://").split(":")[0]
 
-async def test_another_site():
+
+URLS = [
+    "https://www.google.com/",
+    "https://5ka.ru/",
+]
+METHODS = ["playwright", "aiohttp"]
+@pytest.mark.parametrize("url", URLS)
+@pytest.mark.parametrize("method", METHODS)
+async def test_matrix(url, method):
     proxy = _pick_https_proxy()
-    br = await AsyncCamoufox(
-        locale="en-US",
-        headless=False,
-        proxy=Proxy(proxy).as_dict() if proxy else None,
-    ).start()
+    prx = Proxy(proxy)
 
-    session = HumanBrowser.replace(br)
-    ctx = await session.new_context()
-    page = await ctx.new_page()
+    if method == "aiohttp":
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url=url, proxy=prx.as_str() if proxy else None) as resp:
+                await resp.text()
+    elif method == "playwright":
+        br = await AsyncCamoufox(
+            locale="en-US",
+            headless=False,
+            proxy=prx.as_dict() if proxy else None,
+        ).start()
 
-    await page.goto("https://www.google.com/", wait_until="domcontentloaded")
-    await session.close()
+        session = HumanBrowser.replace(br)
+        ctx = await session.new_context()
+        page = await ctx.new_page()
+
+        await page.goto(url, wait_until="domcontentloaded")
+        await session.close()
+    else:
+        raise RuntimeError("unknown method")
 
 
 @pytest.fixture(scope="session")
