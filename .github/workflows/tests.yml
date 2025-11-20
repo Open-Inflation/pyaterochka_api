@@ -10,7 +10,7 @@ on:
       python-version:
         required: false
         type: string
-        default: "3.12"
+        default: "3.13"
 
 permissions:
   contents: read
