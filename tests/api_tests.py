@@ -52,7 +52,7 @@ async def test_matrix(url, method):
                 await resp.text()
     elif method == "playwright":
         br = await AsyncCamoufox(
-            locale="en-US",
+            locale="ru-RU",
             headless=False,
             proxy=prx.as_dict() if proxy else None,
         ).start()

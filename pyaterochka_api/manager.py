@@ -86,7 +86,7 @@ class PyaterochkaAPI:
             locale="ru-RU",
             headless=self.headless,
             proxy=Proxy(self.proxy).as_dict() if self.proxy else None,
-            **self.browser_opts,
+            #**self.browser_opts,
         ).start()
 
         self.session = HumanBrowser.replace(br)
@@ -104,7 +104,7 @@ class PyaterochkaAPI:
         while not ok or try_count <= 0:
             try_count -= 1
             try:
-                await self.page.goto("https://5ka.ru", wait_until="load", timeout=self.timeout_ms)
+                await self.page.goto("https://5ka.ru/", wait_until="load", timeout=self.timeout_ms)
                 await self.page.wait_for_selector(
                     selector="next-route-announcer", state="attached", timeout=self.timeout_ms
                 )

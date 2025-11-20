@@ -5,5 +5,6 @@ aiohttp-retry
 
 pytest
 pytest-anyio
+anyio
 pytest-jsonschema-snapshot
 pillow
