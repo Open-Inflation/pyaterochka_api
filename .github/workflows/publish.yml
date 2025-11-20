@@ -24,7 +24,7 @@ jobs:
     name: Run tests (reusable)
     uses: ./.github/workflows/tests.yml
     with:
-      python-version: "3.12"
+      python-version: "3.13"
 
   build-docs:
     if: ${{ github.event.inputs.target == 'docs' || github.event.inputs.target == 'all' }}
@@ -35,7 +35,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.13"
           cache: pip
           cache-dependency-path: |
             requirements.txt
@@ -76,7 +76,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.13"
           cache: pip
       - name: Build artifacts (PEP 517)
         run: |

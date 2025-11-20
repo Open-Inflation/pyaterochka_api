@@ -30,7 +30,7 @@ class PyaterochkaAPI:
     Клиент Пятерочки.
     """
 
-    timeout_ms: float = 10000.0
+    timeout_ms: float = 20000.0
     """Время ожидания ответа от сервера в миллисекундах."""
     headless: bool = True
     """Запускать браузер в headless режиме?"""
@@ -111,7 +111,7 @@ class PyaterochkaAPI:
                 await self.page.wait_for_load_state("networkidle", timeout=self.timeout_ms)
                 ok = True
             except PWTimeoutError:
-                await self.page.reload(wait_until="commit")
+                await self.page.reload(wait_until="commit", timeout=self.timeout_ms)
         if not ok:
             raise RuntimeError(self.page.content)
 
