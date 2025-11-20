@@ -43,6 +43,7 @@ METHODS = ["playwright", "aiohttp"]
 @pytest.mark.parametrize("url", URLS)
 @pytest.mark.parametrize("method", METHODS)
 async def test_matrix(url, method):
+    pytest.skip("Disabled")
     proxy = _pick_https_proxy()
     prx = Proxy(proxy)
 

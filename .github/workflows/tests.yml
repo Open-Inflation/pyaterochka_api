@@ -52,4 +52,4 @@ jobs:
           HTTPS_PROXY: ${{ secrets.HTTPS_PROXY }}
           HTTP_PROXY: ${{ secrets.HTTPS_PROXY }}
         run: |
-          xvfb-run make test-quick
+          make test-quick
