@@ -86,6 +86,7 @@ class PyaterochkaAPI:
             locale="ru-RU",
             headless=self.headless,
             proxy=Proxy(self.proxy).as_dict() if self.proxy else None,
+            block_images=True
             #**self.browser_opts,
         ).start()
 
