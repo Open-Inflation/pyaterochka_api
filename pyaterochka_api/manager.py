@@ -85,7 +85,7 @@ class PyaterochkaAPI:
         br = await AsyncCamoufox(
             locale="ru-RU",
             headless=self.headless,
-            proxy=Proxy(self.proxy).as_dict() if self.proxy else None,
+            proxy=Proxy(self.proxy).as_dict(),
             block_images=True
             #**self.browser_opts,
         ).start()

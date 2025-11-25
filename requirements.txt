@@ -1,4 +1,4 @@
-camoufox[geoip]
+camoufox
 human_requests
 aiohttp
 aiohttp-retry

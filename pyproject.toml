@@ -28,7 +28,7 @@ classifiers = [
     "Topic :: Utilities",
 ]
 dependencies = [
-    "camoufox[geoip]",
+    "camoufox",
     "human_requests",
     "aiohttp",
     "aiohttp-retry"
