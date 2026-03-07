@@ -3,7 +3,7 @@ import asyncio
 from PIL import Image
 
 async def main():
-    async with PyaterochkaAPI() as api:
+    async with PyaterochkaAPI(headless=False) as api:
         # 1. Получение информации о текущем выбранном магазине доставки
         store_info = await api.delivery_panel_store()
         sap_code = store_info["selectedStore"]["sapCode"]

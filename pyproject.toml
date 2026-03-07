@@ -28,7 +28,7 @@ classifiers = [
     "Topic :: Utilities",
 ]
 dependencies = [
-    "camoufox",
+    "camoufox[geoip]",
     "human_requests",
     "aiohttp",
     "aiohttp-retry"
@@ -37,8 +37,9 @@ dependencies = [
 [project.optional-dependencies]
 tests = [
     "pytest",
-    "pytest-asyncio",
-    "pytest-typed-schema-shot",
+    "pytest-anyio",
+    "pytest-jsonschema-snapshot",
+    "pytest-subtests",
     "jsoncrack-for-sphinx",
 ]
 
@@ -55,4 +56,6 @@ pythonpath = ["."]
 testpaths = ["tests"]
 python_files = ["*_test.py", "*_tests.py"]
 anyio_mode = "auto"
+autotest_start_class = "pyaterochka_api.PyaterochkaAPI"
+autotest_typecheck = "strict"
 addopts = "-v --tb=short --disable-warnings"
