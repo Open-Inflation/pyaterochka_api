@@ -47,4 +47,13 @@ jobs:
           HTTPS_PROXY: ${{ secrets.HTTPS_PROXY }}
           HTTP_PROXY: ${{ secrets.HTTPS_PROXY }}
         run: |
-          make test-quick
+          set -o pipefail
+          venv/bin/python -m pytest --tb=short 2>&1 | tee error.log
+        
+      - name: report playwright failure
+        if: failure()
+        uses: Miskler/human-requests-bot@v9
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          log_path: error.log
+          screenshot_path: screenshot.png
