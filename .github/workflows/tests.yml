@@ -10,11 +10,12 @@ on:
       python-version:
         required: false
         type: string
-        default: "3.13"
+        default: "3.12"
 
 permissions:
-  contents: read
+  contents: write
   issues: write
+  pull-requests: write
 
 concurrency:
   group: tests-${{ github.ref }}
@@ -22,7 +23,7 @@ concurrency:
 
 jobs:
   tests:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted]  # или просто "scrapper" если это label
 
     steps:
       - name: Check out repository
@@ -31,25 +32,18 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ inputs.python-version || '3.13' }}
-          cache: "pip"
-          cache-dependency-path: |
-            requirements.txt
-            pyproject.toml
+          python-version: ${{ inputs.python-version || '3.12' }}
 
-      - name: Install project (dev)
+      - name: Install project (venv)
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          python -m camoufox fetch
+          python -m venv venv
+          venv/bin/python -m pip install -U pip
+          venv/bin/python -m pip install -r requirements.txt
 
-      - name: Run tests
-        env:
-          HTTPS_PROXY: ${{ secrets.HTTPS_PROXY }}
-          HTTP_PROXY: ${{ secrets.HTTPS_PROXY }}
+      - name: Run tests (venv)
         run: |
           set -o pipefail
-          venv/bin/python -m pytest --tb=short 2>&1 | tee error.log
+          venv/bin/python -m pytest --jsss-ci-cd --save-original --tb=short 2>&1 | tee error.log
         
       - name: report playwright failure
         if: failure()
@@ -58,3 +52,10 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           log_path: error.log
           screenshot_path: screenshot.png
+
+      - name: auto PR schema
+      # отмена джобы исключается (поэтому и не always)
+        if: success() || failure()
+        uses: Miskler/pytest-jsonschema-snapshot-bot@v12
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
